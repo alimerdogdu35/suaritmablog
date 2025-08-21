@@ -1,0 +1,23 @@
+{
+  "name": "suaritmablog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alimerdogdu35/suaritmablog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alimerdogdu35/suaritmablog/issues"
+  },
+  "homepage": "https://github.com/alimerdogdu35/suaritmablog#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
