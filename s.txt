@@ -1,0 +1,37 @@
+<!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full  z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="droplet"></div>
+                    <span class="ml-3 text-2xl font-bold text-blue-800">AquaPure</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-blue-800 font-medium hover:text-blue-600">Ana Sayfa</a>
+                    <a href="#about" class="nav-link text-blue-800 font-medium hover:text-blue-600">Hakkımızda</a>
+                    <a href="#products" class="nav-link text-blue-800 font-medium hover:text-blue-600">Ürünlerimiz</a>
+                    <a href="#testimonials" class="nav-link text-blue-800 font-medium hover:text-blue-600">Yorumlar</a>
+                    <a href="#blog" class="nav-link text-blue-800 font-medium hover:text-blue-600">Blog</a>
+                    <a href="#contact" class="nav-link text-blue-800 font-medium hover:text-blue-600">İletişim</a>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-blue-800">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-2 space-y-2">
+                <a href="#home" class="block py-2 text-blue-800 font-medium">Ana Sayfa</a>
+                <a href="#about" class="block py-2 text-blue-800 font-medium">Hakkımızda</a>
+                <a href="#products" class="block py-2 text-blue-800 font-medium">Ürünlerimiz</a>
+                <a href="#testimonials" class="block py-2 text-blue-800 font-medium">Yorumlar</a>
+                <a href="#blog" class="block py-2 text-blue-800 font-medium">Blog</a>
+                <a href="#contact" class="block py-2 text-blue-800 font-medium">İletişim</a>
+            </div>
+        </div>
