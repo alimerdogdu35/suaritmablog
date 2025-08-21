@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Su Arıtma Cihazları{% endblock %}</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <a href="/">Ana Sayfa</a>
+    <a href="/products">Ürünler</a>
+    <a href="/blog">Blog</a>
+    <a href="/reviews">Müşteri Yorumları</a>
+    <a href="/about">Hakkımızda</a>
+    <a href="/contact">İletişim</a>
+  </nav>
+
+  <!-- İçerik -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Su Arıtma Cihazları | Tüm hakları saklıdır.</p>
+  </footer>
+</body>
+</html>
