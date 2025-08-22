@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}AquaPure - Su Arıtma Sistemleri{% endblock %}</title>
+    <title>{% block title %}MaviRo - Su Arıtma Sistemleri{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
 </head>
@@ -49,10 +51,26 @@
                     <i class="fas fa-flask text-green-300 text-lg"></i> <span>Son Teknoloji Ürünler</span>
                 </div>
                  <div class="text-green-200 font-bold">•</div>
+                 <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
+                    <i class="fas fa-truck-fast text-green-300 text-lg"></i> <span>Ücretsiz Kargo</span>
+                </div>
+                 <div class="text-green-200 font-bold">•</div>
+                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
+                    <i class="fas fa-tools text-green-300 text-lg"></i> <span>Ücretsiz Montaj</span>
+                </div>
+                 <div class="text-green-200 font-bold">•</div>
+                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
+                    <i class="fas fa-fire text-green-400 text-lg"></i> <span>%20 İNDİRİM</span>
+                </div>
+                 <div class="text-green-200 font-bold">•</div>
+                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
+                    <i class="fas fa-flask text-green-300 text-lg"></i> <span>Son Teknoloji Ürünler</span>
+                </div>
+                 <div class="text-green-200 font-bold">•</div>
             </div>
         </div>
     </div>
-    <div id="countdown" class="font-mono text-sm md:text-base bg-white text-blue-900 px-3 py-1 rounded-full shadow-md ml-4"></div>
+
 </div>
 
 
@@ -64,17 +82,17 @@
             <!-- Logo -->
             <a href="#home" class="flex items-center">
                 <div class="droplet"></div>
-                <span class="ml-3 text-2xl font-extrabold text-blue-900 tracking-wide">AquaPure</span>
+                <span class="ml-3 text-2xl font-extrabold text-blue-900 tracking-wide">MaviRo</span>
             </a>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-10">
                 <a href="/" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Ana Sayfa</a>
                 <a href="/about" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Hakkımızda</a>
-                <a href="#products" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Ürünlerimiz</a>
-                <a href="#testimonials" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Yorumlar</a>
-                <a href="#blog" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Blog</a>
-                <a href="#contact" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">İletişim</a>
+                <a href="/products" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Ürünlerimiz</a>
+                <a href="/sss" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">SSS</a>
+                <a href="/blog" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Blog</a>
+                <a href="/contact" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">İletişim</a>
             </div>
 
             <!-- Search Box -->
@@ -122,7 +140,7 @@
                 <div>
                     <div class="flex items-center mb-6">
                         <div class="droplet"></div>
-                        <span class="ml-3 text-2xl font-bold">AquaPure</span>
+                        <span class="ml-3 text-2xl font-bold">MaviRo</span>
                     </div>
                     <p class="text-blue-200 mb-4">
                         Suyun en saf halini evinize getiriyoruz. Kaliteli su, sağlıklı yaşam.
@@ -194,22 +212,7 @@ function animateMarquee() {
 }
 
 animateMarquee();
-        // Countdown Timer
-       const countdownEl = document.getElementById("countdown");
-        const deadline = new Date("2025-09-01T23:59:59").getTime();
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const diff = deadline - now;
-            if (diff <= 0) { countdownEl.innerHTML="Süre Doldu"; return; }
-            const days = Math.floor(diff/(1000*60*60*24));
-            const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-            const minutes = Math.floor((diff%(1000*60*60))/(1000*60));
-            const seconds = Math.floor((diff%(1000*60))/1000);
-            countdownEl.innerHTML = `${days}g ${hours}s ${minutes}d ${seconds}sn`;
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
+        
        
         // Mobile Menu Toggle
         const mobileButton=document.getElementById("mobile-menu-button");

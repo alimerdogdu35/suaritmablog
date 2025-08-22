@@ -3,52 +3,164 @@
 {% block title %}Hakkımızda - AquaPure{% endblock %}
 
 {% block content %}
-<!-- About Section -->
-<section id="about" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-blue-800 mb-4">Hakkımızda</h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">20 yılı aşkın tecrübemizle su arıtma teknolojilerinde lider firmayız</p>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="water-fill rounded-2xl overflow-hidden">
-                <img src="https://www.karbulsuaritma.com/img/slider/endustriyel-su-aritma-cihazi-sistemleri.webp" alt="Su arıtma laboratuvarında uzman teknisyenler çalışırken" class="w-full h-auto rounded-2xl" />
-            </div>
-            
-            <div>
-                <h3 class="text-3xl font-bold text-blue-800 mb-6">Kalite ve Güvenin Adresi</h3>
-                <p class="text-gray-600 mb-6">
-                    2003 yılından beri su arıtma sektöründe faaliyet gösteren firmamız, 
-                    en son teknoloji ürünleri ve kaliteli hizmet anlayışı ile müşterilerimize 
-                    hizmet vermektedir.
-                </p>
-                <p class="text-gray-600 mb-8">
-                    Tüm ürünlerimiz uluslararası kalite standartlarına uygun olarak üretilmekte 
-                    ve sıkı kalite kontrol testlerinden geçmektedir.
-                </p>
-                
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="text-center">
-                        <div class="text-4xl font-bold text-blue-600 mb-2">20+</div>
-                        <div class="text-gray-600">Yıllık Deneyim</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-4xl font-bold text-blue-600 mb-2">50K+</div>
-                        <div class="text-gray-600">Mutlu Müşteri</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-4xl font-bold text-blue-600 mb-2">100+</div>
-                        <div class="text-gray-600">Ürün Çeşidi</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-4xl font-bold text-blue-600 mb-2">7/24</div>
-                        <div class="text-gray-600">Teknik Destek</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="text-center py-16">
+  <h2 class="text-4xl font-bold text-blue-700 mb-4 fade-in">Hakkımızda</h2>
+  <p class="text-gray-600 max-w-3xl mx-auto fade-in">
+    Biz, sağlıklı yaşam için kaliteli suyun önemini bilen bir ekibiz. Su arıtma sistemleri konusunda uzun yıllara dayanan tecrübemizle, temiz ve sağlıklı içme suyu sağlamayı hedefliyoruz.
+  </p>
 </section>
+
+<!-- Misyon, Vizyon, Değerlerimiz Kartları -->
+<section class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 px-6 mb-16">
+  <div class="bg-blue-50 p-6 rounded-xl shadow transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in">
+    <img src="https://images.unsplash.com/photo-1602524201297-c7a6a1f3b3f2" class="w-full h-48 object-cover rounded mb-4" alt="Vizyon">
+    <h4 class="text-xl font-bold text-blue-700 mb-3">Vizyonumuz</h4>
+    <p class="text-gray-600 text-sm leading-relaxed">
+      Gelecek nesillere temiz su kaynakları bırakmak için yenilikçi, sürdürülebilir ve çevre dostu çözümlerle sektörde öncü olmak.
+    </p>
+  </div>
+
+  <div class="bg-blue-50 p-6 rounded-xl shadow transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in">
+    <img src="https://images.unsplash.com/photo-1503602642458-232111445657" class="w-full h-48 object-cover rounded mb-4" alt="Misyon">
+    <h4 class="text-xl font-bold text-blue-700 mb-3">Misyonumuz</h4>
+    <p class="text-gray-600 text-sm leading-relaxed">
+      İnsanlara en sağlıklı içme suyunu ulaştırmak, güvenli teknolojiler kullanarak yaşam kalitesini artırmak ve müşteri memnuniyetinde zirvede olmak.
+    </p>
+  </div>
+
+  <div class="bg-blue-50 p-6 rounded-xl shadow transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in">
+    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" class="w-full h-48 object-cover rounded mb-4" alt="Değerlerimiz">
+    <h4 class="text-xl font-bold text-blue-700 mb-3">Değerlerimiz</h4>
+    <p class="text-gray-600 text-sm leading-relaxed">
+      Güvenilirlik, şeffaflık, yenilikçilik ve doğaya saygı. Her ürünümüzde hem sağlığı hem de çevreyi korumaya odaklanıyoruz.
+    </p>
+  </div>
+</section>
+
+<!-- Kullanılan Malzemeler Kartları -->
+<section class="max-w-7xl mx-auto px-6 mb-16">
+  <h3 class="text-3xl font-bold text-blue-700 mb-8 text-center fade-in">Kullandığımız Malzemeler</h3>
+  <div class="grid md:grid-cols-4 gap-6">
+    <div class="bg-white p-6 rounded-xl shadow border transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in text-center">
+      <img src="https://images.unsplash.com/photo-1602526218395-97858b4a414b" class="w-full h-32 object-cover rounded mb-3" alt="Aktif Karbon">
+      <h4 class="text-xl font-semibold text-blue-600 mb-2">Aktif Karbon Filtre</h4>
+      <p class="text-gray-600 text-sm">Klor, kötü koku ve tat gibi zararlı maddeleri etkili şekilde temizler.</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow border transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in text-center">
+      <img src="https://images.unsplash.com/photo-1616469829853-f2e70e7d8f35" class="w-full h-32 object-cover rounded mb-3" alt="Ters Ozmoz">
+      <h4 class="text-xl font-semibold text-blue-600 mb-2">Ters Ozmoz (RO)</h4>
+      <p class="text-gray-600 text-sm">%99,9 oranında saflık sağlayarak sudaki zararlı maddeleri uzaklaştırır.</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow border transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in text-center">
+      <img src="https://images.unsplash.com/photo-1521207418485-99c705420785" class="w-full h-32 object-cover rounded mb-3" alt="UV Sterilizasyon">
+      <h4 class="text-xl font-semibold text-blue-600 mb-2">UV Sterilizasyon</h4>
+      <p class="text-gray-600 text-sm">Bakteri ve virüsleri etkili şekilde yok ederek suyu güvenli hale getirir.</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow border transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in text-center">
+      <img src="https://images.unsplash.com/photo-1600093463593-9b42d197f9a6" class="w-full h-32 object-cover rounded mb-3" alt="Mineral Filtre">
+      <h4 class="text-xl font-semibold text-blue-600 mb-2">Mineral Katkı Filtresi</h4>
+      <p class="text-gray-600 text-sm">Arıtılmış suya sağlıklı mineraller ekler, tadı iyileştirir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- İstatistikler -->
+<section class="max-w-7xl mx-auto px-6 mb-16">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center fade-in">
+    <div>
+      <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="30">0</div>
+      <p>Yıllık Deneyim</p>
+    </div>
+    <div>
+      <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="50000">0</div>
+      <p>Mutlu Müşteri</p>
+    </div>
+    <div>
+      <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="100">0</div>
+      <p>Ürün Çeşidi</p>
+    </div>
+    <div>
+      <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="24">0</div>
+      <p>Teknik Destek</p>
+    </div>
+  </div>
+</section>
+<section class="bg-gradient-to-r from-blue-100 to-blue-50 py-12">
+    <h2 class="text-center text-3xl font-bold text-blue-600 mb-6">Müşteri Yorumları</h2>
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <!-- Slide 1 -->
+          <div class="swiper-slide bg-white rounded-2xl shadow p-6 text-center">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="mx-auto rounded-full w-16 h-16 mb-4" alt="Müşteri">
+            <p class="text-gray-600 italic">“Su arıtma sisteminiz gerçekten harika! Ailem için en doğru seçimi yaptım.”</p>
+            <h3 class="font-semibold text-blue-600 mt-3">Ayşe Y.</h3>
+          </div>
+          <!-- Slide 2 -->
+          <div class="swiper-slide bg-white rounded-2xl shadow p-6 text-center">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="mx-auto rounded-full w-16 h-16 mb-4" alt="Müşteri">
+            <p class="text-gray-600 italic">“Hızlı servis ve kaliteli ürünler. Kesinlikle tavsiye ederim.”</p>
+            <h3 class="font-semibold text-blue-600 mt-3">Mehmet K.</h3>
+          </div>
+          <!-- Slide 3 -->
+          <div class="swiper-slide bg-white rounded-2xl shadow p-6 text-center">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="mx-auto rounded-full w-16 h-16 mb-4" alt="Müşteri">
+            <p class="text-gray-600 italic">“Artık gönül rahatlığıyla su içiyoruz, teşekkürler.”</p>
+            <h3 class="font-semibold text-blue-600 mt-3">Elif T.</h3>
+          </div>
+        </div>
+        <!-- Pagination -->
+        <div class="swiper-pagination mt-4"></div>
+      </div>
+    </div>
+  </section>
+
+<!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+// Scroll fade-in animasyonu
+const fadeEls = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('visible'); } });
+}, { threshold: 0.2 });
+fadeEls.forEach(el => observer.observe(el));
+
+// Sayaç animasyonu
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll(".counter");
+  counters.forEach(counter => {
+    const target = +counter.getAttribute("data-target");
+    let count = 0;
+    const update = () => {
+      count += Math.ceil(target / 100);
+      if(count < target){ counter.innerText = count; setTimeout(update, 20); }
+      else { counter.innerText = target + (target > 50 ? "+" : ""); }
+    };
+    update();
+  });
+});
+ let animated = false;
+    window.addEventListener('scroll', () => {
+      const section = document.querySelector('.bg-blue-50');
+      const sectionTop = section.offsetTop - window.innerHeight / 1.5;
+      if (!animated && window.scrollY > sectionTop) {
+        animateCounters();
+        animated = true;
+      }
+    });
+  new Swiper('.mySwiper', {
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      autoplay: {
+        delay: 3000,
+      },
+    });
+</script>
+</body
 {% endblock %}
