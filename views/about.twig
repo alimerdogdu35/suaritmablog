@@ -1,93 +1,124 @@
 {% extends "base.twig" %}
 
-{% block title %}Hakkımızda - AquaPure{% endblock %}
+{% block title %}Hakkımızda - MaviRo{% endblock %}
 
 {% block content %}
-<section class="text-center py-16">
-  <h2 class="text-4xl font-bold text-blue-700 mb-4 fade-in">Hakkımızda</h2>
-  <p class="text-gray-600 max-w-3xl mx-auto fade-in">
-    Biz, sağlıklı yaşam için kaliteli suyun önemini bilen bir ekibiz. Su arıtma sistemleri konusunda uzun yıllara dayanan tecrübemizle, temiz ve sağlıklı içme suyu sağlamayı hedefliyoruz.
-  </p>
-</section>
+<main class="py-16">
+ <section class="text-center px-6">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-5xl font-bold text-blue-800 mb-4 animate-fade-in-up">
+        Temiz Suyun Gücüyle Tanışın
+      </h2>
+      <p class="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed animate-fade-in">
+        Biz, sağlıklı yaşam için kaliteli suyun önemini bilen bir ekibiz. Su arıtma sistemleri konusunda uzun yıllara dayanan tecrübemizle, temiz ve sağlıklı içme suyu sağlamayı hedefliyoruz.
+      </p>
+    </div>
+  </section>
 
-<!-- Misyon, Vizyon, Değerlerimiz Kartları -->
-<section class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 px-6 mb-16">
-  <div class="bg-blue-50 p-6 rounded-xl shadow transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in">
-    <img src="https://images.unsplash.com/photo-1602524201297-c7a6a1f3b3f2" class="w-full h-48 object-cover rounded mb-4" alt="Vizyon">
-    <h4 class="text-xl font-bold text-blue-700 mb-3">Vizyonumuz</h4>
-    <p class="text-gray-600 text-sm leading-relaxed">
-      Gelecek nesillere temiz su kaynakları bırakmak için yenilikçi, sürdürülebilir ve çevre dostu çözümlerle sektörde öncü olmak.
-    </p>
-  </div>
-
-  <div class="bg-blue-50 p-6 rounded-xl shadow transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in">
-    <img src="https://images.unsplash.com/photo-1503602642458-232111445657" class="w-full h-48 object-cover rounded mb-4" alt="Misyon">
-    <h4 class="text-xl font-bold text-blue-700 mb-3">Misyonumuz</h4>
-    <p class="text-gray-600 text-sm leading-relaxed">
-      İnsanlara en sağlıklı içme suyunu ulaştırmak, güvenli teknolojiler kullanarak yaşam kalitesini artırmak ve müşteri memnuniyetinde zirvede olmak.
-    </p>
-  </div>
-
-  <div class="bg-blue-50 p-6 rounded-xl shadow transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in">
-    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" class="w-full h-48 object-cover rounded mb-4" alt="Değerlerimiz">
-    <h4 class="text-xl font-bold text-blue-700 mb-3">Değerlerimiz</h4>
-    <p class="text-gray-600 text-sm leading-relaxed">
-      Güvenilirlik, şeffaflık, yenilikçilik ve doğaya saygı. Her ürünümüzde hem sağlığı hem de çevreyi korumaya odaklanıyoruz.
-    </p>
-  </div>
-</section>
-
-<!-- Kullanılan Malzemeler Kartları -->
-<section class="max-w-7xl mx-auto px-6 mb-16">
-  <h3 class="text-3xl font-bold text-blue-700 mb-8 text-center fade-in">Kullandığımız Malzemeler</h3>
-  <div class="grid md:grid-cols-4 gap-6">
-    <div class="bg-white p-6 rounded-xl shadow border transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in text-center">
-      <img src="https://images.unsplash.com/photo-1602526218395-97858b4a414b" class="w-full h-32 object-cover rounded mb-3" alt="Aktif Karbon">
-      <h4 class="text-xl font-semibold text-blue-600 mb-2">Aktif Karbon Filtre</h4>
-      <p class="text-gray-600 text-sm">Klor, kötü koku ve tat gibi zararlı maddeleri etkili şekilde temizler.</p>
+  <section class="max-w-7xl mx-auto flex flex-col gap-10 px-6 mt-16 mb-20">
+    
+    <div class="bg-blue-50 p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-left">
+      <img src="images/vizyon.jpg" class="w-full h-80 object-cover rounded-2xl mb-6 shadow-md" alt="Vizyon">
+      <h4 class="text-2xl font-bold text-blue-700 mb-4 text-center">Vizyonumuz</h4>
+      <p class="text-gray-700 text-base leading-relaxed">
+        Su arıtma sektöründeki lider konumumuzu korumak için, yenilikçi ve çevre dostu çözümler geliştirmeye odaklanıyoruz. Yaklaşımımız, bugünün ihtiyaçlarını karşılarken, gelecekteki su güvenliğini de garanti altına alan sürdürülebilir sistemler tasarlamaktır. Tüm operasyonlarımızda global standartlara bağlı kalarak ve doğa ile uyumlu projeler üreterek, sektördeki en güvenilir ve öncü marka olmayı hedefliyoruz. Bu kararlı duruşumuzla, hem müşterilerimize hem de gezegenimize değer katmayı sürdürüyoruz.
+      </p>
     </div>
 
-    <div class="bg-white p-6 rounded-xl shadow border transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in text-center">
-      <img src="https://images.unsplash.com/photo-1616469829853-f2e70e7d8f35" class="w-full h-32 object-cover rounded mb-3" alt="Ters Ozmoz">
-      <h4 class="text-xl font-semibold text-blue-600 mb-2">Ters Ozmoz (RO)</h4>
-      <p class="text-gray-600 text-sm">%99,9 oranında saflık sağlayarak sudaki zararlı maddeleri uzaklaştırır.</p>
+    <div class="bg-blue-50 p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-right">
+      <img src="images/misyon2.webp" class="w-full h-80 object-cover rounded-2xl mb-6 shadow-md" alt="Misyon">
+      <h4 class="text-2xl font-bold text-blue-700 mb-4 text-center">Misyonumuz</h4>
+      <p class="text-gray-700 text-base leading-relaxed">
+        Misyonumuz, her eve ileri teknolojileri ve yenilikçi çözümleri kullanarak en sağlıklı içme suyunu getirmektir. Kullanıcı memnuniyetini sadece bir hedef olarak görmüyoruz; bu bizim temel kültürümüzdür. Üretimden teslimata kadar tüm süreçlerimizde doğaya saygılı olmayı ve sıfır atık prensibini benimseyerek, kaliteyi her aşamada titizlikle garanti altına alıyoruz. Sağlıklı ve temiz suya kolay erişimi sağlamak, bizim için ticari bir hedefin ötesinde, insanlığa karşı bir sorumluluktur.
+      </p>
     </div>
 
-    <div class="bg-white p-6 rounded-xl shadow border transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in text-center">
-      <img src="https://images.unsplash.com/photo-1521207418485-99c705420785" class="w-full h-32 object-cover rounded mb-3" alt="UV Sterilizasyon">
-      <h4 class="text-xl font-semibold text-blue-600 mb-2">UV Sterilizasyon</h4>
-      <p class="text-gray-600 text-sm">Bakteri ve virüsleri etkili şekilde yok ederek suyu güvenli hale getirir.</p>
+    <div class="bg-blue-50 p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-up-2">
+      <img src="images/deger.webp" class="w-full h-80 object-cover rounded-2xl mb-6 shadow-md" alt="Değerlerimiz">
+      <h4 class="text-2xl font-bold text-blue-700 mb-4 text-center">Değerlerimiz</h4>
+      <p class="text-gray-700 text-base leading-relaxed">
+        Çalışmalarımızın temelini oluşturan güvenilirlik, şeffaflık ve yenilikçilik değerleri, tüm operasyonel süreçlerimize yön vermektedir. Ürünlerimizde ve hizmetlerimizde hem insan sağlığını hem de çevresel sürdürülebilirliği en üst düzeyde korumayı taahhüt ediyoruz. Doğaya saygılı bir vizyonla ilerlerken, kurumsal sosyal sorumluluk bilincimizle sektöre örnek olmayı hedefliyoruz. Müşteri memnuniyetini iş yapış biçimimizin ayrılmaz bir parçası haline getirerek, her zaman en yüksek kalite standartlarını sunmayı amaçlıyoruz.
+      </p>
     </div>
 
-    <div class="bg-white p-6 rounded-xl shadow border transition-transform duration-500 hover:-translate-y-3 hover:shadow-2xl fade-in text-center">
-      <img src="https://images.unsplash.com/photo-1600093463593-9b42d197f9a6" class="w-full h-32 object-cover rounded mb-3" alt="Mineral Filtre">
-      <h4 class="text-xl font-semibold text-blue-600 mb-2">Mineral Katkı Filtresi</h4>
-      <p class="text-gray-600 text-sm">Arıtılmış suya sağlıklı mineraller ekler, tadı iyileştirir.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- İstatistikler -->
-<section class="max-w-7xl mx-auto px-6 mb-16">
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center fade-in">
-    <div>
-      <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="30">0</div>
-      <p>Yıllık Deneyim</p>
+  <section class="max-w-7xl mx-auto px-6 mb-20">
+    <h3 class="text-4xl font-bold text-blue-800 mb-10 text-center animate-fade-in-up">Kullandığımız Malzemeler</h3>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+      
+      <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-left">
+        <img src="images/aktifkarbon2.jpg" class="w-full h-56 object-cover rounded-2xl mb-5 shadow-md" alt="Aktif Karbon">
+        <h4 class="text-2xl font-semibold text-blue-700 mb-3">Aktif Karbon Filtre</h4>
+        <p class="text-gray-700 text-base leading-relaxed">
+          Klor, kötü koku ve tat gibi zararlı maddeleri etkili şekilde temizler. Suyun tadını iyileştirerek daha sağlıklı hale getirir.
+        </p>
+      </div>
+
+      <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-right">
+        <img src="images/ro.png" class="w-full h-56 object-cover rounded-2xl mb-5 shadow-md" alt="Ters Ozmoz">
+        <h4 class="text-2xl font-semibold text-blue-700 mb-3">Ters Ozmoz (RO)</h4>
+        <p class="text-gray-700 text-base leading-relaxed">
+          %99,9 oranında saflık sağlayarak sudaki ağır metaller, mikroorganizmalar ve zararlı kimyasalları uzaklaştırır.
+        </p>
+      </div>
+
+      <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-up-2">
+        <img src="images/uv.png" class="w-full h-56 object-cover rounded-2xl mb-5 shadow-md" alt="UV Sterilizasyon">
+        <h4 class="text-2xl font-semibold text-blue-700 mb-3">UV Sterilizasyon</h4>
+        <p class="text-gray-700 text-base leading-relaxed">
+          Zararlı bakteri ve virüsleri etkili şekilde yok ederek suyun hijyenik ve güvenli olmasını sağlar.
+        </p>
+      </div>
+
+      <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-left">
+        <img src="images/mineral.webp" class="w-full h-56 object-cover rounded-2xl mb-5 shadow-md" alt="Mineral Filtre">
+        <h4 class="text-2xl font-semibold text-blue-700 mb-3">Mineral Katkı Filtresi</h4>
+        <p class="text-gray-700 text-base leading-relaxed">
+          Arıtılmış suya gerekli mineralleri ekleyerek hem sağlıklı hem de doğal bir tat kazandırır.
+        </p>
+      </div>
+      
+      <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-right">
+        <img src="images/mineral.webp" class="w-full h-56 object-cover rounded-2xl mb-5 shadow-md" alt="Mineral Filtre">
+        <h4 class="text-2xl font-semibold text-blue-700 mb-3">Mineral Katkı Filtresi</h4>
+        <p class="text-gray-700 text-base leading-relaxed">
+          Arıtılmış suya gerekli mineralleri ekleyerek hem sağlıklı hem de doğal bir tat kazandırır.
+        </p>
+      </div>
+
+      <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-transparent transition-all duration-500 hover:border-blue-300 hover:shadow-2xl animate-fade-in-up-2">
+        <img src="images/mineral.webp" class="w-full h-56 object-cover rounded-2xl mb-5 shadow-md" alt="Mineral Filtre">
+        <h4 class="text-2xl font-semibold text-blue-700 mb-3">Mineral Katkı Filtresi</h4>
+        <p class="text-gray-700 text-base leading-relaxed">
+          Arıtılmış suya gerekli mineralleri ekleyerek hem sağlıklı hem de doğal bir tat kazandırır.
+        </p>
+      </div>
     </div>
-    <div>
-      <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="50000">0</div>
-      <p>Mutlu Müşteri</p>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 mb-20 animate-fade-in-up-2">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <div class="counter text-4xl font-bold text-blue-700 mb-2" data-target="30">0</div>
+        <p class="text-gray-600">Yıllık Deneyim</p>
+      </div>
+      <div>
+        <div class="counter text-4xl font-bold text-blue-700 mb-2" data-target="50000">0</div>
+        <p class="text-gray-600">Mutlu Müşteri</p>
+      </div>
+      <div>
+        <div class="counter text-4xl font-bold text-blue-700 mb-2" data-target="100">0</div>
+        <p class="text-gray-600">Ürün Çeşidi</p>
+      </div>
+      <div>
+        <div class="counter text-4xl font-bold text-blue-700 mb-2" data-target="24">0</div>
+        <p class="text-gray-600">Teknik Destek</p>
+      </div>
     </div>
-    <div>
-      <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="100">0</div>
-      <p>Ürün Çeşidi</p>
-    </div>
-    <div>
-      <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="24">0</div>
-      <p>Teknik Destek</p>
-    </div>
-  </div>
-</section>
+  </section>
+</main>
 <section class="bg-gradient-to-r from-blue-100 to-blue-50 py-12">
     <h2 class="text-center text-3xl font-bold text-blue-600 mb-6">Müşteri Yorumları</h2>
     <div class="max-w-4xl mx-auto px-4">
@@ -118,40 +149,90 @@
     </div>
   </section>
 
-<!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<script>
-// Scroll fade-in animasyonu
-const fadeEls = document.querySelectorAll('.fade-in');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('visible'); } });
-}, { threshold: 0.2 });
-fadeEls.forEach(el => observer.observe(el));
 
-// Sayaç animasyonu
-document.addEventListener("DOMContentLoaded", () => {
-  const counters = document.querySelectorAll(".counter");
-  counters.forEach(counter => {
-    const target = +counter.getAttribute("data-target");
-    let count = 0;
-    const update = () => {
-      count += Math.ceil(target / 100);
-      if(count < target){ counter.innerText = count; setTimeout(update, 20); }
-      else { counter.innerText = target + (target > 50 ? "+" : ""); }
-    };
-    update();
-  });
-});
- let animated = false;
-    window.addEventListener('scroll', () => {
-      const section = document.querySelector('.bg-blue-50');
-      const sectionTop = section.offsetTop - window.innerHeight / 1.5;
-      if (!animated && window.scrollY > sectionTop) {
-        animateCounters();
-        animated = true;
-      }
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+    // Yeni animasyonlar için anahtar kareler
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-fade-in-left { animation: fadeInLeft 0.8s ease-out forwards; }
+        .animate-fade-in-right { animation: fadeInRight 0.8s ease-out forwards; }
+    `;
+    document.head.appendChild(style);
+
+    // Fade-in animasyonu için Observer
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.animate-fade-in-up, .animate-fade-in-left, .animate-fade-in-right').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        observer.observe(el);
     });
-  new Swiper('.mySwiper', {
+
+    // Sayfa başlığı ve alt başlık için farklı bir animasyon
+    document.querySelectorAll('.animate-fade-in-up, .animate-fade-in').forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.1}s`;
+    });
+
+
+    // Sayfa yüklendiğinde sayaçları tetikle
+    let counterAnimated = false;
+    const countersSection = document.querySelector('.grid.grid-cols-2.md\\:grid-cols-4');
+    const counterObserver = new IntersectionObserver(entries => {
+        if(entries[0].isIntersecting && !counterAnimated){
+            animateCounters();
+            counterAnimated = true;
+        }
+    }, { threshold: 0.5 });
+    
+    if(countersSection) {
+        counterObserver.observe(countersSection);
+    }
+    
+    function animateCounters() {
+        const counters = document.querySelectorAll(".counter");
+        counters.forEach(counter => {
+            const target = +counter.getAttribute("data-target");
+            let count = 0;
+            const updateCount = () => {
+                const speed = 100;
+                const increment = target / speed;
+                count += increment;
+                if(count < target) {
+                    counter.innerText = Math.ceil(count);
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target + (target > 50 ? "+" : "");
+                }
+            };
+            updateCount();
+        });
+    }
+
+    // Swiper için JS kodunu DOM içeriği yüklendikten sonra başlatıyoruz
+    new Swiper('.mySwiper', {
       loop: true,
       pagination: {
         el: '.swiper-pagination',
@@ -162,5 +243,4 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     });
 </script>
-</body
 {% endblock %}

@@ -1,0 +1,385 @@
+
+  {% extends "base.twig" %}
+  {% block title %}SSS | Su Arıtma Sistemleri{% endblock %}
+  
+  <meta name="description" content="Su arıtma sistemleri hakkında ürün, montaj, iade ve memnuniyet konularında en sık sorulan sorular." />
+  {% block content %}
+  <style>
+    :root {
+      --blue: #0a66c2;
+      --blue-600: #0a5bb0;
+      --blue-050: #e9f3ff;
+      --bg: #ffffff;
+      --text: #0b1220;
+      --muted: #5a6b81;
+      --border: #e6ecf2;
+      --radius: 16px;
+      --shadow: 0 8px 24px rgba(10, 102, 194, 0.08);
+    }
+    html, body { background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    header { display:flex; align-items: center; justify-content: space-between; gap:16px; flex-wrap: wrap; }
+    h1 { font-size: clamp(24px, 2.6vw, 40px); color: var(--blue); margin: 8px 0; letter-spacing: -0.02em; }
+    .sub { color: var(--muted); margin-top: -6px; }
+
+    /* Controls */
+    .controls { display:grid; grid-template-columns: 1fr; gap:12px; margin: 18px 0 8px; }
+    @media (min-width: 720px) { .controls { grid-template-columns: 1fr auto; align-items: center; } }
+
+    .search { position: relative; }
+    .search input { width: 100%; padding: 14px 44px 14px 14px; border:1px solid var(--border); border-radius: var(--radius); outline:none; box-shadow: var(--shadow); }
+    .search svg { position:absolute; right: 12px; top: 50%; transform: translateY(-50%); width:22px; height:22px; stroke: var(--blue); }
+
+    .tabs { display:flex; flex-wrap: wrap; gap:8px; }
+    .tab { border:1px solid var(--border); background: var(--blue-050); color: var(--blue); padding:10px 14px; border-radius: 999px; cursor:pointer; user-select:none; font-weight: 600; transition: transform .1s; }
+    .tab[aria-pressed="true"]{ background: var(--blue); color: white; }
+    .tab:active{ transform: scale(0.98); }
+
+    /* Utilities */
+    .bar { display:flex; justify-content: space-between; align-items:center; gap:12px; margin: 16px 0; flex-wrap: wrap; }
+    .count { color: var(--muted); }
+    .actions { display:flex; gap:8px; }
+    .btn { background: white; border:1px solid var(--border); padding:10px 14px; border-radius: 10px; cursor:pointer; box-shadow: var(--shadow); font-weight:600; }
+    .btn:hover{ background: var(--blue-050); }
+
+    /* FAQ */
+    .faq { display:grid; gap: 12px; }
+    details.faq-item { background: white; border:1px solid var(--border); border-radius: var(--radius); padding: 8px 14px; box-shadow: var(--shadow); }
+    details[open] { border-color: var(--blue-600); }
+    summary { list-style: none; cursor: pointer; display:flex; align-items: flex-start; gap: 10px; }
+    summary::-webkit-details-marker { display:none; }
+    .q { flex:1; color: var(--blue); font-weight: 800; font-size: 16px; line-height: 1.4; }
+    .badge { font-size: 11px; font-weight: 700; color: var(--blue); background: var(--blue-050); border:1px solid var(--border); padding: 4px 8px; border-radius: 999px; }
+    .a { color:#1b2735; padding: 10px 4px 6px 32px; line-height: 1.7; }
+    .meta { display:flex; align-items:center; justify-content: space-between; gap:8px; padding: 0 4px 8px 32px; }
+    .vote { display:flex; gap:6px; align-items:center; }
+    .vote button { border:none; background: transparent; cursor:pointer; padding:6px; border-radius: 8px; }
+    .vote button[aria-pressed="true"]{ background: var(--blue-050); }
+    .copylink { font-size: 12px; color: var(--muted); cursor:pointer; }
+
+    /* Footer CTA */
+    .cta { margin: 32px 0 12px; padding: 18px; border:1px dashed var(--blue-600); border-radius: var(--radius); background: #f8fbff; display:grid; gap:8px; }
+    .cta h3 { color: var(--blue); margin: 0; }
+    .cta p { margin:0; color: var(--muted); }
+
+    /* Hidden for filtering */
+   
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Sıkça Sorulan Sorular</h1>
+        <p class="sub">Su arıtma sistemleri hakkında ürün, montaj, iade ve memnuniyet konularında tüm yanıtlar.</p>
+      </div>
+    </header>
+
+    <div class="controls" role="region" aria-label="SSS Kontrolleri">
+      <div class="search">
+        <input id="search" type="search" placeholder="Arayın: ör. 'filtre değişimi', 'montaj', 'iade'" aria-label="SSS ara" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"/></svg>
+      </div>
+      <nav class="tabs" aria-label="Kategoriler">
+        <button class="tab" data-filter="all" aria-pressed="true">Tümü</button>
+        <button class="tab" data-filter="urun">Ürünler</button>
+        <button class="tab" data-filter="montaj">Montaj</button>
+        <button class="tab" data-filter="iade">İade & Değişim</button>
+        <button class="tab" data-filter="memnuniyet">Memnuniyet & Destek</button>
+      </nav>
+    </div>
+
+    <div class="bar">
+      <span class="count" id="count">0 sonuç</span>
+      <div class="actions">
+        <button class="btn" id="expandAll">Hepsini Aç</button>
+        <button class="btn" id="collapseAll">Hepsini Kapat</button>
+      </div>
+    </div>
+
+    <section class="faq" id="faq" aria-label="Sıkça Sorulan Sorular">
+      <!-- ÜRÜNLER -->
+      <details class="faq-item" data-cat="urun" id="sss-01">
+        <summary><span class="q">Hangi su arıtma sistemi benim için uygun?</span> <span class="badge">Ürünler</span></summary>
+        <div class="a">Günlük su tüketiminiz, hane kişi sayısı ve şebeke suyu kalitesi belirleyicidir. 3–5 kişilik aileler için 75–100 GPD ters ozmoz cihazları idealdir. Kuyu veya çok sert sular için ek <em>sediment + karbon + antiskalant</em> ön filtrasyon önerilir.</div>
+        <div class="meta"><div class="vote" data-key="sss-01"><button class="up" aria-label="Faydalı"><span>👍</span></button><button class="down" aria-label="Faydalı değil"><span>👎</span></button><small class="score">0</small></div><span class="copylink" data-copy="#sss-01">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="urun" id="sss-02">
+        <summary><span class="q">Ters ozmoz (RO) nedir? Güvenli mi?</span> <span class="badge">Ürünler</span></summary>
+        <div class="a">RO, suyu yarı geçirgen membrandan geçirerek çözünmüş tuzları, ağır metalleri, nitratları ve mikroorganizmaları yüksek oranda giderir. Doğru kurulmuş ve düzenli filtre değişimi yapılan RO sistemlerinden elde edilen su içme için güvenlidir.</div>
+        <div class="meta"><div class="vote" data-key="sss-02"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-02">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="urun" id="sss-03">
+        <summary><span class="q">Mineral filtre gerekli mi?</span> <span class="badge">Ürünler</span></summary>
+        <div class="a">RO suyu çok düşük TDS değerine indirir. Tat ve denge için post-mineral filtre tercih edilebilir; bu filtre kalsiyum/magnezyum benzeri mineraller ekleyerek tadı iyileştirir.</div>
+        <div class="meta"><div class="vote" data-key="sss-03"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-03">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="urun" id="sss-04">
+        <summary><span class="q">Filtre değişim periyotları nelerdir?</span> <span class="badge">Ürünler</span></summary>
+        <div class="a"><ul><li>Sediment &amp; Karbon ön filtreler: 6–12 ay</li><li>RO membran: 24–36 ay</li><li>Post karbon/mineral: 12 ay</li></ul>Bu süreler su kalitesi ve tüketime göre değişebilir.</div>
+        <div class="meta"><div class="vote" data-key="sss-04"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-04">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="urun" id="sss-05">
+        <summary><span class="q">Tanklı mı tanksız mı?</span> <span class="badge">Ürünler</span></summary>
+        <div class="a">Tanksız sistemler kompakt ve taze su avantajı sunar, yüksek debili pompalar gerektirir. Tanklı sistemler anlık yüksek su ihtiyacında stabildir. Mutfak alanı ve kullanım alışkanlığınıza göre seçin.</div>
+        <div class="meta"><div class="vote" data-key="sss-05"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-05">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="urun" id="sss-06">
+        <summary><span class="q">TDS nedir? Kaç olmalı?</span> <span class="badge">Ürünler</span></summary>
+        <div class="a">TDS (Toplam Çözünmüş Madde) sudaki minerallerin toplamını ifade eder. RO sonrası içme suyu için 20–100 ppm aralığı çoğu kullanıcı tarafından tat olarak tercih edilir.</div>
+        <div class="meta"><div class="vote" data-key="sss-06"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-06">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <!-- MONTAJ -->
+      <details class="faq-item" data-cat="montaj" id="sss-07">
+        <summary><span class="q">Montaj süresi ne kadar?</span> <span class="badge">Montaj</span></summary>
+        <div class="a">Standart mutfak tezgâh altı kurulumları ortalama 60–90 dakika sürer. Ek hat çekimi veya drenaj düzenlemesi gerekiyorsa süre uzayabilir.</div>
+        <div class="meta"><div class="vote" data-key="sss-07"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-07">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="montaj" id="sss-08">
+        <summary><span class="q">Garanti montajı kim yapar?</span> <span class="badge">Montaj</span></summary>
+        <div class="a">Yetkili servis ekiplerimiz kurulum ve ilk çalıştırmayı yapar, cihazı test ederek garanti başlatma formunu düzenler.</div>
+        <div class="meta"><div class="vote" data-key="sss-08"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-08">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="montaj" id="sss-09">
+        <summary><span class="q">Tezgâh delme gerekir mi?</span> <span class="badge">Montaj</span></summary>
+        <div class="a">Çoğu model kendi arıtma musluğu ile gelir. Mevcut musluğa üç yollu seçenek takılmadıkça tezgâhta 12–14 mm delik açılması gerekir.</div>
+        <div class="meta"><div class="vote" data-key="sss-09"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-09">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="montaj" id="sss-10">
+        <summary><span class="q">Elektrik gerekir mi?</span> <span class="badge">Montaj</span></summary>
+        <div class="a">Basınç pompalı RO sistemleri 24V adaptör ile çalışır ve elektrik gerekir. Şebeke basıncı yüksekse pompasız modeller elektrik istemez.</div>
+        <div class="meta"><div class="vote" data-key="sss-10"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-10">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="montaj" id="sss-11">
+        <summary><span class="q">Kurulum öncesi hazırlık gerekir mi?</span> <span class="badge">Montaj</span></summary>
+        <div class="a">Tezgâh altı alanın boşaltılması ve musluk çevresinin erişilebilir olması yeterlidir. Kuyu suyu kullanımında su analizi sonuçlarını paylaşmanız önerilir.</div>
+        <div class="meta"><div class="vote" data-key="sss-11"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-11">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <!-- İADE & DEĞİŞİM -->
+      <details class="faq-item" data-cat="iade" id="sss-12">
+        <summary><span class="q">İade süreniz kaç gün?</span> <span class="badge">İade &amp; Değişim</span></summary>
+        <div class="a">Mesafeli satışlarda <strong>14 gün</strong> içinde, kullanılmamış ve tüm aksesuarları eksiksiz ürünleri koşulsuz iade edebilirsiniz. Kurulu cihazlarda söküm bedeli ve sarf malzemeleri ayrıca değerlendirilir.</div>
+        <div class="meta"><div class="vote" data-key="sss-12"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-12">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="iade" id="sss-13">
+        <summary><span class="q">İade koşulları neler?</span> <span class="badge">İade &amp; Değişim</span></summary>
+        <div class="a">Orijinal kutu ve ambalajın korunması, seri numarasının tahrip edilmemesi gerekir. Hijyen sebebiyle kullanılmış filtre sarf malzemeleri iade kapsamı dışındadır.</div>
+        <div class="meta"><div class="vote" data-key="sss-13"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-13">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="iade" id="sss-14">
+        <summary><span class="q">Arızalı ürünlerde değişim süreci nasıl işler?</span> <span class="badge">İade &amp; Değişim</span></summary>
+        <div class="a">Yetkili servis incelemesi sonrası üretim kaynaklı arıza onarım/yenisiyle değişim seçenekleri ile sonuçlandırılır. Kargo hasarlarında tutanak tutulması gerekir.</div>
+        <div class="meta"><div class="vote" data-key="sss-14"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-14">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="iade" id="sss-15">
+        <summary><span class="q">İade kargo ücretini kim karşılar?</span> <span class="badge">İade &amp; Değişim</span></summary>
+        <div class="a">Cayma hakkı kapsamındaki iadelerde anlaşmalı kargo ile gönderimlerde ücret bize aittir. Farklı kargo tercihinde ücret müşteriye ait olabilir.</div>
+        <div class="meta"><div class="vote" data-key="sss-15"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-15">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <!-- MEMNUNİYET & DESTEK -->
+      <details class="faq-item" data-cat="memnuniyet" id="sss-16">
+        <summary><span class="q">Su tadından memnun kalmazsam?</span> <span class="badge">Memnuniyet</span></summary>
+        <div class="a">Kurulum sonrası ilk 2–3 tank boşaltıldıktan sonra tat oturur. Yine de memnun kalmazsanız post-mineral veya pH düzenleyici filtre alternatifleri sunuyoruz.</div>
+        <div class="meta"><div class="vote" data-key="sss-16"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-16">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="memnuniyet" id="sss-17">
+        <summary><span class="q">Garanti süresi ve kapsamı nedir?</span> <span class="badge">Memnuniyet</span></summary>
+        <div class="a">Cihazlarda <strong>2 yıl garanti</strong> bulunur. Filtreler sarf malzeme olduğu için garanti kapsamına dahil değildir; ancak montaj ve elektronik parçalar garantiye dahildir.</div>
+        <div class="meta"><div class="vote" data-key="sss-17"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-17">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="memnuniyet" id="sss-18">
+        <summary><span class="q">Servis ağı hangi illeri kapsıyor?</span> <span class="badge">Memnuniyet</span></summary>
+        <div class="a">Türkiye genelinde yaygın yetkili servis ağımız mevcuttur. İlçe kapsama durumu için adresinizi bizimle paylaşabilirsiniz.</div>
+        <div class="meta"><div class="vote" data-key="sss-18"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-18">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="memnuniyet" id="sss-19">
+        <summary><span class="q">Bakım randevusu nasıl alırım?</span> <span class="badge">Memnuniyet</span></summary>
+        <div class="a">Web sitemizdeki randevu formunu doldurabilir veya çağrı merkezimizi arayabilirsiniz. Online rezervasyonlarınız SMS ile onaylanır.</div>
+        <div class="meta"><div class="vote" data-key="sss-19"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-19">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <!-- GENEL -->
+      <details class="faq-item" data-cat="urun" id="sss-20">
+        <summary><span class="q">Çocuklar ve bebekler için uygun mu?</span> <span class="badge">Ürünler</span></summary>
+        <div class="a">Bebek maması hazırlığında düşük TDS su tercih edilebilir. Ancak her zaman doktorunuzun önerilerine uyunuz ve ekipmanları hijyenik tutunuz.</div>
+        <div class="meta"><div class="vote" data-key="sss-20"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-20">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="montaj" id="sss-21">
+        <summary><span class="q">Cihaz ne kadar yer kaplar?</span> <span class="badge">Montaj</span></summary>
+        <div class="a">Tezgâh altı cihazlar genellikle 35×45×20 cm civarındadır. Tanklı modellerde 8–12 litre tank için ek alan gerekir.</div>
+        <div class="meta"><div class="vote" data-key="sss-21"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-21">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="iade" id="sss-22">
+        <summary><span class="q">Fatura ve garanti belgesini kaybettim, ne yapabilirim?</span> <span class="badge">İade &amp; Değişim</span></summary>
+        <div class="a">Müşteri bilgilerinize ulaşabiliyorsak e-arşiv faturasını yeniden paylaşabiliriz. Seri numarasına göre garanti sorgulaması yapılır.</div>
+        <div class="meta"><div class="vote" data-key="sss-22"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-22">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="memnuniyet" id="sss-23">
+        <summary><span class="q">Musluk debisi düşük, normal mi?</span> <span class="badge">Memnuniyet</span></summary>
+        <div class="a">RO sistemleri ince filtrasyon yaptığından debi şebeke musluğuna göre daha düşüktür. Tanklı modeller debiyi dengeler; filtre tıkanıklığı da debiyi azaltabilir.</div>
+        <div class="meta"><div class="vote" data-key="sss-23"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-23">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="urun" id="sss-24">
+        <summary><span class="q">Filtre ve membranlar orijinal mi?</span> <span class="badge">Ürünler</span></summary>
+        <div class="a">Tüm sarf malzemeler yetkili tedarikçilerden, parti/lot ve üretim tarihleri takip edilerek temin edilir. Ürünlerimiz orijinal ve garantilidir.</div>
+        <div class="meta"><div class="vote" data-key="sss-24"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-24">Bağlantıyı kopyala</span></div>
+      </details>
+
+      <details class="faq-item" data-cat="memnuniyet" id="sss-25">
+        <summary><span class="q">Kurumsal alımlar ve teklif alımı mümkün mü?</span> <span class="badge">Memnuniyet</span></summary>
+        <div class="a">Toplu alımlar ve ofis/şube projeleri için keşif ve toplu teklif hizmeti sunuyoruz. Lütfen iletişime geçin.</div>
+        <div class="meta"><div class="vote" data-key="sss-25"><button class="up">👍</button><button class="down">👎</button><small class="score">0</small></div><span class="copylink" data-copy="#sss-25">Bağlantıyı kopyala</span></div>
+      </details>
+
+    </section>
+
+    <div class="cta" role="complementary">
+      <h3>Sorunuzun yanıtını bulamadınız mı?</h3>
+      <p>Bizimle iletişime geçin, uzman ekibimiz en kısa sürede yardımcı olsun.</p>
+      <div class="actions">
+        <a class="btn" href="/contact">İletişim</a>
+        <a class="btn" href="tel:+90XXXXXXXXXX">Çağrı Merkezi</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Helpers ---
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    const $ = (sel, root=document) => root.querySelector(sel);
+
+    // Search & Filter
+    const searchInput = $('#search');
+    const tabs = $$('.tab');
+    const faqItems = $$('.faq-item');
+    const countLabel = $('#count');
+
+    let activeFilter = 'all';
+
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      let matchCount = 0;
+      faqItems.forEach(item => {
+        const cat = item.dataset.cat;
+        const text = item.innerText.toLowerCase();
+        const categoryOk = (activeFilter === 'all') || (cat === activeFilter);
+        const searchOk = !q || text.includes(q);
+        const show = categoryOk && searchOk;
+        item.classList.toggle('hidden', !show);
+        if(show) matchCount++;
+      });
+      countLabel.textContent = matchCount + ' sonuç';
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      activeFilter = btn.dataset.filter;
+      applyFilters();
+    }));
+
+    // Expand/Collapse All respecting filter
+    $('#expandAll').addEventListener('click', () => {
+      $$('.faq-item:not(.hidden)').forEach(d => d.open = true);
+    });
+    $('#collapseAll').addEventListener('click', () => {
+      $$('.faq-item').forEach(d => d.open = false);
+    });
+
+    // Voting with localStorage
+    const store = window.localStorage;
+    function updateScore(el){
+      const key = el.dataset.key;
+      const up = store.getItem(key+':up') === '1' ? 1 : 0;
+      const down = store.getItem(key+':down') === '1' ? 1 : 0;
+      const score = up - down;
+      el.querySelector('.score').textContent = score;
+      el.querySelector('.up').setAttribute('aria-pressed', up? 'true':'false');
+      el.querySelector('.down').setAttribute('aria-pressed', down? 'true':'false');
+    }
+    $$('.vote').forEach(v => {
+      const key = v.dataset.key;
+      updateScore(v);
+      v.querySelector('.up').addEventListener('click', () => {
+        const cur = store.getItem(key+':up') === '1';
+        store.setItem(key+':up', cur ? '0' : '1');
+        if(store.getItem(key+':down') === '1' && !cur) store.setItem(key+':down', '0');
+        updateScore(v);
+      });
+      v.querySelector('.down').addEventListener('click', () => {
+        const cur = store.getItem(key+':down') === '1';
+        store.setItem(key+':down', cur ? '0' : '1');
+        if(store.getItem(key+':up') === '1' && !cur) store.setItem(key+':up', '0');
+        updateScore(v);
+      });
+    });
+
+    // Copy link
+    $$('.copylink').forEach(c => {
+      c.addEventListener('click', async () => {
+        const id = c.dataset.copy;
+        const url = location.origin + location.pathname + id;
+        try {
+          await navigator.clipboard.writeText(url);
+          c.textContent = 'Kopyalandı!';
+          setTimeout(() => c.textContent = 'Bağlantıyı kopyala', 1200);
+        } catch(e){
+          alert('Bağlantı kopyalanamadı: ' + url);
+        }
+      });
+    });
+
+    // JSON-LD (FAQPage)
+    (function addFAQSchema(){
+      const faqs = $$('.faq-item');
+      const mainEntity = faqs.map(d => ({
+        '@type': 'Question',
+        'name': d.querySelector('.q').textContent.trim(),
+        'acceptedAnswer': {
+          '@type': 'Answer',
+          'text': d.querySelector('.a').innerText.trim()
+        }
+      }));
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity }, null, 2);
+      document.head.appendChild(script);
+    })();
+
+    // Init
+    applyFilters();
+
+    // Open target if hash exists
+    if(location.hash){
+      const target = document.querySelector(location.hash);
+      if(target && target.classList.contains('faq-item')){
+        target.open = true;
+        target.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
+    }
+  </script>
+{% endblock %}

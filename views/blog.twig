@@ -1,0 +1,271 @@
+{% extends "base.twig" %}
+
+{% block title %}Blog - Maviro{% endblock %}
+
+{% block head %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Su Arıtma Sistemleri Blogu | Sağlıklı Su İçin Bilgiler</title>
+  <meta name="description" content="Su arıtma cihazları hakkında güncel içerikler: ürün karşılaştırmaları, montaj rehberi, filtre değişimi, bakım ipuçları ve sağlık faydaları." />
+  <meta name="keywords" content="su arıtma, ters ozmoz, filtre değişimi, montaj, bakım, sağlıklı su, arıtma cihazı" />
+  <meta name="author" content="Su Arıtma Blog" />
+  
+  <meta property="og:title" content="Su Arıtma Sistemleri Blogu" />
+  <meta property="og:description" content="Ürün karşılaştırmaları, montaj rehberi ve bakım ipuçları." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="tr_TR" />
+  
+  <link rel="stylesheet" href="/style.css" />
+{% endblock %}
+{% block content %}
+  
+  <style>
+  
+ .blog-header {
+  position: relative;
+  text-align: center;
+  color: #fff;
+  height: 400px; /* Yüksekliği sabitledik */
+  background-image: url('https://www.enkisa.com/wp-content/uploads/2012/01/su-aritma.jpg');
+  background-size: cover; /* Görseli header’a tam sığdırır */
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Yazıyı dikey ortala */
+  align-items: center;
+  padding: 0px 16px; /* Gereksiz büyük padding kaldırıldı */
+}
+
+
+.blog-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3); /* Daha koyu karartma ile yazı öne çıkar */
+  z-index: 0;
+}
+
+.blog-header h1, 
+.blog-header p {
+  position: relative; /* Overlay üzerinde yazı görünmesi için */
+  z-index: 1;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.4); /* Yazıyı daha okunaklı yapar */
+}
+
+.blog-header h1 {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 700;
+}
+
+.blog-header p {
+  margin: 0;
+  font-size: clamp(16px, 2vw, 22px);
+  opacity: 0.95;
+}
+
+
+    .blog-controls { max-width: 1100px; margin: 18px auto; padding: 0 16px; display:grid; gap:10px; }
+    .filters { display:flex; gap:8px; flex-wrap: wrap; }
+    .filters button { padding:8px 14px; border:1px solid var(--secondary-blue); background: var(--light-blue); color: var(--primary-blue); border-radius: 10px; cursor:pointer; }
+    .filters button.active { background: var(--secondary-blue); color:#fff; }
+    .searchbar { width:100%; display:flex; gap:8px; }
+    .searchbar input { flex:1; padding:12px; border:1px solid var(--border-color); border-radius: 10px; }
+
+    .blog-container { max-width:1100px; margin: 8px auto 24px; padding: 0 16px; display:grid; gap:16px; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); }
+    .card { border:1px solid var(--border-color); border-radius: 12px; padding: 14px; background:#fff; display:flex; flex-direction: column; gap:10px; transition: box-shadow .2s ease; }
+    .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,.06) }
+    .card .meta { font-size: 12px; color:#6b7280 }
+    .card h2 { font-size: 18px; color: var(--primary-blue); margin: 0; }
+    .card img { width:100%; height: 180px; object-fit: cover; border-radius: 10px; background: #f3f4f6; }
+    .read-more { align-self: flex-start; text-decoration:none; color: var(--secondary-blue); font-weight:700; }
+
+    .pagination { display:flex; justify-content:center; gap:6px; margin: 18px 0 36px; }
+    .pagination button { padding:8px 12px; border:1px solid var(--border-color); background:#fff; border-radius:8px; cursor:pointer; }
+    .pagination button[disabled] { opacity:.5; cursor:not-allowed }
+    .pagination .page.active { background: var(--secondary-blue); color:#fff; border-color: var(--secondary-blue); }
+
+ 
+    /* Table styling inside article */
+    .article table { width:100%; border-collapse: collapse; margin: 10px 0 16px; }
+    .article th, .article td { border:1px solid var(--border-color); padding: 8px; text-align:left; }
+    .article th { background: #f8fafc; }
+
+    /* CTA */
+    .cta { max-width:1100px; margin: 0 auto 40px; padding: 16px; border:1px dashed var(--secondary-blue); border-radius: 12px; background: #f8fbff; }
+    .cta h3 { margin:0 0 6px; color: var(--primary-blue); }
+    .cta p { margin: 0 0 10px; color:#4b5563 }
+    .cta .btn { display:inline-block; padding:10px 14px; border-radius: 10px; border:1px solid var(--secondary-blue); color:#fff; background: var(--secondary-blue); text-decoration:none; font-weight:700 }
+
+    /* Comments placeholder */
+    #comments { margin-top: 24px; border-top:1px solid var(--border-color); padding-top: 12px; }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Su Arıtma Sistemleri Blogu",
+    "url": "https://example.com/blog",
+    "inLanguage": "tr-TR",
+    "description": "Su arıtma cihazları, montaj, bakım ve sağlık üzerine içerikler."
+  }
+  </script>
+</head>
+<body>
+
+  <header class="blog-header" role="banner">
+
+    <h1>Su Arıtma Blogu</h1>
+    <p>Sağlıklı su için en doğru bilgiyi buradan öğrenin</p>
+  </header>
+
+  <section class="blog-controls" aria-label="Blog Kontrolleri">
+    <div class="searchbar">
+      <input id="searchInput" type="search" placeholder="Bloglarda ara: ör. 'filtre değişimi', 'ters ozmoz'" aria-label="Blog ara" />
+    </div>
+    <div class="filters" role="tablist" aria-label="Kategoriler">
+      <button class="active" data-category="all" role="tab" aria-selected="true">Tümü</button>
+      <button data-category="urun" role="tab">Ürünler</button>
+      <button data-category="montaj" role="tab">Montaj</button>
+      <button data-category="bakim" role="tab">Bakım</button>
+      <button data-category="faydalar" role="tab">Faydalar</button>
+    </div>
+  </section>
+    
+  <main>
+    <section id="blogContainer" class="blog-container" aria-live="polite"></section>
+    <nav class="pagination" id="pagination" aria-label="Sayfalama"></nav>
+
+    <div class="cta" role="complementary">
+      <h3>Aradığınız konuyu bulamadınız mı?</h3>
+      <p>Uzman ekibimiz sorularınızı yanıtlamaya hazır. Bize yazın, cihaz seçimi ve montaj konusunda yol gösterelim.</p>
+      <a class="btn" href="/iletisim">İletişime Geçin</a>
+    </div>
+  </main>
+
+     
+  <script>
+    // Konfigürasyon
+    const PAGE_SIZE = 6; // sayfa başı yazı
+   
+    // Elemanlar
+    const container = document.getElementById('blogContainer');
+    const pager = document.getElementById('pagination');
+    const searchInput = document.getElementById('searchInput');
+    const filterButtons = Array.from(document.querySelectorAll('.filters button'));
+
+    let posts = [];
+    let state = { page: 1, q: '', cat: 'all' };
+
+    // Veri yükleme
+    async function loadPosts() {
+      try {
+        const res = await fetch('/posts.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('external posts.json not found');
+        const data = await res.json();
+        return data.posts || [];
+      } catch (e) {
+        console.error('Failed to load posts:', e);
+        // Hata durumunda boş bir dizi döneriz
+        return [];
+      }
+    }
+
+    function formatDate(d) {
+      try { return new Date(d).toLocaleDateString('tr-TR', { year:'numeric', month:'long', day:'numeric' }); } catch { return d; }
+    }
+
+    function matches(post) {
+      const catOK = state.cat === 'all' || post.category === state.cat;
+      const q = state.q.trim().toLowerCase();
+      if (!q) return catOK;
+      const hay = (post.title + ' ' + post.excerpt + ' ' + (post.content || '')).toLowerCase();
+      return catOK && hay.includes(q);
+    }
+
+    function paginate(list, page, size) {
+      const total = list.length;
+      const pages = Math.max(1, Math.ceil(total / size));
+      const p = Math.min(Math.max(1, page), pages);
+      const start = (p - 1) * size;
+      return { page: p, pages, total, items: list.slice(start, start + size) };
+    }
+
+    function renderCards(list) {
+      container.innerHTML = '';
+      if (list.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: #888;">Aradığınız kriterlere uygun yazı bulunamadı.</p>`;
+        pager.style.display = 'none';
+        return;
+      }
+      pager.style.display = 'flex';
+      for (const p of list) {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.setAttribute('data-id', p.id);
+        card.innerHTML = `
+          <a href="/blog/${p.id}">
+            <img src="/${p.image}" alt="${p.title}" loading="lazy" />
+          </a>
+          <div class="meta">Kategori: ${labelFor(p.category)} | ${formatDate(p.date)}</div>
+          <h2>${p.title}</h2>
+          <p>${p.excerpt}</p>
+          <a href="/blog/${p.id}" class="read-more" aria-label="${p.title} yazısının tamamını oku">Devamını Oku →</a>
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    function renderPager(page, pages) {
+      pager.innerHTML = '';
+      const prev = document.createElement('button');
+      prev.textContent = 'Önceki';
+      prev.disabled = page <= 1;
+      prev.addEventListener('click', () => { state.page = Math.max(1, state.page - 1); update(); });
+      pager.appendChild(prev);
+
+      // basit sayfa numaraları
+      for (let i=1;i<=pages;i++) {
+        const btn = document.createElement('button');
+        btn.className = 'page' + (i===page ? ' active' : '');
+        btn.textContent = i;
+        btn.addEventListener('click', () => { state.page = i; update(); });
+        pager.appendChild(btn);
+      }
+
+      const next = document.createElement('button');
+      next.textContent = 'Sonraki';
+      next.disabled = page >= pages;
+      next.addEventListener('click', () => { state.page = Math.min(pages, state.page + 1); update(); });
+      pager.appendChild(next);
+    }
+
+    function labelFor(cat){
+      return ({ urun: 'Ürünler', montaj: 'Montaj', bakim: 'Bakım', faydalar: 'Faydalar' })[cat] || 'Genel';
+    }
+
+    function update() {
+      const filtered = posts.filter(matches).sort((a,b)=> new Date(b.date) - new Date(a.date));
+      const { page, pages, items } = paginate(filtered, state.page, PAGE_SIZE);
+      state.page = page; // clamp
+      renderCards(items);
+      renderPager(page, pages);
+    }
+
+    // Arama & filtre
+    searchInput.addEventListener('input', () => { state.q = searchInput.value; state.page = 1; update(); });
+    filterButtons.forEach(btn => btn.addEventListener('click', () => {
+      filterButtons.forEach(b=> (b.classList.remove('active'), b.setAttribute('aria-selected','false')));
+      btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+      state.cat = btn.dataset.category; state.page = 1; update();
+    }));
+    
+    // Sayfa yüklendiğinde çalıştır
+    (async function init(){
+      posts = await loadPosts();
+      update();
+    })();
+  </script>
+{% endblock %}

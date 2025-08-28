@@ -1,0 +1,230 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ post.title }} - Maviro Blog{% endblock %}
+
+{% block content %}
+    <style>
+        .blog-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 16px;
+            padding-top: 80px; 
+            display: flex;
+            gap: 40px;
+            
+            /* Dikey hizalamayı üstten başlatır */
+            align-items: flex-start;
+        }
+
+     .blog-main-content {
+        flex: 3;
+        padding: 24px;
+        background-color: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .post-image {
+        width: 100%;
+        border-radius: 12px;
+        height: 400px;
+        object-fit: cover;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .post-meta {
+        font-size: 14px;
+        color: #6b7280;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        border-bottom: 1px solid var(--light-blue);
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .post-meta::before {
+        content: "•";
+        color: var(--secondary-blue);
+        font-size: 24px;
+        line-height: 1;
+    }
+
+    .blog-main-content h1 {
+        font-size: 2.5rem;
+        color: var(--primary-blue);
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .post-content h1, 
+    .post-content h2, 
+    .post-content h3 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-blue);
+        border-bottom: 2px solid var(--light-blue);
+        padding-bottom: 8px;
+    }
+
+    .post-content p {
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        color: #4b5563;
+    }
+
+    .post-content ul, 
+    .post-content ol {
+        padding-left: 20px;
+        margin-bottom: 1rem;
+    }
+
+    /* Additional styles for rich content */
+    .post-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 14px;
+    }
+
+    .post-content th, 
+    .post-content td {
+        border: 1px solid var(--border-color);
+        padding: 12px;
+        text-align: left;
+    }
+
+    .post-content th {
+        background-color: var(--light-blue);
+        font-weight: 600;
+        color: var(--dark-blue);
+    }
+
+    .post-content a {
+        color: var(--secondary-blue);
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: border-bottom 0.3s ease;
+    }
+
+    .post-content a:hover {
+        border-bottom-color: var(--secondary-blue);
+    }
+
+        /* Yeni ve dinamik sidebar stilleri */
+        .blog-sidebar {
+            flex: 1;
+            padding: 24px;
+            background-color: #f9fafb;
+            border-radius: 16px; /* Daha yuvarlak köşeler */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Yumuşak gölge */
+            
+            /* Sidebar'ın sayfada sabit kalması için */
+            position: sticky;
+            top: 100px; /* Navbar'ın altına hizala */
+        }
+        
+        .blog-sidebar h3 {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-blue);
+            padding-bottom: 10px;
+        }
+
+        .blog-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Listeler arasında boşluk */
+        }
+        
+        .blog-sidebar li {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden; /* Kenarlık yuvarlaklığını korur */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .blog-sidebar li:hover {
+            transform: translateY(-5px); /* Hafif yukarı kalkma efekti */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-sidebar a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: var(--dark-blue);
+            font-weight: 600;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .blog-sidebar a:hover {
+            background-color: var(--light-blue);
+            color: var(--secondary-blue);
+        }
+
+        .blog-sidebar .link-category {
+            font-size: 0.8rem;
+            color: #6b7280;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Diğer tüm stilleriniz burada devam edebilir */
+        .post-image {
+            width: 100%;
+            border-radius: 12px;
+            height: 400px;
+            object-fit: cover;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .blog-wrapper {
+                flex-direction: column;
+            }
+            .blog-sidebar {
+                position: static; /* Mobil'de sabit kalmaz */
+                margin-top: 24px;
+            }
+        }
+    </style>
+
+    <div class="blog-wrapper">
+        <div class="blog-main-content">
+            <img src="/{{ post.image }}" alt="{{ post.title }}" class="post-image">
+            <div class="post-meta">
+                <span>Kategori: **{{ post.category }}**</span>
+                <span>Tarih: {{ post.date }}</span>
+            </div>
+            <h1>{{ post.title }}</h1>
+            <div class="post-content">
+                {{ post.content | raw }}
+            </div>
+        </div>
+        
+        <aside class="blog-sidebar">
+            <h3>İlginizi Çekebilecek Diğer Yazılar</h3>
+            <ul>
+                {% for otherPost in otherPosts %}
+                    <li>
+                        <a href="/blog/{{ otherPost.id }}">
+                            {{ otherPost.title }}
+                            <span class="link-category">({{ otherPost.category }})</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
+    </div>
+{% endblock %}
