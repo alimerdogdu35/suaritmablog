@@ -9,6 +9,7 @@ const User = require("./models/userModel");
 const Post = require("./models/postModel");
 const transporter = require('./services/mailServices');
 const serverless = require("serverless-http");
+const MongoStore = require('connect-mongo');
 
 const app = express();
 
@@ -45,10 +46,14 @@ async function connectToDatabase() {
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.use(session({
-    secret: SESSION_SECRET, 
+    secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === 'production' } 
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: MONGODB_URI }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24, // 1 gün
+        secure: process.env.NODE_ENV === 'production',
+    }
 }));
 
 app.use(express.urlencoded({ extended: true }));
@@ -99,6 +104,8 @@ app.get("/", async (req, res) => {
 
 app.get("/register", (req, res) => res.render("register"));
 app.get("/login", (req, res) => res.render("login"));
+
+
 app.get("/hakkimizda", (req, res) => res.render("about"));
 
 app.get('/urunlerimiz', async (req, res) => {
