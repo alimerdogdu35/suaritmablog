@@ -70,6 +70,20 @@ app.get("/login", (req, res) => res.render("login"));
 app.get("/hakkimizda", (req, res) => res.render("about"));
 app.get("/iletisim", (req, res) => res.render("contact"));
 app.get("/sss", (req, res) => res.render("sss"));
+app.get("/urunlerimiz", async (req, res) => res.render("products", { products: await Product.find({}) }));
+app.get("/blog", async (req, res) => res.render("blog", { posts: await Post.find({}) }));
+app.get("/blog/:id", async (req, res) => {
+    try {
+        await connectToDatabase();
+        const post = await Post.findOne({ id: req.params.id });
+        if (!post) return res.status(404).send("Blog yazısı bulunamadı.");
+        res.render("post", { post });
+    } catch (error) {
+        console.error('Blog yazısı hatası:', error);
+        res.status(500).send('Blog yazısı yüklenirken hata oluştu.');
+    }
+});
+
 
 // ---------------- ADMIN ----------------
 app.get('/admin', verifyJWT, isAdmin, async (req, res) => {
