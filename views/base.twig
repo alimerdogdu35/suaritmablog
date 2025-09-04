@@ -25,10 +25,8 @@
                 <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
                     <i class="fas fa-tools text-green-300 text-lg"></i> <span>Ücretsiz Montaj</span>
                 </div>
-                 <div class="text-green-200 font-bold">•</div>
-                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
-                    <i class="fas fa-fire text-green-400 text-lg"></i> <span>%20 İNDİRİM</span>
-                </div>
+               
+               
                  <div class="text-green-200 font-bold">•</div>
                 <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
                     <i class="fas fa-flask text-green-300 text-lg"></i> <span>Son Teknoloji Ürünler</span>
@@ -42,10 +40,8 @@
                 <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
                     <i class="fas fa-tools text-green-300 text-lg"></i> <span>Ücretsiz Montaj</span>
                 </div>
-                 <div class="text-green-200 font-bold">•</div>
-                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
-                    <i class="fas fa-fire text-green-400 text-lg"></i> <span>%20 İNDİRİM</span>
-                </div>
+                
+                
                  <div class="text-green-200 font-bold">•</div>
                 <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
                     <i class="fas fa-flask text-green-300 text-lg"></i> <span>Son Teknoloji Ürünler</span>
@@ -58,15 +54,31 @@
                 <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
                     <i class="fas fa-tools text-green-300 text-lg"></i> <span>Ücretsiz Montaj</span>
                 </div>
-                 <div class="text-green-200 font-bold">•</div>
-                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
-                    <i class="fas fa-fire text-green-400 text-lg"></i> <span>%20 İNDİRİM</span>
-                </div>
+                 
+                
                  <div class="text-green-200 font-bold">•</div>
                 <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
                     <i class="fas fa-flask text-green-300 text-lg"></i> <span>Son Teknoloji Ürünler</span>
                 </div>
                  <div class="text-green-200 font-bold">•</div>
+                   <div class="text-green-200 font-bold">•</div>
+                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
+                    <i class="fas fa-flask text-green-300 text-lg"></i> <span>Son Teknoloji Ürünler</span>
+                </div>
+                 <div class="text-green-200 font-bold">•</div>
+                 <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
+                    <i class="fas fa-truck-fast text-green-300 text-lg"></i> <span>Ücretsiz Kargo</span>
+                </div>
+                 <div class="text-green-200 font-bold">•</div>
+                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
+                    <i class="fas fa-tools text-green-300 text-lg"></i> <span>Ücretsiz Montaj</span>
+                </div>
+                 
+                
+                 <div class="text-green-200 font-bold">•</div>
+                <div class="marquee-item flex items-center gap-2 font-semibold text-sm md:text-base">
+                    <i class="fas fa-flask text-green-300 text-lg"></i> <span>Son Teknoloji Ürünler</span>
+                </div>
             </div>
         </div>
     </div>
@@ -85,18 +97,29 @@
 
             <div class="hidden md:flex ml-32 flex-1 justify-center space-x-10">
                 <a href="/" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Ana Sayfa</a>
-                <a href="/about" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Hakkımızda</a>
-                <a href="/products" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Ürünlerimiz</a>
+                <a href="/hakkimizda" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Hakkımızda</a>
+                <a href="/urunlerimiz" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Ürünlerimiz</a>
                 <a href="/sss" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">SSS</a>
                 <a href="/blog" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Blog</a>
-                <a href="/contact" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">İletişim</a>
+                <a href="/iletisim" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">İletişim</a>
             </div>
 
             <div class="hidden md:flex items-center">
-                <input type="text" placeholder="Ara..." class="px-4 py-2 rounded-full border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition duration-300 w-60 bg-white/90 placeholder:text-gray-500"/>
-                <button class="ml-2 text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full transition duration-300">
-                    <i class="fas fa-search"></i>
-                </button>
+             <form action="/arama-sonuclari" method="GET" class="flex items-center relative">
+    <input type="text" 
+           name="query" 
+           id="search-input" 
+           placeholder="Ara..." 
+           class="px-4 py-2 rounded-full border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition duration-300 w-60 bg-white/90 placeholder:text-gray-500"/>
+    
+    <div id="suggestions" class="absolute top-full left-0 mt-2 w-full bg-white rounded-lg shadow-lg z-20 hidden">
+        </div>
+
+    <button type="submit" 
+            class="ml-2 text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full transition duration-300">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
                 
                 {% if not isLoggedIn %}
                     <a href="/login" class="ml-4">
@@ -117,12 +140,12 @@
     <div id="mobile-menu" class="hidden md:hidden bg-white/90 backdrop-blur-md border-t border-blue-200">
         <div class="px-4 py-2 space-y-2">
             <a href="/" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">Ana Sayfa</a>
-            <a href="/about" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">Hakkımızda</a>
-            <a href="/products" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">Ürünlerimiz</a>
+            <a href="/hakkimizda" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">Hakkımızda</a>
+            <a href="/urunlerimiz" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">Ürünlerimiz</a>
             <a href="/sss" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">SSS</a>
             <a href="/blog" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">Blog</a>
-            <a href="/contact" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">İletişim</a>
-            
+            <a href="/iletisim" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">İletişim</a>
+
             <div class="mt-2">
                 <input type="text" placeholder="Ara..." class="w-full px-3 py-2 rounded-full border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition duration-300 bg-white/90 placeholder:text-gray-500"/>
             </div>
@@ -159,28 +182,31 @@
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                     </div>
+                     <p class="mt-4 text-blue-200">
+                        © MaviRo tüm hakları saklıdır<br>
+                        © since 2025
+                    </p>
                 </div>
 
                 <div>
                     <h4 class="text-lg font-semibold mb-6">Hızlı Erişim</h4>
                     <ul class="space-y-2">
-                        <li><a href="#home" class="text-blue-200 hover:text-white transition duration-300">Ana Sayfa</a></li>
-                        <li><a href="#about" class="text-blue-200 hover:text-white transition duration-300">Hakkımızda</a></li>
-                        <li><a href="#products" class="text-blue-200 hover:text-white transition duration-300">Ürünlerimiz</a></li>
-                        <li><a href="#testimonials" class="text-blue-200 hover:text-white transition duration-300">Müşteri Yorumları</a></li>
-                        <li><a href="#blog" class="text-blue-200 hover:text-white transition duration-300">Blog</a></li>
-                        <li><a href="#contact" class="text-blue-200 hover:text-white transition duration-300">İletişim</a></li>
+                        <li><a href="/" class="text-blue-200 hover:text-white transition duration-300">Ana Sayfa</a></li>
+                        <li><a href="/hakkimizda" class="text-blue-200 hover:text-white transition duration-300">Hakkımızda</a></li>
+                        <li><a href="/urunlerimiz" class="text-blue-200 hover:text-white transition duration-300">Ürünlerimiz</a></li>
+                        <li><a href="/blog" class="text-blue-200 hover:text-white transition duration-300">Blog</a></li>
+                        <li><a href="/iletisim" class="text-blue-200 hover:text-white transition duration-300">İletişim</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-lg font-semibold mb-6">Ürünler</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-blue-200 hover:text-white transition duration-300">Tezgah Altı Sistemler</a></li>
-                        <li><a href="#" class="text-blue-200 hover:text-white transition duration-300">Tezgah Üstü Sistemler</a></li>
-                        <li><a href="#" class="text-blue-200 hover:text-white transition duration-300">Endüstriyel Sistemler</a></li>
-                        <li><a href="#" class="text-blue-200 hover:text-white transition duration-300">Filtre ve Yedek Parçalar</a></li>
-                        <li><a href="#" class="text-blue-200 hover:text-white transition duration-300">Aksesuarlar</a></li>
+                        <li><a href="/urunlerimiz" class="text-blue-200 hover:text-white transition duration-300">Tezgah Altı Sistemler</a></li>
+                        <li><a href="/urunlerimiz" class="text-blue-200 hover:text-white transition duration-300">Tezgah Üstü Sistemler</a></li>
+                        <li><a href="/urunlerimiz" class="text-blue-200 hover:text-white transition duration-300">Endüstriyel Sistemler</a></li>
+                        <li><a href="/urunlerimiz" class="text-blue-200 hover:text-white transition duration-300">Filtre ve Yedek Parçalar</a></li>
+                        <li><a href="/urunlerimiz" class="text-blue-200 hover:text-white transition duration-300">Aksesuarlar</a></li>
                     </ul>
                 </div>
 
@@ -218,6 +244,59 @@ animateMarquee();
         const mobileButton=document.getElementById("mobile-menu-button");
         const mobileMenu=document.getElementById("mobile-menu");
         mobileButton.addEventListener("click",()=>{ mobileMenu.classList.toggle("hidden"); });
+
+        document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    const suggestionsBox = document.getElementById('suggestions');
+    let timeoutId;
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim();
+        clearTimeout(timeoutId);
+
+        if (query.length >= 2) { 
+            timeoutId = setTimeout(() => {
+                fetchSuggestions(query);
+            }, 300);
+        } else {
+            suggestionsBox.classList.add('hidden');
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('form')) {
+            suggestionsBox.classList.add('hidden');
+        }
+    });
+
+    async function fetchSuggestions(query) {
+        try {
+            const response = await fetch(`/api/search?q=${query}`);
+            const data = await response.json();
+            displaySuggestions(data);
+        } catch (error) {
+            console.error('Arama önerileri alınırken hata oluştu:', error);
+            suggestionsBox.classList.add('hidden');
+        }
+    }
+
+    function displaySuggestions(suggestions) {
+        suggestionsBox.innerHTML = '';
+        
+        if (suggestions && suggestions.length > 0) {
+            suggestions.forEach(item => {
+                const link = document.createElement('a');
+                link.href = item.url;
+                link.classList.add('block', 'p-3', 'hover:bg-blue-50', 'text-gray-700', 'border-b', 'border-gray-200');
+                link.innerHTML = `<strong>${item.name}</strong> <span class="text-sm text-gray-500">(${item.type})</span>`;
+                suggestionsBox.appendChild(link);
+            });
+            suggestionsBox.classList.remove('hidden');
+        } else {
+            suggestionsBox.classList.add('hidden');
+        }
+    }
+});
     </script>
 
 </body>

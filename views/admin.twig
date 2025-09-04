@@ -1,72 +1,503 @@
-{% extends "base.twig" %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MaviRo - Admin Paneli{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
-{% block title %}Admin Paneli - Ürün Yönetimi{% endblock %}
+    <div class="flex flex-col md:flex-row min-h-screen">
 
-{% block content %}
-<main class="container mx-auto px-4 py-24">
-    <h1 class="text-4xl font-bold text-blue-900 text-center mb-10">Admin Paneli</h1>
+        <aside id="sidebar" class="bg-blue-900 text-white w-64 md:w-56 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out z-50">
+            <div class="flex items-center justify-between px-4 mb-8">
+                <a href="/admin" class="text-2xl font-bold text-white transition duration-300 hover:text-blue-200">
+                    <i class="fas fa-tools mr-2"></i> MaviRo Admin
+                </a>
+            </div>
 
+            <nav>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-800 hover:text-blue-100 active:bg-blue-700 font-semibold" data-target="products-section">
+                    <i class="fas fa-boxes mr-3"></i> Ürün Yönetimi
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-800 hover:text-blue-100 font-semibold" data-target="blog-section">
+                    <i class="fas fa-blog mr-3"></i> Blog Yönetimi
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-800 hover:text-blue-100 font-semibold" data-target="orders-section">
+                    <i class="fas fa-clipboard-list mr-3"></i> Siparişler
+                </a>
+                <a href="/logout" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-800 hover:text-blue-100 font-semibold text-red-400 mt-4">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Çıkış Yap
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-6 lg:p-10">
+            
+            <button id="menu-btn" class="text-blue-900 md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+            
+            <h1 class="text-3xl lg:text-4xl font-extrabold text-blue-900 mb-6">Admin Paneli</h1>
+
+            <div id="products-section" class="content-section">
+                <div class="bg-white p-8 rounded-lg shadow-xl mb-12 border border-blue-100">
+                    <h2 class="text-2xl font-semibold text-blue-800 mb-6">Yeni Ürün Ekle</h2>
+                    <form action="/admin/products" method="POST" class="space-y-4">
+                        <div>
+                            <label for="image" class="block text-sm font-medium text-gray-700">Resim URL'si</label>
+                            <input type="text" id="image" name="image" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        </div>
+                        <div>
+                            <label for="title" class="block text-sm font-medium text-gray-700">Başlık</label>
+                            <input type="text" id="title" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        </div>
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700">Açıklama</label>
+                            <textarea id="description" name="description" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                        </div>
+                        <div>
+                            <label for="price" class="block text-sm font-medium text-gray-700">Fiyat</label>
+                            <input type="number" id="price" name="price" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        </div>
+                        <div>
+                            <label for="features" class="block text-sm font-medium text-gray-700">Özellikler (Virgülle Ayırın)</label>
+                            <input type="text" id="features" name="features" placeholder="Örn: 10 yıl garanti, 5 filtreli" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                            Ürün Ekle
+                        </button>
+                    </form>
+                </div>
+            
+                <div class="bg-white p-8 rounded-lg shadow-xl border border-blue-100">
+                    <h2 class="text-2xl font-semibold text-blue-800 mb-6">Mevcut Ürünler</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resim</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Başlık</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fiyat</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {% for product in products %}
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap"><img src="{{ product.image }}" alt="{{ product.title }}" class="h-10 w-10 rounded-full"></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ product.title }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ product.price }} TL</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button 
+                                            class="text-indigo-600 hover:text-indigo-900 transition duration-300 edit-btn"
+                                            data-id="{{ product._id }}"
+                                            data-title="{{ product.title }}"
+                                            data-description="{{ product.description }}"
+                                            data-price="{{ product.price }}"
+                                            data-image="{{ product.image }}"
+                                            data-features="{{ product.features | join(', ') }}">
+                                            Düzenle
+                                        </button>
+                                        <form action="/admin/products/delete/{{ product._id }}" method="POST" class="inline ml-2">
+                                            <button type="submit" class="text-red-600 hover:text-red-900 transition duration-300">Sil</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500">Henüz hiç ürün eklenmemiş.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="blog-section" class="content-section hidden">
     <div class="bg-white p-8 rounded-lg shadow-xl mb-12 border border-blue-100">
-        <h2 class="text-2xl font-semibold text-blue-800 mb-6">Yeni Ürün Ekle</h2>
-        <form action="/admin/products" method="POST" class="space-y-4">
+        <h2 class="text-2xl font-semibold text-blue-800 mb-6">Yeni Blog Yazısı Ekle</h2>
+        <form id="addPostForm" class="space-y-4">
             <div>
-                <label for="image" class="block text-sm font-medium text-gray-700">Resim URL'si</label>
-                <input type="text" id="image" name="image" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                <label for="new-title" class="block text-sm font-medium text-gray-700">Yazı Başlığı</label>
+                <input type="text" id="new-title" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
             </div>
             <div>
-                <label for="title" class="block text-sm font-medium text-gray-700">Başlık</label>
-                <input type="text" id="title" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                <label for="new-category" class="block text-sm font-medium text-gray-700">Kategori</label>
+                <select id="new-category" name="category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                    <option value="urun">Ürünler</option>
+                    <option value="montaj">Montaj</option>
+                    <option value="bakim">Bakım</option>
+                    <option value="faydalar">Faydalar</option>
+                </select>
             </div>
             <div>
-                <label for="description" class="block text-sm font-medium text-gray-700">Açıklama</label>
-                <textarea id="description" name="description" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                <label for="new-image" class="block text-sm font-medium text-gray-700">Görsel URL'si</label>
+                <input type="text" id="new-image" name="image" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
             </div>
             <div>
-                <label for="price" class="block text-sm font-medium text-gray-700">Fiyat</label>
-                <input type="number" id="price" name="price" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                <label for="new-excerpt" class="block text-sm font-medium text-gray-700">Özet Metin</label>
+                <textarea id="new-excerpt" name="excerpt" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
             </div>
             <div>
-                <label for="features" class="block text-sm font-medium text-gray-700">Özellikler (Virgülle Ayırın)</label>
-                <input type="text" id="features" name="features" placeholder="Örn: 10 yıl garanti, 5 filtreli" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                <label for="new-content" class="block text-sm font-medium text-gray-700">Yazı İçeriği (Tam Metin)</label>
+                <textarea id="new-content" name="content" rows="10" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
             </div>
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
-                Ürün Ekle
+                Yazıyı Kaydet
             </button>
+            <div id="addStatusMessage" class="status-message hidden"></div>
         </form>
     </div>
-
+    
     <div class="bg-white p-8 rounded-lg shadow-xl border border-blue-100">
-        <h2 class="text-2xl font-semibold text-blue-800 mb-6">Mevcut Ürünler</h2>
+        <h2 class="text-2xl font-semibold text-blue-800 mb-6">Mevcut Blog Yazıları</h2>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resim</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Görsel</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Başlık</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fiyat</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tarih</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">İşlem</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    {% for product in products %}
+                <tbody class="bg-white divide-y divide-gray-200" id="blog-table-body">
+                    {% for post in posts %}
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap"><img src="{{ product.image }}" alt="{{ product.title }}" class="h-10 w-10 rounded-full"></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ product.title }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ product.price }} TL</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><img src="{{ post.image }}" alt="{{ post.title }}" class="h-10 w-10 rounded-md object-cover"></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ post.title }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ post.category }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ post.date }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <form action="/admin/products/delete/{{ product._id }}" method="POST">
-                                <button type="submit" class="text-red-600 hover:text-red-900 transition duration-300">Sil</button>
-                            </form>
+                            <button class="text-indigo-600 hover:text-indigo-900 transition duration-300 edit-blog-btn"
+                                data-id="{{ post.id }}"
+                                data-title="{{ post.title }}"
+                                data-category="{{ post.category }}"
+                                data-image="{{ post.image }}"
+                                data-excerpt="{{ post.excerpt }}"
+                                data-content="{{ post.content }}">
+                                Düzenle
+                            </button>
+                            <button class="text-red-600 hover:text-red-900 transition duration-300 delete-blog-btn ml-2" data-id="{{ post.id }}">
+                                Sil
+                            </button>
                         </td>
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="4" class="px-6 py-4 text-center text-gray-500">Henüz hiç ürün eklenmemiş.</td>
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">Henüz hiç blog yazısı eklenmemiş.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-</main>
-{% endblock %}
+</div>
+
+<div id="editBlogModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg relative">
+        <h2 class="text-2xl font-bold mb-4">Blog Yazısını Güncelle</h2>
+        <button type="button" onclick="document.getElementById('editBlogModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <form id="editBlogForm" class="space-y-4">
+            <input type="hidden" name="id" id="editBlogId">
+            <div>
+                <label for="edit-title" class="block text-sm font-medium text-gray-700">Başlık</label>
+                <input type="text" id="edit-title" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+            </div>
+            <div>
+                <label for="edit-category" class="block text-sm font-medium text-gray-700">Kategori</label>
+                <select id="edit-category" name="category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                    <option value="urun">Ürünler</option>
+                    <option value="montaj">Montaj</option>
+                    <option value="bakim">Bakım</option>
+                    <option value="faydalar">Faydalar</option>
+                </select>
+            </div>
+            <div>
+                <label for="edit-image" class="block text-sm font-medium text-gray-700">Görsel URL'si</label>
+                <input type="text" id="edit-image" name="image" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+            </div>
+            <div>
+                <label for="edit-excerpt" class="block text-sm font-medium text-gray-700">Özet Metin</label>
+                <textarea id="edit-excerpt" name="excerpt" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+            </div>
+            <div>
+                <label for="edit-content" class="block text-sm font-medium text-gray-700">Yazı İçeriği (Tam Metin)</label>
+                <textarea id="edit-content" name="content" rows="10" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+            </div>
+            <div class="mt-6 flex justify-end space-x-2">
+                <button type="button" class="bg-gray-300 text-gray-800 py-2 px-4 rounded-md" onclick="document.getElementById('editBlogModal').classList.add('hidden')">İptal</button>
+                <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300">Güncelle</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+            <div id="orders-section" class="content-section hidden">
+                <h2 class="text-2xl font-semibold text-blue-800 mb-6">Siparişler</h2>
+                <div class="bg-white p-8 rounded-lg shadow-xl mb-12 border border-blue-100">
+                    <p class="text-gray-600">Bu bölümde siparişlerinizi görüntüleyebilirsiniz. (Backend entegrasyonu gerektirir)</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg relative">
+            <h2 class="text-2xl font-bold mb-4">Ürünü Güncelle</h2>
+            <button type="button" onclick="document.getElementById('editModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <form id="editForm" action="/admin/products/update" method="POST" class="space-y-4">
+                <input type="hidden" name="_id" id="editProductId">
+                <div>
+                    <label for="editTitle" class="block text-sm font-medium text-gray-700">Başlık</label>
+                    <input type="text" id="editTitle" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+                <div>
+                    <label for="editDescription" class="block text-sm font-medium text-gray-700">Açıklama</label>
+                    <textarea id="editDescription" name="description" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                </div>
+                <div>
+                    <label for="editPrice" class="block text-sm font-medium text-gray-700">Fiyat</label>
+                    <input type="number" id="editPrice" name="price" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+                <div>
+                    <label for="editImage" class="block text-sm font-medium text-gray-700">Resim URL'si</label>
+                    <input type="text" id="editImage" name="image" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+                <div>
+                    <label for="editFeatures" class="block text-sm font-medium text-gray-700">Özellikler (Virgülle Ayırın)</label>
+                    <input type="text" id="editFeatures" name="features" placeholder="Örn: 10 yıl garanti, 5 filtreli" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+                <div class="mt-6 flex justify-end space-x-2">
+                    <button type="button" class="bg-gray-300 text-gray-800 py-2 px-4 rounded-md" onclick="document.getElementById('editModal').classList.add('hidden')">İptal</button>
+                    <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editBtns = document.querySelectorAll('.edit-btn');
+            const modal = document.getElementById('editModal');
+            const form = document.getElementById('editForm');
+            const navLinks = document.querySelectorAll('aside nav a');
+            const sections = document.querySelectorAll('.content-section');
+            const menuBtn = document.getElementById('menu-btn');
+            const sidebar = document.getElementById('sidebar');
+            
+            // Edit Modal'ı Açma/Kapama
+            editBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const { id, title, description, price, image, features } = btn.dataset;
+                    document.getElementById('editProductId').value = id;
+                    document.getElementById('editTitle').value = title;
+                    document.getElementById('editDescription').value = description;
+                    document.getElementById('editPrice').value = price;
+                    document.getElementById('editImage').value = image;
+                    document.getElementById('editFeatures').value = features;
+                    form.action = `/admin/products/update/${id}`;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                });
+            });
+
+            // Dinamik Bölüm Değiştirme
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.dataset.target;
+                    
+                    sections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.remove('hidden');
+                        } else {
+                            section.classList.add('hidden');
+                        }
+                    });
+                    
+                    navLinks.forEach(navLink => navLink.classList.remove('active:bg-blue-700'));
+                    link.classList.add('active:bg-blue-700');
+                    
+                    // Mobil menüyü kapat
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.add('-translate-x-full');
+                        sidebar.classList.remove('translate-x-0');
+                    }
+                });
+            });
+
+            // Mobil Menü Açma/Kapama
+            menuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebar.classList.toggle('translate-x-0');
+            });
+
+            // Varsayılan olarak Ürün Yönetimi bölümünü göster
+            document.getElementById('products-section').classList.remove('hidden');
+            document.querySelector('[data-target="products-section"]').classList.add('active:bg-blue-700');
+        });
+        const addPostForm = document.getElementById('addPostForm');
+        const addStatusMessage = document.getElementById('addStatusMessage');
+        const blogTableBody = document.getElementById('blog-table-body');
+        const editBlogModal = document.getElementById('editBlogModal');
+        const editBlogForm = document.getElementById('editBlogForm');
+        
+        // Yeni Blog Yazısı Ekleme
+        addPostForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(addPostForm);
+            const postData = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/add-blog-post', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(postData)
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showStatus(addStatusMessage, 'success', 'Blog yazısı başarıyla eklendi!');
+                    addPostForm.reset();
+                    // Yeni yazıyı listeye ekle
+                    updateBlogTable(result.post);
+                } else {
+                    throw new Error(result.message || 'Yazı eklenirken bir hata oluştu.');
+                }
+            } catch (error) {
+                showStatus(addStatusMessage, 'error', `Hata: ${error.message}`);
+            }
+        });
+        
+        // Blog Yazısı Güncelleme
+        editBlogForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editBlogId').value;
+            const formData = new FormData(editBlogForm);
+            const updatedData = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch(`/api/posts/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData)
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Blog yazısı başarıyla güncellendi!');
+                    editBlogModal.classList.add('hidden');
+                     // Sayfayı yenileyerek listeyi güncelleyelim
+                } else {
+                    throw new Error(result.message || 'Yazı güncellenirken bir hata oluştu.');
+                }
+            } catch (error) {
+                alert(`Hata: ${error.message}`);
+            }
+        });
+
+        // Blog Yazısını Düzenleme Modalı Açma
+        blogTableBody.addEventListener('click', (e) => {
+            if (e.target.classList.contains('edit-blog-btn')) {
+                const { id, title, category, image, excerpt, content } = e.target.dataset;
+                
+                document.getElementById('editBlogId').value = id;
+                document.getElementById('edit-title').value = title;
+                document.getElementById('edit-category').value = category;
+                document.getElementById('edit-image').value = image;
+                document.getElementById('edit-excerpt').value = excerpt;
+                document.getElementById('edit-content').value = content;
+                
+                editBlogModal.classList.remove('hidden');
+                editBlogModal.classList.add('flex');
+            }
+        });
+
+        // Blog Yazısı Silme
+        blogTableBody.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('delete-blog-btn')) {
+                const id = e.target.dataset.id;
+                if (confirm('Bu blog yazısını silmek istediğinizden emin misiniz?')) {
+                    try {
+                        const response = await fetch(`/api/posts/${id}`, { method: 'DELETE' });
+                        const result = await response.json();
+                        
+                        if (response.ok) {
+                            alert(result.message);
+                            e.target.closest('tr').remove(); // Tablodan satırı kaldır
+                            location.reload();
+                        } else {
+                            throw new Error(result.message || 'Yazı silinirken bir hata oluştu.');
+                        }
+                    } catch (error) {
+                        alert(`Hata: ${error.message}`);
+                    }
+                }
+            }
+        });
+
+        // Yardımcı Fonksiyon: Status Mesajı Gösterme
+        function showStatus(element, type, message) {
+            element.textContent = message;
+            element.className = `status-message ${type}`;
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        // Dinamik Bölüm Değiştirme ve Mobil Menü (Mevcut kodunuzdan)
+        const navLinks = document.querySelectorAll('aside nav a');
+        const sections = document.querySelectorAll('.content-section');
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.dataset.target;
+                
+                sections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+                
+                navLinks.forEach(navLink => navLink.classList.remove('active:bg-blue-700'));
+                link.classList.add('active:bg-blue-700');
+                
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.remove('translate-x-0');
+                }
+            });
+        });
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebar.classList.toggle('translate-x-0');
+        });
+
+    
+    </script>
+</body>
+</html>

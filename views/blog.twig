@@ -20,13 +20,20 @@
 {% block content %}
   
   <style>
-  
+  :root {
+  --primary-blue: #1d4ed8;
+  --secondary-blue: #2563eb;
+  --light-blue: #eff6ff;
+  --border-color: #d1d5db;
+  --text-gray: #6b7280;
+  --text-dark: #374151;
+}
  .blog-header {
   position: relative;
   text-align: center;
   color: #fff;
   height: 400px; /* Yüksekliği sabitledik */
-  background-image: url('https://www.enkisa.com/wp-content/uploads/2012/01/su-aritma.jpg');
+  background-image: url('images/blog.jpg');
   background-size: cover; /* Görseli header’a tam sığdırır */
   background-position: center;
   background-repeat: no-repeat;
@@ -69,17 +76,73 @@
     .blog-controls { max-width: 1100px; margin: 18px auto; padding: 0 16px; display:grid; gap:10px; }
     .filters { display:flex; gap:8px; flex-wrap: wrap; }
     .filters button { padding:8px 14px; border:1px solid var(--secondary-blue); background: var(--light-blue); color: var(--primary-blue); border-radius: 10px; cursor:pointer; }
-    .filters button.active { background: var(--secondary-blue); color:#fff; }
+    .filters button.active { background: var(--secondary-blue); color: #fff; }
     .searchbar { width:100%; display:flex; gap:8px; }
     .searchbar input { flex:1; padding:12px; border:1px solid var(--border-color); border-radius: 10px; }
 
-    .blog-container { max-width:1100px; margin: 8px auto 24px; padding: 0 16px; display:grid; gap:16px; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); }
-    .card { border:1px solid var(--border-color); border-radius: 12px; padding: 14px; background:#fff; display:flex; flex-direction: column; gap:10px; transition: box-shadow .2s ease; }
-    .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,.06) }
-    .card .meta { font-size: 12px; color:#6b7280 }
-    .card h2 { font-size: 18px; color: var(--primary-blue); margin: 0; }
-    .card img { width:100%; height: 180px; object-fit: cover; border-radius: 10px; background: #f3f4f6; }
-    .read-more { align-self: flex-start; text-decoration:none; color: var(--secondary-blue); font-weight:700; }
+    .blog-container {
+  max-width: 1100px;
+  margin: 8px auto 24px;
+  padding: 0 16px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.card {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.2s ease;
+  height: 100%; /* Kart yüksekliğini eşitler */
+}
+
+.card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+.card img {
+  width: 100%;
+  height: 180px; /* Görsel yüksekliğini sabitledik */
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f3f4f6;
+}
+
+.card h2 {
+  font-size: 18px;
+  color: var(--primary-blue);
+  margin: 0;
+  /* Metin taşmasını yönetir */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* İki satırla sınırla */
+  -webkit-box-orient: vertical;
+}
+
+.card p {
+  /* Özet metnin yüksekliğini sınırla */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Üç satırla sınırla */
+  -webkit-box-orient: vertical;
+  flex-grow: 1; /* Kalan boşluğu doldurur */
+}
+
+.read-more {
+  align-self: flex-start;
+  text-decoration: none;
+  color: var(--secondary-blue);
+  font-weight: 700;
+  margin-top: auto; /* Kartın en altına hizala */
+}
+
 
     .pagination { display:flex; justify-content:center; gap:6px; margin: 18px 0 36px; }
     .pagination button { padding:8px 12px; border:1px solid var(--border-color); background:#fff; border-radius:8px; cursor:pointer; }
@@ -114,7 +177,7 @@
   </script>
 </head>
 <body>
-
+ <main>
   <header class="blog-header" role="banner">
 
     <h1>Su Arıtma Blogu</h1>
@@ -134,7 +197,7 @@
     </div>
   </section>
     
-  <main>
+ 
     <section id="blogContainer" class="blog-container" aria-live="polite"></section>
     <nav class="pagination" id="pagination" aria-label="Sayfalama"></nav>
 

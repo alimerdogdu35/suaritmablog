@@ -1,34 +1,135 @@
 {% extends "base.twig" %}
 
 {% block title %}Ürünlerimiz{% endblock %}
+{% block head %}
+<meta name="description" content="En gelişmiş teknolojilere sahip su arıtma sistemleri, filtreler ve yedek parçalarımızla tanışın. Ev ve ofisler için sağlıklı, temiz ve güvenli içme suyu çözümleri sunuyoruz.">
+<meta name="keywords" content="su arıtma sistemleri, su arıtma cihazı, su arıtma filtresi, ters ozmoz, alkali su, uv filtre, su arıtma ürünleri, su arıtma fiyatları, ev tipi su arıtma, ofis tipi su arıtma">
+<meta property="og:title" content="MaviRo Ürünlerimiz: En İyi Su Arıtma Sistemleri ve Filtreleri">
+<meta property="og:description" content="En gelişmiş teknolojilere sahip su arıtma sistemleri, filtreler ve yedek parçalarımızla tanışın. Ev ve ofisler için sağlıklı, temiz ve güvenli içme suyu çözümleri sunuyoruz.">
+<meta property="og:image" content="https://www.maviro.com/images/urunlerimiz-banner.jpg">
+<meta property="og:url" content="https://www.maviro.com/urunlerimiz">
+<link rel="canonical" href="https://www.maviro.com/urunlerimiz">
+
+{% endblock %}
 
 {% block content %}
-<main class="container mx-auto px-4 py-24">
-    <h1 class="text-4xl font-bold text-blue-900 text-center mb-10">Ürünlerimiz</h1>
+<main>
+<section id="products" class="py-20 bg-gradient-to-b from-blue-50 to-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-bold text-blue-800 mb-4 animate-fade-in-up">Ürünlerimiz</h1>
+            <div class="w-24 h-1.5 bg-blue-700 mx-auto mb-6 rounded-full"></div>
+            <p class="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed animate-fade-in">
+                İhtiyacınıza uygun, en son teknolojiye sahip su arıtma çözümlerimizle tanışın.
+            </p>
+        </div>
+        
+        <div class="flex justify-center">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                {% for product in products %}
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-200 
+                            transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 
+                            hover:border-blue-600 flex flex-col h-[750px] relative group">
+                    
+                    <div class="relative w-full h-80 overflow-hidden bg-gray-100">
+                        <img 
+                            class="w-full h-full object-cover object-center transform transition-transform duration-500 group-hover:scale-110" 
+                            src="{{ product.image }}" 
+                            alt="{{ product.title }}"
+                        />
+                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+                    </div>
+                    
+                    <div class="p-7 flex flex-col flex-grow">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-3 leading-tight group-hover:text-blue-700 transition-colors duration-300">{{ product.title }}</h2>
+                        <p class="text-gray-600 text-base mb-4 flex-grow line-clamp-3">{{ product.description }}</p>
+                        
+                        {% if product.features %}
+                        <ul class="text-gray-700 list-disc list-inside space-y-1 text-sm mb-5 pl-2">
+                            {% for feature in product.features %}
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>{{ feature }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {% for product in products %}
-        <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden border border-blue-100">
-            <img class="w-full h-48 object-cover object-center" src="{{ product.image }}" alt="{{ product.title }}">
-            <div class="p-6">
-                <h2 class="text-xl font-bold text-blue-900 mb-2">{{ product.title }}</h2>
-                <p class="text-gray-600 mb-4 h-16 overflow-hidden">{{ product.description }}</p>
-                <ul class="text-gray-700 list-disc list-inside space-y-1 mb-4">
-                    {% for feature in product.features %}
-                    <li>{{ feature }}</li>
-                    {% endfor %}
-                </ul>
-                <div class="flex justify-between items-center mt-4">
-                    <span class="text-2xl font-bold text-blue-700">{{ product.price }} TL</span>
-                    <a href="/contact" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300">
-                        Bilgi Al
-                    </a>
+                        <div class="mt-auto pt-6 border-t border-blue-100 flex justify-between items-center">
+                            <span class="text-3xl font-extrabold text-blue-700">{{ product.price }} TL</span>
+                            <a href="/contact" class="bg-blue-600 text-white font-bold py-3 px-7 rounded-full text-base 
+                                                        hover:bg-blue-700 transition duration-300 transform hover:scale-105 
+                                                        shadow-lg hover:shadow-xl">
+                                Bilgi Al
+                            </a>
+                        </div>
+                    </div>
                 </div>
+                {% else %}
+                <p class="text-center text-gray-500 col-span-full">Henüz listelenecek bir ürün bulunmamaktadır.</p>
+                {% endfor %}
             </div>
         </div>
-        {% else %}
-        <p class="text-center text-gray-500 col-span-full">Henüz listelenecek bir ürün bulunmamaktadır.</p>
-        {% endfor %}
     </div>
+</section>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // CSS animasyonlarını dinamik olarak oluştur
+    const style = document.createElement('style');
+    style.innerHTML = `
+        /* Yukarıdan aşağıya doğru hafifçe kayarak görünme animasyonu */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Yavaşça görünme animasyonu */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-fade-in-up { 
+            animation: fadeInUp 0.8s ease-out forwards; 
+        }
+
+        .animate-fade-in { 
+            animation: fadeIn 0.8s ease-out forwards; 
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Observer seçenekleri
+    const observerOptions = {
+        root: null,
+        threshold: 0.2 // Elementin %20'si göründüğünde tetiklenir
+    };
+
+    // Gözlemci (Observer) oluşturma
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Animasyonlu elementleri seçme ve gözlemleme
+    document.querySelectorAll('.animate-fade-in-up, .animate-fade-in').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)'; // İlk durumu belirle
+        observer.observe(el);
+    });
+
+    // Elementlere sıralı bir gecikme ekleyerek art arda animasyonları tetikleme
+    document.querySelectorAll('.animate-fade-in-up, .animate-fade-in').forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.1}s`;
+    });
+});
+</script>
 {% endblock %}

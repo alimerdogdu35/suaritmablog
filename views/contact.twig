@@ -1,9 +1,60 @@
 {% extends "base.twig" %}
 
-{% block title %}Contact Us - Maviro{% endblock %}
+{% block title %}İletişim - Maviro{% endblock %}
+{% block head %}
+  <meta name="description" content="MaviRo iletişim bilgileri. Adresimiz: Donanmacı Mahallesi, Karşıyaka, İzmir. Bize WhatsApp, telefon (+90 542 786 02 26) veya iletişim formu üzerinden ulaşın.">
+    <meta name="keywords" content="mavi ro iletişim, su arıtma iletişim, izmir su arıtma, karşıyaka su arıtma, su arıtma telefon, su arıtma adres, iletişim formu">
+    <meta property="og:title" content="İletişim - MaviRo Su Arıtma Sistemleri">
+    <meta property="og:description" content="MaviRo iletişim bilgileri. Adresimiz: Donanmacı Mahallesi, Karşıyaka, İzmir. Bize WhatsApp, telefon (+90 542 786 02 26) veya iletişim formu üzerinden ulaşın.">
+    <meta property="og:url" content="https://www.maviro.com/iletisim">
+    <meta property="og:image" content="https://www.maviro.com/images/map-thumbnail.jpg">
+    <meta property="og:type" content="iletisim">
+    <link rel="canonical" href="https://www.maviro.com/iletisim">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "url": "https://www.maviro.com/contact",
+  "name": "MaviRo İletişim",
+  "description": "MaviRo su arıtma sistemleri ile iletişime geçin.",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "MaviRo Su Arıtma Sistemleri",
+    "url": "https://www.maviro.com",
+    "sameAs": [
+      "https://wa.me/905427860226"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Donanmacı Mahallesi 1729 Sokak No:27",
+      "addressLocality": "Karşıyaka",
+      "addressRegion": "İzmir",
+      "postalCode": "35600",
+      "addressCountry": "TR"
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+90-542-786-0226",
+        "contactType": "Sales and customer support",
+        "areaServed": "TR",
+        "availableLanguage": "Turkish"
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+90-542-786-0226",
+        "contactType": "Technical support",
+        "areaServed": "TR",
+        "availableLanguage": "Turkish"
+      }
+    ]
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
-<!-- WhatsApp ve Arama Kartları -->
+
 
 
     
@@ -12,7 +63,7 @@
 
         <!-- Başlık -->
         <div class="text-center">
-            <h2 class="text-4xl font-bold text-blue-800 mb-4">İletişim</h2>
+            <h1 class="text-4xl font-bold text-blue-800 mb-4 animate-fade-in-up">İletişim</h1>
             <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
             <p class="text-lg text-gray-600">Bize ulaşın, size en uygun çözümü sunalım</p>
         </div>
@@ -114,6 +165,54 @@
 
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+        /* Yukarıdan aşağıya doğru hafifçe kayarak görünme animasyonu */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in-up { 
+            animation: fadeInUp 0.8s ease-out forwards; 
+        }
+
+        
+    `;
+    document.head.appendChild(style);
+
+ 
+    const observerOptions = {
+        root: null,
+        threshold: 0.2 
+    };
+
+  
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+
+    document.querySelectorAll('.animate-fade-in-up').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)'; 
+        observer.observe(el);
+    });
+
+
+    document.querySelectorAll('.animate-fade-in-up').forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.1}s`;
+    });
+});
     document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contactform");
 
@@ -162,4 +261,5 @@
 
 
     </script>
+    
 {% endblock %}
