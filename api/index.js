@@ -9,6 +9,7 @@ const Post = require("./models/postModel");
 const transporter = require('./services/mailServices');
 const serverless = require("serverless-http");
 const cookieParser = require('cookie-parser');
+const { importData } = require("./api/importPosts");
 
 const app = express();
 let cachedDb = null;
@@ -44,22 +45,16 @@ async function connectToDatabase() {
 // ---------------- JWT & ADMIN MIDDLEWARE ----------------
 const verifyJWT = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1] || req.cookies?.token;
-    console.log('Token kontrol ediliyor:', token);
     if (!token) return res.status(403).send('Yetkisiz erişim (Token yok)');
 
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
-        if (err) {
-            console.error('JWT doğrulama hatası:', err);
-            return res.status(403).send('Yetkisiz erişim (Token geçersiz)');
-        }
+        if (err) return res.status(403).send('Yetkisiz erişim (Token geçersiz)');
         req.user = decoded;
-        console.log('JWT decoded:', decoded);
         next();
     });
 };
 
 const isAdmin = (req, res, next) => {
-    console.log('Admin kontrol ediliyor:', req.user);
     if (req.user?.type === 'admin') next();
     else res.status(403).send("Yetkisiz erişim (Admin değil)");
 };
@@ -101,8 +96,6 @@ app.post('/register', async (req, res) => {
     try {
         await connectToDatabase();
         const { name, email, password, password_confirmation } = req.body;
-        console.log('Register isteği:', { email });
-
         if (!name || !email || !password || !password_confirmation) return res.status(400).json({ message: "Tüm alanlar gerekli." });
         if (password !== password_confirmation) return res.status(400).json({ message: "Şifreler eşleşmiyor." });
 
@@ -113,7 +106,6 @@ app.post('/register', async (req, res) => {
         const newUser = new User({ name, email, password: hashedPassword, type: 'user' });
         await newUser.save();
 
-        console.log('Yeni kullanıcı kaydedildi:', newUser.email);
         res.redirect("/login");
     } catch (error) {
         console.error("Kayıt hatası:", error);
@@ -125,8 +117,6 @@ app.post('/login', async (req, res) => {
     try {
         await connectToDatabase();
         const { email, password } = req.body;
-        console.log('Login isteği:', { email });
-
         if (!email || !password) return res.status(400).json({ message: "Tüm alanlar gerekli." });
 
         const user = await User.findOne({ email });
@@ -136,8 +126,6 @@ app.post('/login', async (req, res) => {
         if (!isMatch) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
 
         const token = jwt.sign({ id: user._id, type: user.type }, JWT_SECRET, { expiresIn: '1d' });
-        console.log('Login başarılı, token oluşturuldu:', token);
-
         res.cookie('token', token, { httpOnly: true });
         res.status(200).json({ token, redirect: user.type === 'admin' ? '/admin' : '/' });
     } catch (error) {
@@ -145,6 +133,23 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: "Giriş sırasında hata oluştu." });
     }
 });
+
+// ---------------- SERVER START & IMPORT ----------------
+async function startServer() {
+    try {
+        await connectToDatabase();
+        await importData(); // Tek seferlik post importu
+
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`✅ Server çalışıyor: http://localhost:${PORT}`);
+        });
+    } catch (err) {
+        console.error('Server başlatılamadı:', err);
+    }
+}
+
+startServer();
 
 // ---------------- EXPORT ----------------
 module.exports = app;
