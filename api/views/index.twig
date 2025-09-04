@@ -1,16 +1,44 @@
-{% extends "base.twig" %}
-{% block title %}MaviRo - Su Arıtma Sistemlerinde Kalite ve Güven{% endblock %}
-{% block head %}
-<meta name="description" content="MaviRo, ev ve ofisler için en son teknolojiye sahip su arıtma sistemleri, filtreler ve yedek parçalar sunar. Temiz, güvenli ve sağlıklı içme suyu için ürünlerimizi keşfedin.">
-<meta name="keywords" content="su arıtma sistemleri, su arıtma cihazı, ev tipi su arıtma, ters ozmoz, su arıtma filtresi, en iyi su arıtma, su arıtma fiyatları, mavi ro, izmir su arıtma">
-<meta name="author" content="MaviRo">
-<meta property="og:title" content="MaviRo: En İyi Su Arıtma Sistemleri ve Filtreleri">
-<meta property="og:description" content="MaviRo, ev ve ofisler için en son teknolojiye sahip su arıtma sistemleri, filtreler ve yedek parçalar sunar. Temiz, güvenli ve sağlıklı içme suyu için ürünlerimizi keşfedin.">
-<meta property="og:url" content="https://www.maviro.com/">
-<meta property="og:image" content="https://www.maviro.com/images/ana-sayfa-banner.jpg">
-<meta property="og:type" content="website">
-<link rel="canonical" href="https://www.maviro.com/">
-<script type="application/ld+json">
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaviRo - Su Arıtma Sistemlerinde Kalite ve Güven</title>
+    <meta name="description" content="MaviRo, ev ve ofisler için en son teknolojiye sahip su arıtma sistemleri, filtreler ve yedek parçalar sunar. Temiz, güvenli ve sağlıklı içme suyu için ürünlerimizi keşfedin.">
+    <meta name="keywords" content="su arıtma sistemleri, su arıtma cihazı, ev tipi su arıtma, ters ozmoz, su arıtma filtresi, en iyi su arıtma, su arıtma fiyatları, mavi ro, izmir su arıtma">
+    <meta name="author" content="MaviRo">
+    <meta property="og:title" content="MaviRo: En İyi Su Arıtma Sistemleri ve Filtreleri">
+    <meta property="og:description" content="MaviRo, ev ve ofisler için en son teknolojiye sahip su arıtma sistemleri, filtreler ve yedek parçalar sunar. Temiz, güvenli ve sağlıklı içme suyu için ürünlerimizi keşfedin.">
+    <meta property="og:url" content="https://www.maviro.com/">
+    <meta property="og:image" content="https://www.maviro.com/images/ana-sayfa-banner.jpg">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://www.maviro.com/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        .slide {
+            transition: opacity 1s ease-in-out;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .slide:not(.active) {
+            opacity: 0;
+            position: absolute;
+        }
+        
+    </style>
+    <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
@@ -121,580 +149,413 @@
   ]
 }
 </script>
-{% endblock %}
-{% block content %}
-   <main>
-<!-- Hero Slider -->
-<section id="home" class="relative overflow-hidden" style="height: 60vh;">
-
-  <!-- SLIDE 1 -->
-  <div class="slide active water-drop absolute inset-0 transition-opacity duration-1000 opacity-100">
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-90"></div>
-    <img src="https://www.karbulsuaritma.com/img/slider/turkiye-nin-en-iyi-su-aritma-cihazi.webp" 
-         alt="Modern mutfakta şık su arıtma cihazı ve temiz su damlaları" 
-         class="w-full  object-cover opacity-50" />
-    <div class="absolute inset-0 flex items-center justify-center">
-      <div class="text-center text-white px-4">
-        <h1 class="text-5xl md:text-7xl font-bold mb-6">Saf Su, Sağlıklı Yaşam</h1>
-        <p class="text-xl md:text-2xl mb-8">Premium su arıtma sistemleri ile evinizdeki suyu yeniden keşfedin</p>
-
-        <a href="/urunlerimiz" 
-         class="bg-white text-blue-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition duration-300 inline-block relative z-10">
-        Ürünleri Keşfet
-      </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 2 -->
-  <div class="slide water-drop absolute inset-0 transition-opacity duration-1000 opacity-0">
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-800 to-blue-500 opacity-90"></div>
-    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/62759790-2e32-4d2c-b0a9-79f77184c615.png" 
-         alt="Aile mutfağında su arıtma cihazı kullanımı ve mutlu aile üyeleri" 
-         class="w-full  object-cover opacity-50" />
-    <div class="absolute inset-0 flex items-center justify-center">
-      <div class="text-center text-white px-4">
-        <h1 class="text-5xl md:text-7xl font-bold mb-6">Ailenizin Sağlığı</h1>
-        <p class="text-xl md:text-2xl mb-8">En değerli varlıklarınız için en iyi su kalitesi</p>
-        <a href="/blog" 
-         class="bg-white text-blue-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition duration-300 inline-block relative z-10">
-        Hemen İncele
-      </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDER DOTS -->
-  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
-    <button class="slider-dot w-3 h-3 rounded-full bg-white opacity-50"></button>
-    <button class="slider-dot w-3 h-3 rounded-full bg-white opacity-50"></button>
-  </div>
-</section>
-
-
-<!-- About Section -->
-<section id="about" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-blue-800 mb-4">Hakkımızda</h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Biz, sağlıklı yaşam için kaliteli suyun önemini bilen bir ekibiz.
-            <br> Su arıtma sistemleri konusunda uzun yıllara dayanan tecrübeye sahip olan firmamız,<br> çeşitli ihtiyaçlara uygun yüksek performanslı arıtma çözümleri sunmaktadır.</p>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="water-fill rounded-2xl overflow-hidden">
-                <img src="images/kaliteguven.jpg" alt="Su arıtma laboratuvarında uzman teknisyenler çalışırken" class="w-full h-auto rounded-2xl" />
+</head>
+<body class="antialiased">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header Section -->
+        <header class="w-full bg-white shadow-sm py-4">
+            <div class="container mx-auto flex justify-between items-center px-4">
+                <a href="/" class="text-2xl font-bold text-blue-600 hover:text-blue-800 transition-colors duration-300">Su Aritma Blog</a>
+                <nav class="space-x-4">
+                    <a href="/urunlerimiz" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Ürünler</a>
+                    <a href="/blog" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Blog</a>
+                </nav>
             </div>
-            
-            <div>
-                <h3 class="text-3xl font-bold text-blue-800 mb-6">Kalite ve Güvenin Adresi</h3>
-                <p class="text-gray-600 mb-6">
-                    2020 yılından beri su arıtma sektöründe faaliyet gösteren firmamız, 
-                    en son teknoloji ürünleri ve kaliteli hizmet anlayışı ile müşterilerimize 
-                    hizmet vermektedir.
-                </p>
-                <p class="text-gray-600 mb-8">
-                    Tüm ürünlerimiz uluslararası kalite standartlarına uygun olarak üretilmekte 
-                    ve sıkı kalite kontrol testlerinden geçmektedir.
-                </p>
-                
-                <div class="grid grid-cols-2 gap-6">
-    <div class="text-center">
-        <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="5">0</div>
-        <div class="text-gray-600">Yıllık Deneyim</div>
-    </div>
-    <div class="text-center">
-        <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="50000">0</div>
-        <div class="text-gray-600">Mutlu Müşteri</div>
-    </div>
-    <div class="text-center">
-        <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="100">0</div>
-        <div class="text-gray-600">Ürün Çeşidi</div>
-    </div>
-    <div class="text-center">
-        <div class="text-4xl font-bold text-blue-600 mb-2" >7/24</div>
-        <div class="text-gray-600">Teknik Destek</div>
-    </div>
-</div>
-            </div>
-        </div>
-    </div>
-</section>
+        </header>
 
-    <!-- Products Section -->
-   <section id="products" class="py-20 bg-gradient-to-b from-blue-50 to-white">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold text-blue-900 mb-4">Ürünlerimiz</h2>
-            <div class="w-24 h-1.5 bg-blue-700 mx-auto mb-6 rounded-full"></div>
-            <p class="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                İhtiyacınıza uygun, en son teknolojiye sahip su arıtma çözümlerimizle tanışın.
-            </p>
-        </div>
-        
-        <div class="flex justify-center">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-                {% for product in products|slice(0, 3) %}
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-200 
-                            transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 
-                            hover:border-blue-600 flex flex-col h-[750px] relative group">
-                    
-                    <div class="relative w-full h-80 overflow-hidden bg-gray-100">
-                        <img 
-                            class="w-full h-full object-cover object-center transform transition-transform duration-500 group-hover:scale-110" 
-                            src="{{ product.image }}" 
-                            alt="{{ product.title }}"
-                        />
-                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
-                    </div>
-                    
-                    <div class="p-7 flex flex-col flex-grow">
-                        <h2 class="text-2xl font-bold text-blue-800 mb-3 leading-tight group-hover:text-blue-700 transition-colors duration-300">{{ product.title }}</h2>
-                        <p class="text-gray-600 text-base mb-4 flex-grow line-clamp-4">{{ product.description }}</p>
-                        
-                        {% if product.features %}
-                        <ul class="text-gray-700 list-disc list-inside space-y-1 text-sm mb-5 pl-2">
-                            {% for feature in product.features %}
-                            <li class="flex items-center">
-                                <svg class="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>{{ feature }}</span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-
-                        <div class="mt-auto pt-6 border-t border-blue-100 flex justify-between items-center">
-                            <span class="text-3xl font-extrabold text-blue-700">{{ product.price }} TL</span>
-                            <a href="/contact" class="bg-blue-600 text-white font-bold py-3 px-7 rounded-full text-base 
-                                                        hover:bg-blue-700 transition duration-300 transform hover:scale-105 
-                                                        shadow-lg hover:shadow-xl">
-                                Bilgi Al
+        <main class="flex-grow">
+            <!-- Hero Slider -->
+            <section id="home" class="relative overflow-hidden" style="height: 60vh;">
+                <!-- SLIDE 1 -->
+                <div class="slide active water-drop absolute inset-0 transition-opacity duration-1000 opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-90"></div>
+                    <img src="https://www.karbulsuaritma.com/img/slider/turkiye-nin-en-iyi-su-aritma-cihazi.webp" 
+                         alt="Modern mutfakta şık su arıtma cihazı ve temiz su damlaları" 
+                         class="w-full  object-cover opacity-50" />
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="text-center text-white px-4">
+                            <h1 class="text-5xl md:text-7xl font-bold mb-6">Saf Su, Sağlıklı Yaşam</h1>
+                            <p class="text-xl md:text-2xl mb-8">Premium su arıtma sistemleri ile evinizdeki suyu yeniden keşfedin</p>
+                            <a href="/urunlerimiz" 
+                                class="bg-white text-blue-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition duration-300 inline-block relative z-10">
+                                Ürünleri Keşfet
                             </a>
                         </div>
                     </div>
                 </div>
-                {% else %}
-                <p class="text-center text-gray-500 col-span-full">Henüz listelenecek bir ürün bulunmamaktadır.</p>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</section>
-<hr class="my-8">
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-blue-800 mb-4">Müşteri Yorumları</h2>
-                <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Müşterilerimizin deneyimlerini dinleyin</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card p-6 rounded-2xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold">AŞ</span>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-bold text-blue-800">Ahmet Şen</h4>
-                            <p class="text-gray-600 text-sm">İstanbul</p>
+                <!-- SLIDE 2 -->
+                <div class="slide water-drop absolute inset-0 transition-opacity duration-1000 opacity-0">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-800 to-blue-500 opacity-90"></div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/62759790-2e32-4d2c-b0a9-79f77184c615.png" 
+                         alt="Aile mutfağında su arıtma cihazı kullanımı ve mutlu aile üyeleri" 
+                         class="w-full  object-cover opacity-50" />
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="text-center text-white px-4">
+                            <h1 class="text-5xl md:text-7xl font-bold mb-6">Ailenizin Sağlığı</h1>
+                            <p class="text-xl md:text-2xl mb-8">En değerli varlıklarınız için en iyi su kalitesi</p>
+                            <a href="/blog" 
+                                class="bg-white text-blue-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition duration-300 inline-block relative z-10">
+                                Hemen İncele
+                            </a>
                         </div>
                     </div>
-                    <div class="text-yellow-400 mb-3">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600">
-                        "2 yıldır MaviRo kullanıyorum, suyun tadı inanılmaz değişti. 
-                        Ailece çok memnunuz, kesinlikle tavsiye ederim."
-                    </p>
                 </div>
-
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card p-6 rounded-2xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold">MY</span>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-bold text-blue-800">Mehmet Yılmaz</h4>
-                            <p class="text-gray-600 text-sm">Ankara</p>
-                        </div>
-                    </div>
-                    <div class="text-yellow-400 mb-3">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-600">
-                        "Teknik servis çok hızlı ve profesyonel. Ürün kalitesi ve 
-                        müşteri hizmetleri için teşekkürler."
-                    </p>
+                <!-- SLIDER DOTS -->
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                    <button class="slider-dot w-3 h-3 rounded-full bg-white opacity-50"></button>
+                    <button class="slider-dot w-3 h-3 rounded-full bg-white opacity-50"></button>
                 </div>
-
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card p-6 rounded-2xl">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold">ED</span>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-bold text-blue-800">Elif Demir</h4>
-                            <p class="text-gray-600 text-sm">İzmir</p>
-                        </div>
+            </section>
+            <!-- About Section -->
+            <section id="about" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-blue-800 mb-4">Hakkımızda</h2>
+                        <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Biz, sağlıklı yaşam için kaliteli suyun önemini bilen bir ekibiz.
+                            <br> Su arıtma sistemleri konusunda uzun yıllara dayanan tecrübeye sahip olan firmamız,<br> çeşitli ihtiyaçlara uygun yüksek performanslı arıtma çözümleri sunmaktadır.</p>
                     </div>
-                    <div class="text-yellow-400 mb-3">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="text-gray-600">
-                        "Suyun mineral dengesi mükemmel. Çayın tadı bile değişti, 
-                        artık misafirlerimize bu suyu gururla sunuyoruz."
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-  <section id="blog" class="py-20 bg-blue-50">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-blue-800 mb-4">Blog</h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Su kalitesi ve sağlıklı yaşam hakkında güncel bilgiler</p>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {# Yalnızca ilk 3 blog yazısını basmak için posts değişkeninin bir dilimini alıyoruz #}
-            {% for post in posts|slice(0, 3) %}
-            <article class="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
-                <div class="water-drop">
-                    <img src="{{ post.image }}" alt="{{ post.title }}" class="w-full h-48 object-cover" />
-                </div>
-                <div class="p-6">
-                    <span class="text-blue-600 text-sm font-medium">{{ post.category }}</span>
-                    <h3 class="text-xl font-bold text-blue-800 mt-2 mb-3">{{ post.title }}</h3>
-                    <p class="text-gray-600 mb-4">{{ post.excerpt }}</p>
-                    <a href="{{ post.url }}" class="text-blue-600 font-medium hover:text-blue-800 flex items-center">
-                        Devamını Oku
-                        <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                    </a>
-                </div>
-            </article>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-    <section id="sss" class="py-20 bg-blue-50 relative overflow-hidden">
-  <!-- Dalga Arka Plan -->
-  <div class="absolute top-0 left-0 w-full h-32 bg-blue-200 rounded-b-[100%] opacity-20"></div>
-
-  <div class="max-w-7xl mx-auto px-4 relative z-10">
-    <!-- Başlık ve Buton -->
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold text-blue-800 mb-4">Sıkça Sorulan Sorular</h2>
-      <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-      
-    </div>
-
-    <!-- FAQ Grid -->
-    <div class="py-16 bg-blue-50">
-  <div class="max-w-7xl mx-auto px-4">
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
-        <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
-          <span class="q">Hangi su arıtma sistemi benim için uygun?</span>
-          <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
-        </summary>
-        <div class="a mt-3 text-gray-700 text-sm leading-relaxed">
-          Günlük su tüketiminiz, hane kişi sayısı ve şebeke suyu kalitesi belirleyicidir. 3–5 kişilik aileler için 75–100 GPD ters ozmoz cihazları idealdir. Kuyu veya çok sert sular için ek <em>sediment + karbon + antiskalant</em> ön filtrasyon önerilir.
-        </div>
-        <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Ürünler</span>
-      </details>
-
-      <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
-        <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
-          <span class="q">Ters ozmoz (RO) nedir? Güvenli mi?</span>
-          <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
-        </summary>
-        <div class="a mt-3 text-gray-700 text-sm leading-relaxed">
-          RO, suyu yarı geçirgen membrandan geçirerek çözünmüş tuzları, ağır metalleri, nitratları ve mikroorganizmaları yüksek oranda giderir. Doğru kurulmuş ve düzenli filtre değişimi yapılan RO sistemlerinden elde edilen su içme için güvenlidir.
-        </div>
-        <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Ürünler</span>
-      </details>
-
-      <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
-        <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
-          <span class="q">Mineral filtre gerekli mi?</span>
-          <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
-        </summary>
-        <div class="a mt-3 text-gray-700 text-sm leading-relaxed">
-          RO suyu çok düşük TDS değerine indirir. Tat ve denge için post-mineral filtre tercih edilebilir; bu filtre kalsiyum/magnezyum benzeri mineraller ekleyerek tadı iyileştirir.
-        </div>
-        <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Ürünler</span>
-      </details>
-
-      <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
-        <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
-          <span class="q">Tezgâh delme gerekir mi?</span>
-          <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
-        </summary>
-        <div class="a mt-3 text-gray-700 text-sm leading-relaxed">
-         Çoğu model kendi arıtma musluğu ile gelir. Mevcut musluğa üç yollu seçenek takılmadıkça tezgâhta 12–14 mm delik açılması gerekir.
-        </div>
-        <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Montaj</span>
-      </details>
-
-      <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
-        <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
-          <span class="q">İade süreniz kaç gün?</span>
-          <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
-        </summary>
-        <div class="a mt-3 text-gray-700 text-sm leading-relaxed">
-         Mesafeli satışlarda <strong>14 gün</strong> içinde, kullanılmamış ve tüm aksesuarları eksiksiz ürünleri koşulsuz iade edebilirsiniz. Kurulu cihazlarda söküm bedeli ve sarf malzemeleri ayrıca değerlendirilir.
-        </div>
-        <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">İADE</span>
-      </details>
-
-      <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
-        <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
-          <span class="q">Montaj süresi ne kadar?</span>
-          <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
-        </summary>
-        <div class="a mt-3 text-gray-700 text-sm leading-relaxed">
-         Standart mutfak tezgâh altı kurulumları ortalama 60–90 dakika sürer. Ek hat çekimi veya drenaj düzenlemesi gerekiyorsa süre uzayabilir.
-        </div>
-        <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Montaj</span>
-      </details>
-    </div>
-
-    <div class="flex justify-center mt-12">
-      <a href="/sss"
-        class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105 inline-flex items-center space-x-2">
-        <span>Bütün Sıkça Sorular İçin</span>
-        <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-        </svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-    <!-- Contact Section -->
-   <section id="contact" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-
-        <!-- Başlık -->
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-blue-800 mb-4">İletişim</h2>
-            <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Bize ulaşın, size en uygun çözümü sunalım</p>
-        </div>
-
-        <!-- Map + İletişim Bilgileri ve Form aynı genişlikte -->
-        <div class="flex flex-col md:flex-row md:space-x-12 space-y-12 md:space-y-0 justify-center items-start">
-
-            <!-- Sol: Map + Bilgiler -->
-            <div class="md:w-1/2 w-full">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3303.343584105856!2d27.112050176111367!3d38.45660337182152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbd9c7fd33f8e5%3A0xa6c9493c0c2d2290!2zRG9uYW5tYWPEsSwgMTcyOS4gU2suIE5vOjI3LCAzNTU4MCBLYXLFn8SxeWFrYS_EsHptaXI!5e1!3m2!1str!2str!4v1755989124809!5m2!1str!2str" 
-                        class="rounded w-full h-80 mb-6 border-0 shadow" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-
-                <div class="space-y-4">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-map-marker-alt text-blue-600"></i>
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="water-fill rounded-2xl overflow-hidden">
+                            <img src="images/kaliteguven.jpg" alt="Su arıtma laboratuvarında uzman teknisyenler çalışırken" class="w-full h-auto rounded-2xl" />
                         </div>
                         <div>
-                            <h4 class="font-semibold text-blue-800">Adres</h4>
-                            <p class="text-gray-600">Donanmacı Mahallesi 1729 Sokak No:27<br>Karşıyaka/İzmir</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-phone text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-blue-800">Telefon</h4>
-                            <p class="text-gray-600">+90 542 786 02 26</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-envelope text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-blue-800">E-posta</h4>
-                            <p class="text-gray-600">info@aquapure.com.tr</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-clock text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-blue-800">Çalışma Saatleri</h4>
-                            <p class="text-gray-600">Pazartesi - Cumartesi: 09:00 - 18:00</p>
+                            <h3 class="text-3xl font-bold text-blue-800 mb-6">Kalite ve Güvenin Adresi</h3>
+                            <p class="text-gray-600 mb-6">2020 yılından beri su arıtma sektöründe faaliyet gösteren firmamız, en son teknoloji ürünleri ve kaliteli hizmet anlayışı ile müşterilerimize hizmet vermektedir.</p>
+                            <p class="text-gray-600 mb-8">Tüm ürünlerimiz uluslararası kalite standartlarına uygun olarak üretilmekte ve sıkı kalite kontrol testlerinden geçmektedir.</p>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="text-center">
+                                    <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="5">0</div>
+                                    <div class="text-gray-600">Yıllık Deneyim</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="50000">0</div>
+                                    <div class="text-gray-600">Mutlu Müşteri</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="counter text-4xl font-bold text-blue-600 mb-2" data-target="100">0</div>
+                                    <div class="text-gray-600">Ürün Çeşidi</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-4xl font-bold text-blue-600 mb-2" >7/24</div>
+                                    <div class="text-gray-600">Teknik Destek</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Sağ: Form -->
-            <div class="md:w-1/2 w-full bg-blue-50 rounded-2xl p-8 shadow">
-                <h3 class="text-2xl font-bold text-blue-800 mb-6">Mesaj Gönderin</h3>
-                <form class="space-y-4" id="contactform" name="contactform">
-                    <div>
-                        <label class="block text-sm font-medium text-blue-800 mb-2">Ad Soyad</label>
-                        <input type="text" name="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-300" placeholder="Adınız ve soyadınız">
+            </section>
+            <!-- Products Section -->
+            <section id="products" class="py-20 bg-gradient-to-b from-blue-50 to-white">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-extrabold text-blue-900 mb-4">Ürünlerimiz</h2>
+                        <div class="w-24 h-1.5 bg-blue-700 mx-auto mb-6 rounded-full"></div>
+                        <p class="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">İhtiyacınıza uygun, en son teknolojiye sahip su arıtma çözümlerimizle tanışın.</p>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-blue-800 mb-2">E-posta</label>
-                        <input type="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-300" placeholder="email@example.com">
+                    <div class="flex justify-center">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                            {% for product in products|slice(0, 3) %}
+                            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-200 
+                            transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 
+                            hover:border-blue-600 flex flex-col h-[750px] relative group">
+                                <div class="relative w-full h-80 overflow-hidden bg-gray-100">
+                                    <img 
+                                        class="w-full h-full object-cover object-center transform transition-transform duration-500 group-hover:scale-110" 
+                                        src="{{ product.image }}" 
+                                        alt="{{ product.title }}"
+                                    />
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+                                </div>
+                                <div class="p-7 flex flex-col flex-grow">
+                                    <h2 class="text-2xl font-bold text-blue-800 mb-3 leading-tight group-hover:text-blue-700 transition-colors duration-300">{{ product.title }}</h2>
+                                    <p class="text-gray-600 text-base mb-4 flex-grow line-clamp-4">{{ product.description }}</p>
+                                    {% if product.features %}
+                                    <ul class="text-gray-700 list-disc list-inside space-y-1 text-sm mb-5 pl-2">
+                                        {% for feature in product.features %}
+                                        <li class="flex items-center">
+                                            <svg class="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            <span>{{ feature }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                    <div class="mt-auto pt-6 border-t border-blue-100 flex justify-between items-center">
+                                        <span class="text-3xl font-extrabold text-blue-700">{{ product.price }} TL</span>
+                                        <a href="/contact" class="bg-blue-600 text-white font-bold py-3 px-7 rounded-full text-base 
+                                                                hover:bg-blue-700 transition duration-300 transform hover:scale-105 
+                                                                shadow-lg hover:shadow-xl">Bilgi Al</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <p class="text-center text-gray-500 col-span-full">Henüz listelenecek bir ürün bulunmamaktadır.</p>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-blue-800 mb-2">Telefon</label>
-                        <input type="tel" name="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-300" placeholder="05XX XXX XX XX">
+                </div>
+            </section>
+            <hr class="my-8">
+            <!-- Testimonials Section -->
+            <section id="testimonials" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-blue-800 mb-4">Müşteri Yorumları</h2>
+                        <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Müşterilerimizin deneyimlerini dinleyin</p>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-blue-800 mb-2">Mesaj</label>
-                        <textarea rows="4" name="comments" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-300" placeholder="Mesajınız..."></textarea>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Testimonial 1 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-bold">AŞ</span>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-blue-800">Ahmet Şen</h4>
+                                    <p class="text-gray-600 text-sm">İstanbul</p>
+                                </div>
+                            </div>
+                            <div class="text-yellow-400 mb-3">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-600">"2 yıldır MaviRo kullanıyorum, suyun tadı inanılmaz değişti. Ailece çok memnunuz, kesinlikle tavsiye ederim."</p>
+                        </div>
+                        <!-- Testimonial 2 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-bold">MY</span>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-blue-800">Mehmet Yılmaz</h4>
+                                    <p class="text-gray-600 text-sm">Ankara</p>
+                                </div>
+                            </div>
+                            <div class="text-yellow-400 mb-3">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-600">"Teknik servis çok hızlı ve profesyonel. Ürün kalitesi ve müşteri hizmetleri için teşekkürler."</p>
+                        </div>
+                        <!-- Testimonial 3 -->
+                        <div class="testimonial-card p-6 rounded-2xl">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-bold">ED</span>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-blue-800">Elif Demir</h4>
+                                    <p class="text-gray-600 text-sm">İzmir</p>
+                                </div>
+                            </div>
+                            <div class="text-yellow-400 mb-3">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <p class="text-gray-600">"Suyun mineral dengesi mükemmel. Çayın tadı bile değişti, artık misafirlerimize bu suyu gururla sunuyoruz."</p>
+                        </div>
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
-                        Gönder
-                    </button>
-                </form>
-            </div>
-
-        </div>
+                </div>
+            </section>
+            <section id="blog" class="py-20 bg-blue-50">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-blue-800 mb-4">Blog</h2>
+                        <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Su kalitesi ve sağlıklı yaşam hakkında güncel bilgiler</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {% for post in posts|slice(0, 3) %}
+                        <article class="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="water-drop">
+                                <img src="{{ post.image }}" alt="{{ post.title }}" class="w-full h-48 object-cover" />
+                            </div>
+                            <div class="p-6">
+                                <span class="text-blue-600 text-sm font-medium">{{ post.category }}</span>
+                                <h3 class="text-xl font-bold text-blue-800 mt-2 mb-3">{{ post.title }}</h3>
+                                <p class="text-gray-600 mb-4">{{ post.excerpt }}</p>
+                                <a href="{{ post.url }}" class="text-blue-600 font-medium hover:text-blue-800 flex items-center">
+                                    Devamını Oku
+                                    <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                                </a>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+            <section id="sss" class="py-20 bg-blue-50 relative overflow-hidden">
+                <!-- Dalga Arka Plan -->
+                <div class="absolute top-0 left-0 w-full h-32 bg-blue-200 rounded-b-[100%] opacity-20"></div>
+                <div class="max-w-7xl mx-auto px-4 relative z-10">
+                    <!-- Başlık ve Buton -->
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-bold text-blue-800 mb-4">Sıkça Sorulan Sorular</h2>
+                        <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+                    </div>
+                    <!-- FAQ Grid -->
+                    <div class="py-16 bg-blue-50">
+                        <div class="max-w-7xl mx-auto px-4">
+                            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
+                                    <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
+                                        <span class="q">Hangi su arıtma sistemi benim için uygun?</span>
+                                        <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
+                                    </summary>
+                                    <div class="a mt-3 text-gray-700 text-sm leading-relaxed">Günlük su tüketiminiz, hane kişi sayısı ve şebeke suyu kalitesi belirleyicidir. 3–5 kişilik aileler için 75–100 GPD ters ozmoz cihazları idealdir. Kuyu veya çok sert sular için ek <em>sediment + karbon + antiskalant</em> ön filtrasyon önerilir.</div>
+                                    <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Ürünler</span>
+                                </details>
+                                <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
+                                    <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
+                                        <span class="q">Ters ozmoz (RO) nedir? Güvenli mi?</span>
+                                        <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
+                                    </summary>
+                                    <div class="a mt-3 text-gray-700 text-sm leading-relaxed">RO, suyu yarı geçirgen membrandan geçirerek çözünmüş tuzları, ağır metalleri, nitratları ve mikroorganizmaları yüksek oranda giderir. Doğru kurulmuş ve düzenli filtre değişimi yapılan RO sistemlerinden elde edilen su içme için güvenlidir.</div>
+                                    <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Ürünler</span>
+                                </details>
+                                <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
+                                    <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
+                                        <span class="q">Mineral filtre gerekli mi?</span>
+                                        <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
+                                    </summary>
+                                    <div class="a mt-3 text-gray-700 text-sm leading-relaxed">RO suyu çok düşük TDS değerine indirir. Tat ve denge için post-mineral filtre tercih edilebilir; bu filtre kalsiyum/magnezyum benzeri mineraller ekleyerek tadı iyileştirir.</div>
+                                    <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Ürünler</span>
+                                </details>
+                                <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
+                                    <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
+                                        <span class="q">Tezgâh delme gerekir mi?</span>
+                                        <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
+                                    </summary>
+                                    <div class="a mt-3 text-gray-700 text-sm leading-relaxed">Çoğu model kendi arıtma musluğu ile gelir. Mevcut musluğa üç yollu seçenek takılmadıkça tezgâhta 12–14 mm delik açılması gerekir.</div>
+                                    <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Montaj</span>
+                                </details>
+                                <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
+                                    <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
+                                        <span class="q">İade süreniz kaç gün?</span>
+                                        <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
+                                    </summary>
+                                    <div class="a mt-3 text-gray-700 text-sm leading-relaxed">Mesafeli satışlarda <strong>14 gün</strong> içinde, kullanılmamış ve tüm aksesuarları eksiksiz ürünleri koşulsuz iade edebilirsiniz. Kurulu cihazlarda söküm bedeli ve sarf malzemeleri ayrıca değerlendirilir.</div>
+                                    <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">İADE</span>
+                                </details>
+                                <details class="faq-item group border border-blue-100 rounded-xl p-5 bg-white shadow hover:shadow-lg transition-all duration-300 open:border-blue-300 open:shadow-xl">
+                                    <summary class="cursor-pointer flex justify-between items-center text-lg font-semibold text-blue-700">
+                                        <span class="q">Montaj süresi ne kadar?</span>
+                                        <span class="icon transition-transform duration-300 group-open:rotate-180">▼</span>
+                                    </summary>
+                                    <div class="a mt-3 text-gray-700 text-sm leading-relaxed">Standart mutfak tezgâh altı kurulumları ortalama 60–90 dakika sürer. Ek hat çekimi veya drenaj düzenlemesi gerekiyorsa süre uzayabilir.</div>
+                                    <span class="badge inline-block mt-4 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Montaj</span>
+                                </details>
+                            </div>
+                            <div class="flex justify-center mt-12">
+                                <a href="/sss"
+                                    class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105 inline-flex items-center space-x-2">
+                                    <span>Bütün Sıkça Sorular İçin</span>
+                                    <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Contact Section -->
+            <section id="contact" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4">
+                    <!-- Başlık -->
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-blue-800 mb-4">İletişim</h2>
+                        <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Bize ulaşın, size en uygun çözümü sunalım</p>
+                    </div>
+                    <!-- Map + İletişim Bilgileri ve Form aynı genişlikte -->
+                    <div class="flex flex-col md:flex-row md:space-x-12 space-y-12 md:space-y-0 justify-center items-start">
+                        <!-- Sol: Map + Bilgiler -->
+                        <div class="md:w-1/2 w-full">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3303.343584105856!2d27.112050176111367!3d38.45660337182152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbd9c7fd33f8e5%3A0xa6c9493c0c2d2290!2zRG9uYW5tYWPEsSwgMTcyOS4gU2suIE5vOjI3LCAzNTU4MCBLYXLFn8SxeWFrYS_EsHptaXI!5e1!3m2!1str!2str!4v1755989124809!5m2!1str!2str" 
+                                class="rounded w-full h-80 mb-6 border-0 shadow" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-blue-800">Adres</h4>
+                                        <p class="text-gray-600">Donanmacı Mahallesi 1729 Sokak No:27<br>Karşıyaka/İzmir</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-phone text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-blue-800">Telefon</h4>
+                                        <p class="text-gray-600">+90 542 786 02 26</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-envelope text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-blue-800">E-posta</h4>
+                                        <p class="text-gray-600">info@aquapure.com.tr</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-clock text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-blue-800">Çalışma Saatleri</h4>
+                                        <p class="text-gray-600">Pazartesi - Cumartesi: 09:00 - 18:00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sağ: Form -->
+                        <div class="md:w-1/2 w-full bg-blue-50 rounded-2xl p-8 shadow">
+                            <h3 class="text-2xl font-bold text-blue-800 mb-6">Mesaj Gönderin</h3>
+                            <form class="space-y-4" id="contactform" name="contactform">
+                                <div>
+                                    <label class="block text-sm font-medium text-blue-800 mb-2">Ad Soyad</label>
+                                    <input type="text" name="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-300" placeholder="Adınız ve soyadınız">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-blue-800 mb-2">E-posta</label>
+                                    <input type="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-300" placeholder="email@example.com">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-blue-800 mb-2">Telefon</label>
+                                    <input type="tel" name="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-300" placeholder="05XX XXX XX XX">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-blue-800 mb-2">Mesaj</label>
+                                    <textarea rows="4" name="comments" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition duration-300" placeholder="Mesajınız..."></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">Gönder</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer Section -->
+        <footer class="w-full bg-gray-800 text-white py-4 text-center mt-8">
+            <p>Tüm hakları saklıdır &copy; 2023</p>
+        </footer>
     </div>
-</section>
-</main>
-
-   <script src="/js/slider.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-   <script>
-
-  const slides = document.querySelectorAll(".slide");
-const dots = document.querySelectorAll(".slider-dot");
-let currentIndex = 0;
-
-function showSlide(index) {
-  slides.forEach((slide, i) => {
-    slide.classList.remove("active");
-    slide.style.opacity = i === index ? "1" : "0";
-  });
-
-  dots.forEach((dot, i) => {
-    dot.classList.toggle("opacity-100", i === index);
-    dot.classList.toggle("opacity-50", i !== index);
-  });
-
-  currentIndex = index;
-}
-
-dots.forEach((dot, i) => {
-  dot.addEventListener("click", () => showSlide(i));
-});
-
-// Otomatik geçiş
-setInterval(() => {
-  let nextIndex = (currentIndex + 1) % slides.length;
-  showSlide(nextIndex);
-}, 5000);
-document.addEventListener("DOMContentLoaded", () => {
-    const counters = document.querySelectorAll(".counter");
-    const speed = 100; // hız
-
-    counters.forEach(counter => {
-        const target = +counter.getAttribute("data-target");
-
-        const updateCount = () => {
-            const count = +counter.innerText;
-            const increment = target / speed;
-
-            if(count < target) {
-                counter.innerText = Math.ceil(count + increment);
-                setTimeout(updateCount, 20);
-            } else {
-                // Burada formatlama yapıyoruz
-                if(target >= 1000 && target < 1000000) {
-                    counter.innerText = (target / 1000) + "K+";
-                } else if(target >= 1000000) {
-                    counter.innerText = (target / 1000000) + "M+";
-                } else {
-                    counter.innerText = target + "+";
-                }
-            }
-        };
-
-        updateCount();
-    });
-});
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("contactform");
-
-    form.addEventListener("submit", async function(e) {
-        e.preventDefault(); // Sayfanın yenilenmesini engelle
-
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        try {
-            const response = await fetch("/send", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                Swal.fire({
-                    title: "Başarılı!",
-                    text: result.message,
-                    icon: "success",
-                    confirmButtonText: "Tamam"
-                }).then(() => {
-                    window.location.href = "/"; // Ana sayfaya yönlendir
-                });
-            } else {
-                Swal.fire({
-                    title: "Hata!",
-                    text: result.message,
-                    icon: "error",
-                    confirmButtonText: "Tekrar Dene"
-                });
-            }
-
-        } catch (error) {
-            Swal.fire({
-                title: "Sunucu Hatası!",
-                text: "Mesaj gönderilemedi.",
-                icon: "error"
-            });
-        }
-    });
-});
-
-
-  </script>
-
-
-{% endblock %} 
+    <script src="/js/slider.js"></script>
+</body>
+</html>
