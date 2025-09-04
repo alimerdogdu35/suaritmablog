@@ -12,11 +12,14 @@ const serverless = require("serverless-http");
 const app = express();
 
 // Veritabanı bağlantısını önbelleğe almak için global bir değişken tanımlayın.
+// Bu, Vercel'de her istekte yeni bir bağlantı açılmasını engeller.
 let cachedDb = null;
 
+// Veritabanı URL'sini Vercel'de Ortam Değişkeni olarak ayarlayın.
 const MONGODB_URI = process.env.MONGODB_URI;
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
+// MongoDB'ye bağlanmak ve bağlantıyı önbelleğe almak için bir fonksiyon.
 async function connectToDatabase() {
   if (cachedDb) {
     console.log('Varolan veritabanı bağlantısı kullanılıyor.');
@@ -66,12 +69,10 @@ const readPosts = () => {
   }
 };
 
-// Vercel'de dosya sistemine yazma/silme işlemleri güvenilir olmadığı için
-// bu fonksiyonlar kaldırılmıştır. Canlı bir ortamda bu işlemler için
-// MongoDB'yi kullanmanız gerekir.
-// const writePosts = (posts) => {
-//   fs.writeFileSync(postsFilePath, JSON.stringify({ posts }, null, 2), 'utf8');
-// };
+// Tüm blog yazılarını dosyaya yazar.
+const writePosts = (posts) => {
+  fs.writeFileSync(postsFilePath, JSON.stringify({ posts }, null, 2), 'utf8');
+};
 
 
 // Routes
@@ -166,8 +167,8 @@ app.get('/api/search', async (req, res) => {
     try {
         const products = await Product.find({
             $or: [
-                { title: { regex: query, $options: 'i' } },
-                { description: { regex: query, $options: 'i' } }
+                { title: { $regex: query, $options: 'i' } },
+                { description: { $regex: query, $options: 'i' } }
             ]
         }).limit(5).select('title');
        
@@ -249,11 +250,56 @@ app.post('/admin/products/update/:id', isAdmin, async (req, res) => {
         res.status(500).send('Ürün güncellenirken bir hata oluştu.');
     }
 });
+app.post('/api/add-blog-post', isAdmin, (req, res) => {
+    const newPost = req.body;
+  
+    if (!newPost.title || !newPost.content || !newPost.category) {
+        return res.status(400).json({ message: "Başlık, kategori ve içerik alanları zorunludur." });
+    }
+  
+    const posts = readPosts();
+    newPost.id = Date.now().toString(); // Benzersiz ID
+    newPost.date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+  
+    posts.push(newPost);
+    writePosts(posts);
+  
+    res.status(201).json({ message: "Yazı başarıyla eklendi.", post: newPost });
+});
 
-// Blog yazılarını güncelleyen, ekleyen veya silen bu rotalar kaldırılmıştır.
-// app.post('/api/add-blog-post', isAdmin, (req, res) => { ... });
-// app.put('/api/posts/:id', isAdmin, (req, res) => { ... });
-// app.delete('/api/posts/:id', isAdmin, (req, res) => { ... });
+app.put('/api/posts/:id', isAdmin, (req, res) => {
+    const postId = req.params.id;
+    const updatedData = req.body;
+    let posts = readPosts();
+  
+    const postIndex = posts.findIndex(post => post.id === postId);
+  
+    if (postIndex === -1) {
+        return res.status(404).json({ message: "Yazı bulunamadı." });
+    }
+  
+    posts[postIndex] = { ...posts[postIndex], ...updatedData };
+    writePosts(posts);
+  
+    res.status(200).json({ message: "Yazı başarıyla güncellendi.", post: posts[postIndex] });
+});
+
+app.delete('/api/posts/:id', isAdmin, (req, res) => {
+    const postId = req.params.id;
+    let posts = readPosts();
+  
+    const initialLength = posts.length;
+    posts = posts.filter(post => post.id !== postId);
+  
+    if (posts.length === initialLength) {
+        return res.status(404).json({ message: "Yazı bulunamadı." });
+    }
+  
+    writePosts(posts);
+  
+    res.status(200).json({ message: "Yazı başarıyla silindi." });
+});
+
 
 app.post('/register', async (req, res) => {
     await connectToDatabase();
