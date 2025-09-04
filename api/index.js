@@ -4,9 +4,9 @@ const fs = require('fs');
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const session = require('express-session');
-const Product = require("../models/productModel");
-const User = require("../models/userModel");
-const transporter = require('../services/mailServices');
+const Product = require("./models/productModel");
+const User = require("./models/userModel");
+const transporter = require('./services/mailServices');
 const serverless = require("serverless-http");
 
 const app = express();
