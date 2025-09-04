@@ -1,41 +1,32 @@
 const express = require("express");
 const path = require("path");
-
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
-const session = require('express-session');
+const jwt = require('jsonwebtoken');
 const Product = require("./models/productModel");
 const User = require("./models/userModel");
 const Post = require("./models/postModel");
 const transporter = require('./services/mailServices');
 const serverless = require("serverless-http");
-const MongoStore = require('connect-mongo');
 
 const app = express();
 
 let cachedDb = null;
 
 const MONGODB_URI = process.env.MONGODB_URI;
-const SESSION_SECRET = process.env.SESSION_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkey';
 
+// -------------------- DATABASE CONNECTION --------------------
 async function connectToDatabase() {
-    if (cachedDb) {
-        console.log('Varolan veritabanı bağlantısı kullanılıyor.');
-        return cachedDb;
-    }
-
-    if (!MONGODB_URI) {
-        console.error('HATA: MONGODB_URI ortam değişkeni tanımlanmamış.');
-        throw new Error('MONGODB_URI ortam değişkeni tanımlanmamış.');
-    }
-
+    if (cachedDb) return cachedDb;
+    if (!MONGODB_URI) throw new Error('MONGODB_URI ortam değişkeni tanımlanmamış.');
     try {
         const client = await mongoose.connect(MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
         cachedDb = client;
-        console.log('Yeni veritabanı bağlantısı oluşturuldu.');
+        console.log('Veritabanına bağlandı.');
         return cachedDb;
     } catch (error) {
         console.error('Veritabanı bağlantı hatası:', error);
@@ -43,104 +34,74 @@ async function connectToDatabase() {
     }
 }
 
+// -------------------- MIDDLEWARE --------------------
 app.use(express.static(path.join(process.cwd(), "public")));
-
-app.use(session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: MONGODB_URI }),
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // 1 gün
-        secure: process.env.NODE_ENV === 'production',
-    }
-}));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.set("view engine", "twig");
 app.set("views", path.join(process.cwd(), "api", "views"));
 
+// JWT doğrulama middleware
+const verifyJWT = (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1] || req.cookies?.token;
+    if (!token) return res.status(403).send('Yetkisiz erişim');
 
-// Routes
-app.use((req, res, next) => {
-    res.locals.isLoggedIn = req.session.isLoggedIn || false;
-    res.locals.user = req.session.user || null;
-    next();
-});
-
-const isAdmin = (req, res, next) => {
-    if (req.session.isLoggedIn && req.session.user && req.session.user.type === 'admin') {
-        next(); 
-    } else {
-        res.status(403).send("Yetkisiz Erişim"); 
-    }
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(403).send('Yetkisiz erişim');
+        req.user = decoded;
+        next();
+    });
 };
 
-app.get('/admin', isAdmin, async (req, res) => {
-    try {
-        await connectToDatabase();
-        const products = await Product.find({});
-        const posts = await Post.find({});
-        res.render('admin', { products: products, posts: posts });
-    } catch (error) {
-        console.error('Admin sayfası yüklenirken bir hata oluştu:', error);
-        res.status(500).send('Admin sayfası yüklenirken bir hata oluştu.');
-    }
-});
+// Admin kontrolü
+const isAdmin = (req, res, next) => {
+    if (req.user && req.user.type === 'admin') next();
+    else res.status(403).send("Yetkisiz erişim");
+};
 
+// -------------------- ROUTES --------------------
+
+// Ana sayfa
 app.get("/", async (req, res) => {
     try {
         await connectToDatabase();
         const products = await Product.find({});
         const posts = await Post.find({}); 
-        res.render("index", { products: products, posts: posts });
+        res.render("index", { products, posts });
     } catch (error) {
-        console.error('Ana sayfa yüklenirken bir hata oluştu:', error);
-        res.status(500).send('Ana sayfa yüklenirken bir hata oluştu.');
+        console.error('Ana sayfa yüklenirken hata:', error);
+        res.status(500).send('Ana sayfa yüklenirken hata oluştu.');
     }
 });
 
+// Sayfalar
 app.get("/register", (req, res) => res.render("register"));
 app.get("/login", (req, res) => res.render("login"));
-
-
 app.get("/hakkimizda", (req, res) => res.render("about"));
+app.get("/iletisim", (req, res) => res.render("contact"));
+app.get("/sss", (req, res) => res.render("sss"));
 
+// Ürünler
 app.get('/urunlerimiz', async (req, res) => {
     try {
         await connectToDatabase();
         const products = await Product.find({});
-        res.render('products', { products: products });
+        res.render('products', { products });
     } catch (error) {
-        console.error('Ürünler sayfası yüklenirken bir hata oluştu:', error);
-        res.status(500).send('Ürünler yüklenirken bir hata oluştu.');
+        console.error('Ürünler sayfası hatası:', error);
+        res.status(500).send('Ürünler yüklenirken hata oluştu.');
     }
 });
 
-app.get("/iletisim", (req, res) => res.render("contact"));
-app.get("/sss", (req, res) => res.render("sss"));
-
+// Blog
 app.get("/blog", async (req, res) => {
     try {
         await connectToDatabase();
         const posts = await Post.find({});
-        res.render("blog", { posts: posts });
+        res.render("blog", { posts });
     } catch (error) {
-        console.error('Blog sayfası yüklenirken bir hata oluştu:', error);
-        res.status(500).send('Blog sayfası yüklenirken bir hata oluştu.');
-    }
-});
-
-app.get('/posts.json', async (req, res) => {
-    try {
-        await connectToDatabase();
-        const posts = await Post.find({});
-        res.json({ posts: posts });
-    } catch (error) {
-        console.error('JSON blog verileri yüklenirken bir hata oluştu:', error);
-        res.status(500).json({ message: "JSON blog verileri yüklenirken bir hata oluştu." });
+        console.error('Blog sayfası hatası:', error);
+        res.status(500).send('Blog sayfası yüklenirken hata oluştu.');
     }
 });
 
@@ -151,36 +112,27 @@ app.get('/blog/:id', async (req, res) => {
         const allPosts = await Post.find({});
         const post = allPosts.find(p => p.id === postId);
 
-        if (post) {
-            const otherPosts = allPosts
-                .filter(p => p.id !== postId)
-                .slice(0, 5)
-                .map(p => ({
-                    id: p.id,
-                    title: p.title,
-                    category: p.category
-                }));
-            res.render('single-post', {
-                post: post,
-                otherPosts: otherPosts
-            });
-        } else {
-            res.status(404).render('404');
-        }
+        if (!post) return res.status(404).render('404');
+
+        const otherPosts = allPosts.filter(p => p.id !== postId).slice(0, 5).map(p => ({
+            id: p.id,
+            title: p.title,
+            category: p.category
+        }));
+
+        res.render('single-post', { post, otherPosts });
     } catch (error) {
-        console.error('Tekil blog yazısı yüklenirken bir hata oluştu:', error);
-        res.status(500).send('Blog yazısı yüklenirken bir hata oluştu.');
+        console.error('Tekil blog yazısı hatası:', error);
+        res.status(500).send('Blog yazısı yüklenirken hata oluştu.');
     }
 });
 
+// Arama
 app.get('/api/search', async (req, res) => {
     try {
         await connectToDatabase();
-        const query = req.query.q ? req.query.q.toLowerCase() : '';
-
-        if (query.length < 2) {
-            return res.json([]);
-        }
+        const query = req.query.q?.toLowerCase() || '';
+        if (query.length < 2) return res.json([]);
 
         const products = await Product.find({
             $or: [
@@ -188,7 +140,7 @@ app.get('/api/search', async (req, res) => {
                 { description: { $regex: query, $options: 'i' } }
             ]
         }).limit(5).select('title');
-       
+
         const posts = await Post.find({
             $or: [
                 { title: { $regex: query, $options: 'i' } },
@@ -196,27 +148,33 @@ app.get('/api/search', async (req, res) => {
             ]
         }).limit(5);
 
-        const combinedResults = [
-            ...products.map(product => ({
-                name: product.title,
-                url: `/urunlerimiz`, 
-                type: 'Ürün'
-            })),
-            ...posts.map(post => ({
-                name: post.title,
-                url: `/blog/${post.id}`,
-                type: 'Blog Yazısı'
-            }))
+        const results = [
+            ...products.map(p => ({ name: p.title, url: '/urunlerimiz', type: 'Ürün' })),
+            ...posts.map(p => ({ name: p.title, url: `/blog/${p.id}`, type: 'Blog Yazısı' }))
         ];
 
-        res.json(combinedResults);
+        res.json(results);
     } catch (error) {
-        console.error("Arama sırasında hata oluştu:", error);
-        res.status(500).json({ message: "Arama sırasında bir hata oluştu." });
+        console.error("Arama hatası:", error);
+        res.status(500).json({ message: "Arama sırasında hata oluştu." });
     }
 });
 
-app.post('/admin/products', isAdmin, async (req, res) => {
+// -------------------- ADMIN --------------------
+app.get('/admin', verifyJWT, isAdmin, async (req, res) => {
+    try {
+        await connectToDatabase();
+        const products = await Product.find({});
+        const posts = await Post.find({});
+        res.render('admin', { products, posts });
+    } catch (error) {
+        console.error('Admin sayfası hatası:', error);
+        res.status(500).send('Admin sayfası yüklenirken hata oluştu.');
+    }
+});
+
+// Ürün işlemleri
+app.post('/admin/products', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
         const { image, title, description, price, features } = req.body;
@@ -228,136 +186,64 @@ app.post('/admin/products', isAdmin, async (req, res) => {
             features: features.split(',').map(f => f.trim())
         });
         await newProduct.save();
-        res.redirect('/admin'); 
-    } catch (error) {
-        console.error("Ürün eklenirken bir hata oluştu:", error);
-        res.status(500).send('Ürün eklenirken bir hata oluştu.');
-    }
-});
-
-app.post('/admin/products/delete/:id', isAdmin, async (req, res) => {
-    try {
-        await connectToDatabase();
-        const productId = req.params.id;
-        await Product.findByIdAndDelete(productId);
-        res.redirect('/admin'); 
-    } catch (error) {
-        console.error("Ürün silinirken bir hata oluştu:", error);
-        res.status(500).send('Ürün silinirken bir hata oluştu.');
-    }
-});
-
-app.post('/admin/products/update/:id', isAdmin, async (req, res) => {
-    try {
-        await connectToDatabase();
-        const productId = req.params.id;
-        const { image, title, description, price, features } = req.body;
-        
-        const updateData = {
-            image,
-            title,
-            description,
-            price
-        };
-
-        if (features) {
-            updateData.features = features.split(',').map(f => f.trim());
-        }
-
-        await Product.findByIdAndUpdate(productId, updateData, { new: true });
-        
         res.redirect('/admin');
     } catch (error) {
-        console.error("Ürün güncellenirken bir hata oluştu:", error);
-        res.status(500).send('Ürün güncellenirken bir hata oluştu.');
+        console.error("Ürün ekleme hatası:", error);
+        res.status(500).send('Ürün eklenirken hata oluştu.');
     }
 });
 
-app.post('/api/add-blog-post', isAdmin, async (req, res) => {
+app.post('/admin/products/delete/:id', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
-        const newPost = req.body;
-  
-        if (!newPost.title || !newPost.content || !newPost.category) {
-            return res.status(400).json({ message: "Başlık, kategori ve içerik alanları zorunludur." });
-        }
-  
-        const postToAdd = new Post({
+        await Product.findByIdAndDelete(req.params.id);
+        res.redirect('/admin');
+    } catch (error) {
+        console.error("Ürün silme hatası:", error);
+        res.status(500).send('Ürün silinirken hata oluştu.');
+    }
+});
+
+// Blog işlemleri
+app.post('/api/add-blog-post', verifyJWT, isAdmin, async (req, res) => {
+    try {
+        await connectToDatabase();
+        const { title, content, category } = req.body;
+        if (!title || !content || !category) return res.status(400).json({ message: "Başlık, kategori ve içerik zorunludur." });
+
+        const post = new Post({
             id: Date.now().toString(),
-            title: newPost.title,
-            content: newPost.content,
-            category: newPost.category,
+            title,
+            content,
+            category,
             date: new Date().toISOString().split('T')[0]
         });
-    
-        await postToAdd.save();
-        res.status(201).json({ message: "Yazı başarıyla eklendi.", post: postToAdd });
+        await post.save();
+        res.status(201).json({ message: "Yazı eklendi.", post });
     } catch (error) {
-        console.error("Yazı ekleme hatası:", error);
-        res.status(500).json({ message: "Yazı eklenirken bir hata oluştu." });
+        console.error("Blog ekleme hatası:", error);
+        res.status(500).json({ message: "Blog eklenirken hata oluştu." });
     }
 });
 
-app.put('/api/posts/:id', isAdmin, async (req, res) => {
-    try {
-        await connectToDatabase();
-        const postId = req.params.id;
-        const updatedData = req.body;
-  
-        const postToUpdate = await Post.findOne({ id: postId });
-    
-        if (!postToUpdate) {
-            return res.status(404).json({ message: "Yazı bulunamadı." });
-        }
-    
-        await Post.updateOne({ id: postId }, updatedData);
-        const updatedPost = await Post.findOne({ id: postId });
-    
-        res.status(200).json({ message: "Yazı başarıyla güncellendi.", post: updatedPost });
-    } catch (error) {
-        console.error("Yazı güncelleme hatası:", error);
-        res.status(500).json({ message: "Yazı güncellenirken bir hata oluştu." });
-    }
-});
-
-app.delete('/api/posts/:id', isAdmin, async (req, res) => {
-    try {
-        await connectToDatabase();
-        const postId = req.params.id;
-  
-        const result = await Post.deleteOne({ id: postId });
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ message: "Yazı bulunamadı." });
-        }
-        res.status(200).json({ message: "Yazı başarıyla silindi." });
-    } catch (error) {
-        console.error("Yazı silme hatası:", error);
-        res.status(500).json({ message: "Yazı silinirken bir hata oluştu." });
-    }
-});
-
+// -------------------- AUTH --------------------
 app.post('/register', async (req, res) => {
     try {
         await connectToDatabase();
         const { name, email, password, password_confirmation } = req.body;
+        if (!name || !email || !password || !password_confirmation) return res.status(400).json({ message: "Tüm alanlar gerekli." });
+        if (password !== password_confirmation) return res.status(400).json({ message: "Şifreler eşleşmiyor." });
 
-        if (!name || !email || !password || !password_confirmation) {
-            return res.status(400).json({ message: "Lütfen tüm alanları doldurun." });
-        }
-        if (password !== password_confirmation) {
-            return res.status(400).json({ message: "Girdiğiniz şifreler eşleşmiyor." });
-        }
-    
         const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(409).json({ message: "Bu e-posta adresi zaten kullanılıyor." });
-        }
-        const newUser = new User({ name, email, password });
+        if (existingUser) return res.status(409).json({ message: "E-posta kullanılıyor." });
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
-        res.redirect("/login"); 
+        res.redirect("/login");
     } catch (error) {
-        console.error("Kayıt sırasında bir hata oluştu:", error);
-        res.status(500).json({ message: "Kayıt işlemi sırasında bir sunucu hatası oluştu." });
+        console.error("Kayıt hatası:", error);
+        res.status(500).json({ message: "Kayıt sırasında hata oluştu." });
     }
 });
 
@@ -365,32 +251,23 @@ app.post('/login', async (req, res) => {
     try {
         await connectToDatabase();
         const { email, password } = req.body;
-        if (!email || !password) {
-            return res.status(400).json({ message: "Lütfen tüm alanları doldurun." });
-        }
+        if (!email || !password) return res.status(400).json({ message: "Tüm alanlar gerekli." });
+
         const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(401).json({ message: "E-posta veya şifre yanlış." });
-        }
+        if (!user) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
+
         const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch) {
-            req.session.isLoggedIn = true;
-            req.session.user = { id: user._id, type: user.type };
-   
-            if (user.type === 'admin') {
-                return res.status(200).json({ redirect: '/admin' }); 
-            } else {
-                return res.status(200).json({ redirect: '/' });
-            }
-        } else {
-            return res.status(401).json({ message: "E-posta veya şifre yanlış." });
-        }
+        if (!isMatch) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
+
+        const token = jwt.sign({ id: user._id, type: user.type }, JWT_SECRET, { expiresIn: '1d' });
+        res.status(200).json({ token, redirect: user.type === 'admin' ? '/admin' : '/' });
     } catch (error) {
-        console.error("Giriş sırasında bir hata oluştu:", error);
-        res.status(500).json({ message: "Giriş işlemi sırasında bir sunucu hatası oluştu." });
+        console.error("Login hatası:", error);
+        res.status(500).json({ message: "Giriş sırasında hata oluştu." });
     }
 });
 
+// -------------------- CONTACT --------------------
 app.post("/send", (req, res) => {
     const { name, email, phone, comments } = req.body;
     const mailOptions = {
@@ -404,15 +281,16 @@ app.post("/send", (req, res) => {
             <p><strong>Mesaj:</strong> ${comments}</p>
         `
     };
-
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.error('E-posta gönderme hatası:', error);
-            return res.status(500).json({ success: false, message: "E-posta gönderilemedi." });
+            console.error('Mail hatası:', error);
+            return res.status(500).json({ success: false, message: "Mail gönderilemedi." });
         }
-        console.log('E-posta gönderildi:', info.response);
-        res.json({ success: true, message: "Mesajınız başarıyla gönderildi!" });
+        console.log('Mail gönderildi:', info.response);
+        res.json({ success: true, message: "Mesaj gönderildi!" });
     });
 });
+
+// -------------------- EXPORT --------------------
 module.exports = app;
 module.exports.handler = serverless(app);
