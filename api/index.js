@@ -1,25 +1,22 @@
 const express = require("express");
 const path = require("path");
-const fs = require('fs');
+// const fs = require('fs'); // Vercel'de dosya sistemi uyumsuz olduğu için kaldırıldı.
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const Product = require("./models/productModel");
 const User = require("./models/userModel");
+const Post = require("./models/postModel"); // Yeni Post modelini dahil ettik.
 const transporter = require('./services/mailServices');
 const serverless = require("serverless-http");
 
 const app = express();
 
-// Veritabanı bağlantısını önbelleğe almak için global bir değişken tanımlayın.
-// Bu, Vercel'de her istekte yeni bir bağlantı açılmasını engeller.
 let cachedDb = null;
 
-// Veritabanı URL'sini Vercel'de Ortam Değişkeni olarak ayarlayın.
 const MONGODB_URI = process.env.MONGODB_URI;
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
-// MongoDB'ye bağlanmak ve bağlantıyı önbelleğe almak için bir fonksiyon.
 async function connectToDatabase() {
   if (cachedDb) {
     console.log('Varolan veritabanı bağlantısı kullanılıyor.');
@@ -54,25 +51,10 @@ app.use(express.json());
 app.set("view engine", "twig");
 app.set("views", path.join(__dirname, "views")); 
 
-// Blog yazılarını dosyadan okur.
-// NOT: Vercel gibi sunucusuz ortamlarda dosya sistemi kalıcı değildir!
-// Bu fonksiyonlar sadece kısa süreli testler için uygundur, canlı bir site için önerilmez.
-const postsFilePath = path.join(__dirname, 'posts.json');
-
-const readPosts = () => {
-  try {
-    const data = fs.readFileSync(postsFilePath, 'utf8');
-    return JSON.parse(data).posts;
-  } catch (error) {
-    console.error("posts.json okuma hatası:", error);
-    return [];
-  }
-};
-
-// Tüm blog yazılarını dosyaya yazar.
-const writePosts = (posts) => {
-  fs.writeFileSync(postsFilePath, JSON.stringify({ posts }, null, 2), 'utf8');
-};
+// NOT: Blog yazıları artık dosyadan değil, veritabanından okunacak.
+// Bu fonksiyonlar artık kullanılmadığı için kaldırıldı.
+// const readPosts = () => { ... }
+// const writePosts = (posts) => { ... }
 
 
 // Routes
@@ -94,7 +76,7 @@ app.get('/admin', isAdmin, async (req, res) => {
     await connectToDatabase();
     try {
         const products = await Product.find({});
-        const posts = readPosts();
+        const posts = await Post.find({}); // Artık veritabanından çekiliyor.
         res.render('admin', { products: products, posts: posts });
     } catch (error) {
         res.status(500).send('Ürünler yüklenirken bir hata oluştu.');
@@ -103,8 +85,9 @@ app.get('/admin', isAdmin, async (req, res) => {
 
 app.get("/", async (req, res) => {
     await connectToDatabase();
+    // Products ve Posts verilerini MongoDB'den çekiyoruz.
     const products = await Product.find({});
-    const posts = readPosts();
+    const posts = await Post.find({}); 
     res.render("index", { products: products, posts: posts });
 });
 
@@ -124,17 +107,23 @@ app.get('/urunlerimiz', async (req, res) => {
 app.get("/iletisim", (req, res) => res.render("contact"));
 app.get("/sss", (req, res) => res.render("sss"));
 
-app.get("/blog", (req, res) => {
-    res.render("blog", { posts: readPosts() });
+app.get("/blog", async (req, res) => {
+    await connectToDatabase();
+    const posts = await Post.find({}); // Veritabanından çekiliyor.
+    res.render("blog", { posts: posts });
 });
 
-app.get('/posts.json', (req, res) => {
-  res.json({ posts: readPosts() });
+// Artık bir dosyayı JSON olarak okumaya gerek yok, veritabanından çekiyoruz.
+app.get('/posts.json', async (req, res) => {
+    await connectToDatabase();
+    const posts = await Post.find({});
+    res.json({ posts: posts });
 });
 
-app.get('/blog/:id', (req, res) => {
+app.get('/blog/:id', async (req, res) => {
+    await connectToDatabase();
     const postId = req.params.id;
-    const allPosts = readPosts();
+    const allPosts = await Post.find({}); // Veritabanından çekiliyor.
     const post = allPosts.find(p => p.id === postId);
 
     if (post) {
@@ -172,11 +161,12 @@ app.get('/api/search', async (req, res) => {
             ]
         }).limit(5).select('title');
        
-        const allPosts = readPosts();
-        const posts = allPosts.filter(post =>
-            post.title.toLowerCase().includes(query) ||
-            post.content.toLowerCase().includes(query)
-        ).slice(0, 5); 
+        const posts = await Post.find({
+             $or: [
+                { title: { $regex: query, $options: 'i' } },
+                { content: { $regex: query, $options: 'i' } }
+            ]
+        }).limit(5);
 
         const combinedResults = [
             ...products.map(product => ({
@@ -197,6 +187,7 @@ app.get('/api/search', async (req, res) => {
         res.status(500).json({ message: "Arama sırasında bir hata oluştu." });
     }
 });
+
 app.post('/admin/products', isAdmin, async (req, res) => {
     await connectToDatabase();
     try {
@@ -250,54 +241,67 @@ app.post('/admin/products/update/:id', isAdmin, async (req, res) => {
         res.status(500).send('Ürün güncellenirken bir hata oluştu.');
     }
 });
-app.post('/api/add-blog-post', isAdmin, (req, res) => {
+app.post('/api/add-blog-post', isAdmin, async (req, res) => {
+    await connectToDatabase();
     const newPost = req.body;
   
     if (!newPost.title || !newPost.content || !newPost.category) {
         return res.status(400).json({ message: "Başlık, kategori ve içerik alanları zorunludur." });
     }
   
-    const posts = readPosts();
-    newPost.id = Date.now().toString(); // Benzersiz ID
-    newPost.date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-  
-    posts.push(newPost);
-    writePosts(posts);
-  
-    res.status(201).json({ message: "Yazı başarıyla eklendi.", post: newPost });
+    try {
+        const postToAdd = new Post({
+            id: Date.now().toString(), // Benzersiz ID
+            title: newPost.title,
+            content: newPost.content,
+            category: newPost.category,
+            date: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+        });
+    
+        await postToAdd.save();
+        res.status(201).json({ message: "Yazı başarıyla eklendi.", post: postToAdd });
+    } catch (error) {
+        console.error("Yazı ekleme hatası:", error);
+        res.status(500).json({ message: "Yazı eklenirken bir hata oluştu." });
+    }
 });
 
-app.put('/api/posts/:id', isAdmin, (req, res) => {
+app.put('/api/posts/:id', isAdmin, async (req, res) => {
+    await connectToDatabase();
     const postId = req.params.id;
     const updatedData = req.body;
-    let posts = readPosts();
   
-    const postIndex = posts.findIndex(post => post.id === postId);
-  
-    if (postIndex === -1) {
-        return res.status(404).json({ message: "Yazı bulunamadı." });
+    try {
+        const postToUpdate = await Post.findOne({ id: postId });
+    
+        if (!postToUpdate) {
+            return res.status(404).json({ message: "Yazı bulunamadı." });
+        }
+    
+        await Post.updateOne({ id: postId }, updatedData);
+        const updatedPost = await Post.findOne({ id: postId });
+    
+        res.status(200).json({ message: "Yazı başarıyla güncellendi.", post: updatedPost });
+    } catch (error) {
+        console.error("Yazı güncelleme hatası:", error);
+        res.status(500).json({ message: "Yazı güncellenirken bir hata oluştu." });
     }
-  
-    posts[postIndex] = { ...posts[postIndex], ...updatedData };
-    writePosts(posts);
-  
-    res.status(200).json({ message: "Yazı başarıyla güncellendi.", post: posts[postIndex] });
 });
 
-app.delete('/api/posts/:id', isAdmin, (req, res) => {
+app.delete('/api/posts/:id', isAdmin, async (req, res) => {
+    await connectToDatabase();
     const postId = req.params.id;
-    let posts = readPosts();
   
-    const initialLength = posts.length;
-    posts = posts.filter(post => post.id !== postId);
-  
-    if (posts.length === initialLength) {
-        return res.status(404).json({ message: "Yazı bulunamadı." });
+    try {
+        const result = await Post.deleteOne({ id: postId });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "Yazı bulunamadı." });
+        }
+        res.status(200).json({ message: "Yazı başarıyla silindi." });
+    } catch (error) {
+        console.error("Yazı silme hatası:", error);
+        res.status(500).json({ message: "Yazı silinirken bir hata oluştu." });
     }
-  
-    writePosts(posts);
-  
-    res.status(200).json({ message: "Yazı başarıyla silindi." });
 });
 
 
