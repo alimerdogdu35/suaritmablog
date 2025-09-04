@@ -407,8 +407,4 @@ app.post("/send", (req, res) => {
     });
 });
 
-const handler = serverless(app);
-
-module.exports.handler = async (event, context) => {
-    return await handler(event, context);
-};
+module.exports = serverless(app);
