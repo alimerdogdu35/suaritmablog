@@ -118,6 +118,7 @@
                     </div>
                 </div>
             </div>
+               <div id="importStatus" class="mb-6 text-sm text-gray-700 hidden"></div>
 
             <div id="blog-section" class="content-section hidden">
     <div class="bg-white p-8 rounded-lg shadow-xl mb-12 border border-blue-100">
@@ -293,6 +294,31 @@
     </div>
 
     <script>
+    async function importPostsAutomatically() {
+    const importStatus = document.getElementById('importStatus');
+    importStatus.textContent = 'Postlar içe aktarılıyor...';
+    importStatus.classList.remove('hidden');
+
+    try {
+        const response = await fetch('/api/import-posts', { method: 'POST' });
+        const result = await response.json();
+
+        if (response.ok) {
+            importStatus.textContent = '✅ Postlar başarıyla eklendi!';
+            setTimeout(() => location.reload(), 1500); // tabloyu yenile
+        } else {
+            throw new Error(result.message || 'İçe aktarma başarısız.');
+        }
+    } catch (err) {
+        importStatus.textContent = `❌ Hata: ${err.message}`;
+    }
+}
+
+// Sayfa yüklendiğinde otomatik çağır
+document.addEventListener('DOMContentLoaded', () => {
+    importPostsAutomatically();
+});
+
         document.addEventListener('DOMContentLoaded', () => {
             const editBtns = document.querySelectorAll('.edit-btn');
             const modal = document.getElementById('editModal');
