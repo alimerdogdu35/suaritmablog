@@ -9,7 +9,7 @@ const Post = require("./models/postModel");
 const transporter = require('./services/mailServices');
 const serverless = require("serverless-http");
 const cookieParser = require('cookie-parser');
-const { importData } = require("importPosts");
+const { importData } = require("./api/importPosts");
 
 const app = express();
 let cachedDb = null;
@@ -27,26 +27,19 @@ app.set("views", path.join(process.cwd(), "api", "views"));
 // ---------------- DATABASE ----------------
 async function connectToDatabase() {
     if (cachedDb) return cachedDb;
-    if (!MONGODB_URI) throw new Error('MONGODB_URI ortam değişkeni tanımlanmamış.');
-    try {
-        const client = await mongoose.connect(MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        cachedDb = client;
-        console.log('✅ Veritabanına bağlandı.');
-        return cachedDb;
-    } catch (error) {
-        console.error('❌ Veritabanı bağlantı hatası:', error);
-        throw error;
-    }
+    if (!MONGODB_URI) throw new Error('MONGODB_URI tanımlı değil');
+    cachedDb = await mongoose.connect(MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+    console.log('✅ Veritabanına bağlandı.');
+    return cachedDb;
 }
 
 // ---------------- JWT & ADMIN MIDDLEWARE ----------------
 const verifyJWT = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1] || req.cookies?.token;
     if (!token) return res.status(403).send('Yetkisiz erişim (Token yok)');
-
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) return res.status(403).send('Yetkisiz erişim (Token geçersiz)');
         req.user = decoded;
@@ -96,8 +89,10 @@ app.post('/register', async (req, res) => {
     try {
         await connectToDatabase();
         const { name, email, password, password_confirmation } = req.body;
-        if (!name || !email || !password || !password_confirmation) return res.status(400).json({ message: "Tüm alanlar gerekli." });
-        if (password !== password_confirmation) return res.status(400).json({ message: "Şifreler eşleşmiyor." });
+        if (!name || !email || !password || !password_confirmation)
+            return res.status(400).json({ message: "Tüm alanlar gerekli." });
+        if (password !== password_confirmation)
+            return res.status(400).json({ message: "Şifreler eşleşmiyor." });
 
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(409).json({ message: "E-posta kullanılıyor." });
@@ -105,7 +100,6 @@ app.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword, type: 'user' });
         await newUser.save();
-
         res.redirect("/login");
     } catch (error) {
         console.error("Kayıt hatası:", error);
@@ -134,23 +128,35 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// ---------------- SERVER START & IMPORT ----------------
-async function startServer() {
+// ---------------- IMPORT POSTS (MANUEL) ----------------
+app.post("/importPosts", async (req, res) => {
     try {
         await connectToDatabase();
-        await importData(); // Tek seferlik post importu
-
-        const PORT = process.env.PORT || 3000;
-        app.listen(PORT, () => {
-            console.log(`✅ Server çalışıyor: http://localhost:${PORT}`);
-        });
+        const result = await importData();
+        res.status(result.status).json({ message: result.message });
     } catch (err) {
-        console.error('Server başlatılamadı:', err);
+        console.error("Import hatası:", err);
+        res.status(500).json({ message: err.message });
     }
+});
+
+// ---------------- NODE.JS SERVER ----------------
+if (process.env.NODE_ENV !== "production") {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, async () => {
+        console.log(`✅ Server çalışıyor: http://localhost:${PORT}`);
+
+        // Lokal geliştirme için tek seferlik import
+        try {
+            await connectToDatabase();
+            await importData();
+            console.log("✅ Postlar import edildi (lokal)");
+        } catch (err) {
+            console.error("Import hatası (lokal):", err);
+        }
+    });
 }
 
-startServer();
-
-// ---------------- EXPORT ----------------
+// ---------------- EXPORT SERVERLESS HANDLER ----------------
 module.exports = app;
 module.exports.handler = serverless(app);
