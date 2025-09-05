@@ -66,6 +66,24 @@ app.get("/", async (req, res) => {
     }
 });
 
+function slugify(text) {
+    return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')       // Boşlukları tire ile değiştir
+        .replace(/[^\w-]+/g, '')   // Alfanümerik olmayan karakterleri kaldır
+        .replace(/--+/g, '-')      // Birden fazla tireyi tek tireye düşür
+        .replace(/^-+/, '')        // Başlangıçtaki tireleri kaldır
+        .replace(/-+$/, '')        // Sondaki tireleri kaldır
+        .replace(/ı/g, 'i')       // Türkçe karakterleri çevir
+        .replace(/ğ/g, 'g')
+        .replace(/ü/g, 'u')
+        .replace(/ş/g, 's')
+        .replace(/ö/g, 'o')
+        .replace(/ç/g, 'c');
+}
+
 app.get("/register", (req, res) => res.render("register"));
 app.get("/login", (req, res) => res.render("login"));
 app.get("/hakkimizda", (req, res) => res.render("about"));
@@ -73,12 +91,12 @@ app.get("/iletisim", (req, res) => res.render("contact"));
 app.get("/sss", (req, res) => res.render("sss"));
 app.get("/urunlerimiz", async (req, res) => res.render("products", { products: await Product.find({}) }));
 app.get("/blog", async (req, res) => res.render("blog", { posts: await Post.find({}) }));
-app.get("/blog/:id", async (req, res) => {
+app.get("/blog/:slug", async (req, res) => {
     try {
         await connectToDatabase();
-       
-        const post = await Post.findById(req.params.id);
-
+        // Slug'ı kullanarak ilgili postu bul
+        const post = await Post.findOne({ slug: req.params.slug });
+        
         if (!post) {
             return res.status(404).render("404", { message: "Blog yazısı bulunamadı." });
         }
@@ -202,14 +220,19 @@ app.post('/api/add-blog-post', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
         const { title, category, image, excerpt, content } = req.body;
+
+        // Slug oluştur
+        const slug = slugify(title);
+
         const newPost = new Post({
             title,
+            slug, // Slug'ı modele ekle
             category,
             image,
             excerpt,
             content,
-            date: new Date().toISOString().split('T')[0], // YYYY-MM-DD formatında tarih
-            id: await Post.countDocuments() + 1 // Basit bir ID ataması
+            date: new Date(),
+            id: await Post.countDocuments() + 1 // ID'yi korumaya devam edebilirsin
         });
         await newPost.save();
         res.status(201).json({ message: "Yazı başarıyla eklendi", post: newPost });
@@ -218,7 +241,6 @@ app.post('/api/add-blog-post', verifyJWT, isAdmin, async (req, res) => {
         res.status(500).json({ message: "Yazı eklenirken bir hata oluştu." });
     }
 });
-
 // Blog yazısını güncelleme
 app.put('/api/posts/:id', verifyJWT, isAdmin, async (req, res) => {
     try {

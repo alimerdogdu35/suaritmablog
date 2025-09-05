@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-// Blog yazısı şeması
 const postSchema = new mongoose.Schema({
-    id: { type: String, required: true, unique: true },
-    title: { type: String, required: true },
-    content: { type: String, required: true },
-    category: { type: String, required: true },
-    date: { type: String, required: true }
+  id: { type: String, required: true, unique: true }, // "karsilastirma-2025"
+  title: String,
+  slug: { type: String, unique: true, required: true },
+  category: String,
+  date: Date,
+  image: String,
+  excerpt: String,
+  content: String
 });
 
-// Modeli dışa aktar
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.models.Post || mongoose.model("Post", postSchema);
