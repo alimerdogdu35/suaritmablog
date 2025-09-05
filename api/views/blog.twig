@@ -160,16 +160,26 @@ function renderCards(list){
     return;
   }
   pager.style.display='flex';
+function renderCards(list){
+  container.innerHTML='';
+  if(list.length===0){
+    container.innerHTML='<p style="text-align:center;color:#888;">Aradığınız kriterlere uygun yazı bulunamadı.</p>';
+    pager.style.display='none';
+    return;
+  }
+  pager.style.display='flex';
   list.forEach(p=>{
     const card=document.createElement('article');
     card.className='card';
-    card.setAttribute('data-id',p.id);
+  
+    card.setAttribute('data-slug',p.slug);
     card.setAttribute('data-category',p.category);
-    card.innerHTML=`<a href="/blog/${p.id}"><img src="${p.image}" alt="${p.title}" loading="lazy"/></a>
+  
+    card.innerHTML=`<a href="/blog/${p.slug}"><img src="${p.image}" alt="${p.title}" loading="lazy"/></a>
     <div class="meta">Kategori: ${p.category}</div>
     <h2>${p.title}</h2>
     <p>${p.excerpt}</p>
-    <a href="/blog/${p.id}" class="read-more">Devamını Oku →</a>`;
+    <a href="/blog/${p.slug}" class="read-more">Devamını Oku →</a>`;
     container.appendChild(card);
   });
 }
