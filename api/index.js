@@ -94,19 +94,30 @@ app.get("/blog", async (req, res) => res.render("blog", { posts: await Post.find
 app.get("/blog/:slug", async (req, res) => {
     try {
         await connectToDatabase();
-        // Slug'ı kullanarak ilgili postu bul
+
+     
         const post = await Post.findOne({ slug: req.params.slug });
-        
+
         if (!post) {
             return res.status(404).render("404", { message: "Blog yazısı bulunamadı." });
         }
-        res.render("single-post", { post });
+
+        
+        const otherPosts = await Post.find({ _id: { $ne: post._id } })
+            .sort({ date: -1 }) 
+            .limit(5); 
+
+      
+        res.render("single-post", { 
+            post, 
+            otherPosts 
+        });
+
     } catch (error) {
-        console.error('Blog yazısı hatası:', error);
+        console.error('Blog yazısı yükleme hatası:', error);
         res.status(500).send('Blog yazısı yüklenirken bir hata oluştu.');
     }
 });
-
 
 // ---------------- ADMIN ----------------
 app.get('/admin', verifyJWT, isAdmin, async (req, res) => {
