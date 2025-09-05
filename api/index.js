@@ -1,4 +1,4 @@
-require('dotenv').config();
+
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -10,7 +10,7 @@ const Post = require("./models/postModel");
 const transporter = require('./services/mailServices');
 const serverless = require("serverless-http");
 const cookieParser = require('cookie-parser');
-const { importData } = require("./importPosts");
+
 
 const app = express();
 let cachedDb = null;
