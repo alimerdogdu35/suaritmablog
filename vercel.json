@@ -1,4 +1,3 @@
-
 {
   "version": 2,
   "builds": [
@@ -7,8 +6,8 @@
       "use": "@vercel/node" 
     },
     { 
-      "src": "api/importPosts.js", 
-      "use": "@vercel/node" ,
+      "src": "api/importPostsFunction.js", 
+      "use": "@vercel/node",
       "config": {
         "includeFiles": [
           "api/post.json"
@@ -23,7 +22,7 @@
   "routes": [
     { 
       "src": "/api/importPosts", 
-      "dest": "/api/importPosts.js" 
+      "dest": "/api/importPostsFunction.js" 
     },
     { 
       "src": "/api/(.*)", 
