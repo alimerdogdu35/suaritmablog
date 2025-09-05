@@ -78,7 +78,7 @@ app.get("/blog/:id", async (req, res) => {
         await connectToDatabase();
         const post = await Post.findOne({ id: req.params.id });
         if (!post) return res.status(404).send("Blog yazısı bulunamadı.");
-        res.render("post", { post });
+        res.render("single-post", { post });
     } catch (error) {
         console.error('Blog yazısı hatası:', error);
         res.status(500).send('Blog yazısı yüklenirken hata oluştu.');
