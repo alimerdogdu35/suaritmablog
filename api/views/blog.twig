@@ -102,8 +102,8 @@
 
 <section id="blogContainer" class="blog-container" aria-live="polite">
   {% for post in posts %}
-  <article class="card" data-id="{{ post._id }}" data-category="{{ post.category }}" data-title="{{ post.title }}" data-excerpt="{{ post.excerpt }}">
-    <a href="/blog/{{ post._id }}">
+  <article class="card" data-slug="{{ post.slug }}" data-category="{{ post.category }}" data-title="{{ post.title }}" data-excerpt="{{ post.excerpt }}">
+    <a href="/blog/{{ post.slug }}">
       <img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy"/>
     </a>
     <div class="meta">Kategori: {{ post.category|capitalize }} | {{ post.date|date("d F Y") }}</div>
