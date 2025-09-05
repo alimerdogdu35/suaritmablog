@@ -76,12 +76,16 @@ app.get("/blog", async (req, res) => res.render("blog", { posts: await Post.find
 app.get("/blog/:id", async (req, res) => {
     try {
         await connectToDatabase();
-        const post = await Post.findOne({ id: req.params.id });
-        if (!post) return res.status(404).send("Blog yazısı bulunamadı.");
+       
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).render("404", { message: "Blog yazısı bulunamadı." });
+        }
         res.render("single-post", { post });
     } catch (error) {
         console.error('Blog yazısı hatası:', error);
-        res.status(500).send('Blog yazısı yüklenirken hata oluştu.');
+        res.status(500).send('Blog yazısı yüklenirken bir hata oluştu.');
     }
 });
 
