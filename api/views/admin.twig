@@ -293,98 +293,85 @@
         </div>
     </div>
 
-    <script>
-    async function importPostsAutomatically() {
-    const importStatus = document.getElementById('importStatus');
-    importStatus.textContent = 'Postlar içe aktarılıyor...';
-    importStatus.classList.remove('hidden');
-
-    try {
-        const response = await fetch('/api/import-posts', { method: 'POST' });
-        const result = await response.json();
-
-        if (response.ok) {
-            importStatus.textContent = '✅ Postlar başarıyla eklendi!';
-            setTimeout(() => location.reload(), 1500); // tabloyu yenile
-        } else {
-            throw new Error(result.message || 'İçe aktarma başarısız.');
+   <script>
+    // admin.twig dosyasına eklenmesi gereken yardımcı fonksiyon
+    function updateBlogTable(newPost) {
+        const tableBody = document.getElementById('blog-table-body');
+        const newRow = document.createElement('tr');
+        const date = new Date(newPost.date).toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' });
+        
+        newRow.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap"><img src="${newPost.image}" alt="${newPost.title}" class="h-10 w-10 rounded-md object-cover"></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${newPost.title}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${newPost.category}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${date}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <button class="text-indigo-600 hover:text-indigo-900 transition duration-300 edit-blog-btn"
+                    data-id="${newPost.id}"
+                    data-title="${newPost.title}"
+                    data-category="${newPost.category}"
+                    data-image="${newPost.image}"
+                    data-excerpt="${newPost.excerpt}"
+                    data-content="${newPost.content}">
+                    Düzenle
+                </button>
+                <button class="text-red-600 hover:text-red-900 transition duration-300 delete-blog-btn ml-2" data-id="${newPost.id}">
+                    Sil
+                </button>
+            </td>
+        `;
+        // Tablonun başına ekleme
+        tableBody.prepend(newRow);
+        
+        // "Henüz hiç blog yazısı eklenmemiş." mesajını kaldır
+        const noPostsRow = tableBody.querySelector('tr > td[colspan="5"]');
+        if (noPostsRow) {
+            noPostsRow.parentElement.remove();
         }
-    } catch (err) {
-        importStatus.textContent = `❌ Hata: ${err.message}`;
     }
-}
+    
+    // Yardımcı Fonksiyon: Status Mesajı Gösterme
+    function showStatus(element, type, message) {
+        element.textContent = message;
+        element.className = `status-message ${type === 'success' ? 'text-green-600' : 'text-red-600'}`;
+        element.classList.remove('hidden');
+        setTimeout(() => {
+            element.classList.add('hidden');
+        }, 5000);
+    }
 
-// Sayfa yüklendiğinde otomatik çağır
-document.addEventListener('DOMContentLoaded', () => {
-    importPostsAutomatically();
-});
+    document.addEventListener('DOMContentLoaded', () => {
+        const editBtns = document.querySelectorAll('.edit-btn');
+        const modal = document.getElementById('editModal');
+        const form = document.getElementById('editForm');
+        const navLinks = document.querySelectorAll('aside nav a');
+        const sections = document.querySelectorAll('.content-section');
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const editBtns = document.querySelectorAll('.edit-btn');
-            const modal = document.getElementById('editModal');
-            const form = document.getElementById('editForm');
-            const navLinks = document.querySelectorAll('aside nav a');
-            const sections = document.querySelectorAll('.content-section');
-            const menuBtn = document.getElementById('menu-btn');
-            const sidebar = document.getElementById('sidebar');
-            
-            // Edit Modal'ı Açma/Kapama
-            editBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const { id, title, description, price, image, features } = btn.dataset;
-                    document.getElementById('editProductId').value = id;
-                    document.getElementById('editTitle').value = title;
-                    document.getElementById('editDescription').value = description;
-                    document.getElementById('editPrice').value = price;
-                    document.getElementById('editImage').value = image;
-                    document.getElementById('editFeatures').value = features;
-                    form.action = `/admin/products/update/${id}`;
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
-                });
-            });
-
-            // Dinamik Bölüm Değiştirme
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.dataset.target;
-                    
-                    sections.forEach(section => {
-                        if (section.id === targetId) {
-                            section.classList.remove('hidden');
-                        } else {
-                            section.classList.add('hidden');
-                        }
-                    });
-                    
-                    navLinks.forEach(navLink => navLink.classList.remove('active:bg-blue-700'));
-                    link.classList.add('active:bg-blue-700');
-                    
-                    // Mobil menüyü kapat
-                    if (window.innerWidth < 768) {
-                        sidebar.classList.add('-translate-x-full');
-                        sidebar.classList.remove('translate-x-0');
-                    }
-                });
-            });
-
-            // Mobil Menü Açma/Kapama
-            menuBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-                sidebar.classList.toggle('translate-x-0');
-            });
-
-            // Varsayılan olarak Ürün Yönetimi bölümünü göster
-            document.getElementById('products-section').classList.remove('hidden');
-            document.querySelector('[data-target="products-section"]').classList.add('active:bg-blue-700');
-        });
         const addPostForm = document.getElementById('addPostForm');
         const addStatusMessage = document.getElementById('addStatusMessage');
         const blogTableBody = document.getElementById('blog-table-body');
         const editBlogModal = document.getElementById('editBlogModal');
         const editBlogForm = document.getElementById('editBlogForm');
         
+        // Ürün Yönetimi İşlevleri
+        editBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const { id, title, description, price, image, features } = btn.dataset;
+                document.getElementById('editProductId').value = id;
+                document.getElementById('editTitle').value = title;
+                document.getElementById('editDescription').value = description;
+                document.getElementById('editPrice').value = price;
+                document.getElementById('editImage').value = image;
+                document.getElementById('editFeatures').value = features;
+                form.action = `/admin/products/update/${id}`;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            });
+        });
+
+        // Blog Yönetimi İşlevleri
         // Yeni Blog Yazısı Ekleme
         addPostForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -402,7 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     showStatus(addStatusMessage, 'success', 'Blog yazısı başarıyla eklendi!');
                     addPostForm.reset();
-                    // Yeni yazıyı listeye ekle
                     updateBlogTable(result.post);
                 } else {
                     throw new Error(result.message || 'Yazı eklenirken bir hata oluştu.');
@@ -430,7 +416,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     alert('Blog yazısı başarıyla güncellendi!');
                     editBlogModal.classList.add('hidden');
-                     // Sayfayı yenileyerek listeyi güncelleyelim
+                    // Sayfayı yenileyerek listeyi güncelleyelim
+                    location.reload(); 
                 } else {
                     throw new Error(result.message || 'Yazı güncellenirken bir hata oluştu.');
                 }
@@ -467,8 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         if (response.ok) {
                             alert(result.message);
-                            e.target.closest('tr').remove(); // Tablodan satırı kaldır
-                            location.reload();
+                            e.target.closest('tr').remove();
                         } else {
                             throw new Error(result.message || 'Yazı silinirken bir hata oluştu.');
                         }
@@ -479,22 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Yardımcı Fonksiyon: Status Mesajı Gösterme
-        function showStatus(element, type, message) {
-            element.textContent = message;
-            element.className = `status-message ${type}`;
-            element.style.display = 'block';
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 5000);
-        }
-
-        // Dinamik Bölüm Değiştirme ve Mobil Menü (Mevcut kodunuzdan)
-        const navLinks = document.querySelectorAll('aside nav a');
-        const sections = document.querySelectorAll('.content-section');
-        const menuBtn = document.getElementById('menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        
+        // Dinamik Bölüm Değiştirme ve Mobil Menü
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -522,8 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sidebar.classList.toggle('-translate-x-full');
             sidebar.classList.toggle('translate-x-0');
         });
-
-    
-    </script>
+    });
+</script>
 </body>
 </html>
