@@ -143,17 +143,108 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// ---------------- IMPORT POSTS (MANUEL) ----------------
-app.post("/importPosts", async (req, res) => {
+app.post('/admin/products', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
-        const result = await importData();
-        res.status(result.status).json({ message: result.message });
-    } catch (err) {
-        console.error("Import hatası:", err);
-        res.status(500).json({ message: err.message });
+        const { image, title, description, price, features } = req.body;
+        const newProduct = new Product({
+            image,
+            title,
+            description,
+            price,
+            features: features.split(',').map(f => f.trim()) // Virgülle ayrılan özellikleri diziye çevir
+        });
+        await newProduct.save();
+        res.redirect('/admin');
+    } catch (error) {
+        console.error('Ürün ekleme hatası:', error);
+        res.status(500).send('Ürün eklenirken bir hata oluştu.');
     }
 });
+
+// Ürün silme
+app.post('/admin/products/delete/:id', verifyJWT, isAdmin, async (req, res) => {
+    try {
+        await connectToDatabase();
+        const { id } = req.params;
+        await Product.findByIdAndDelete(id);
+        res.redirect('/admin');
+    } catch (error) {
+        console.error('Ürün silme hatası:', error);
+        res.status(500).send('Ürün silinirken bir hata oluştu.');
+    }
+});
+
+// Ürün güncelleme
+app.post('/admin/products/update/:id', verifyJWT, isAdmin, async (req, res) => {
+    try {
+        await connectToDatabase();
+        const { id } = req.params;
+        const { image, title, description, price, features } = req.body;
+        await Product.findByIdAndUpdate(id, {
+            image,
+            title,
+            description,
+            price,
+            features: features.split(',').map(f => f.trim())
+        }, { new: true });
+        res.redirect('/admin');
+    } catch (error) {
+        console.error('Ürün güncelleme hatası:', error);
+        res.status(500).send('Ürün güncellenirken bir hata oluştu.');
+    }
+});
+app.post('/api/add-blog-post', verifyJWT, isAdmin, async (req, res) => {
+    try {
+        await connectToDatabase();
+        const { title, category, image, excerpt, content } = req.body;
+        const newPost = new Post({
+            title,
+            category,
+            image,
+            excerpt,
+            content,
+            date: new Date().toISOString().split('T')[0], // YYYY-MM-DD formatında tarih
+            id: await Post.countDocuments() + 1 // Basit bir ID ataması
+        });
+        await newPost.save();
+        res.status(201).json({ message: "Yazı başarıyla eklendi", post: newPost });
+    } catch (error) {
+        console.error('Blog yazısı ekleme hatası:', error);
+        res.status(500).json({ message: "Yazı eklenirken bir hata oluştu." });
+    }
+});
+
+// Blog yazısını güncelleme
+app.put('/api/posts/:id', verifyJWT, isAdmin, async (req, res) => {
+    try {
+        await connectToDatabase();
+        const { id } = req.params;
+        const updatedPost = await Post.findOneAndUpdate({ id: id }, req.body, { new: true });
+        if (!updatedPost) return res.status(404).json({ message: "Blog yazısı bulunamadı." });
+        res.status(200).json({ message: "Yazı başarıyla güncellendi", post: updatedPost });
+    } catch (error) {
+        console.error('Blog yazısı güncelleme hatası:', error);
+        res.status(500).json({ message: "Yazı güncellenirken bir hata oluştu." });
+    }
+});
+
+// Blog yazısını silme
+app.delete('/api/posts/:id', verifyJWT, isAdmin, async (req, res) => {
+    try {
+        await connectToDatabase();
+        const { id } = req.params;
+        const deletedPost = await Post.findOneAndDelete({ id: id });
+        if (!deletedPost) return res.status(404).json({ message: "Blog yazısı bulunamadı." });
+        res.status(200).json({ message: "Yazı başarıyla silindi." });
+    } catch (error) {
+        console.error('Blog yazısı silme hatası:', error);
+        res.status(500).json({ message: "Yazı silinirken bir hata oluştu." });
+    }
+});
+
+// ---------------- IMPORT POSTS (MANUEL) ----------------
+
 
 // ---------------- NODE.JS SERVER ----------------
 if (process.env.NODE_ENV !== "production") {
