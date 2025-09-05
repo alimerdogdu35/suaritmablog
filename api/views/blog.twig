@@ -109,7 +109,7 @@
     <div class="meta">Kategori: {{ post.category|capitalize }} | {{ post.date|date("d F Y") }}</div>
     <h2>{{ post.title }}</h2>
     <p>{{ post.excerpt }}</p>
-    <a href="/blog/{{ post._id }}" class="read-more">Devamını Oku →</a>
+    <a href="/blog/{{ post.slug }}" class="read-more">Devamını Oku →</a>
   </article>
   {% endfor %}
 </section>
