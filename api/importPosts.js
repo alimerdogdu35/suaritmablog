@@ -1,30 +1,39 @@
 // importPosts.js
-const mongoose = require("mongoose");
 const fs = require("fs");
+const path = require("path");
 const Post = require("./models/postModel");
+const mongoose = require("mongoose");
 
 async function importData() {
     try {
-        if (!process.env.MONGODB_URI) throw new Error("MONGODB_URI tanımlı değil");
+        if (mongoose.connection.readyState !== 1) {
+            await mongoose.connect(process.env.MONGODB_URI, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+        }
 
-        await mongoose.connect(process.env.MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-
-        const raw = fs.readFileSync("post.json", "utf-8");
+        const filePath = path.join(__dirname, 'post.json');
+        const raw = fs.readFileSync(filePath, "utf-8");
         const json = JSON.parse(raw);
-
-        if (!json.posts || !Array.isArray(json.posts)) throw new Error("post.json formatı yanlış");
+        
+        // ... (geri kalan kod aynı kalabilir)
+        if (!json.posts || !Array.isArray(json.posts)) {
+            throw new Error("post.json formatı yanlış");
+        }
 
         await Post.deleteMany({});
         await Post.insertMany(json.posts);
 
         console.log("✅ Post.json verileri MongoDB'ye aktarıldı!");
+        return { status: 200, message: "Veriler başarıyla yüklendi." };
     } catch (err) {
         console.error("Hata:", err);
+        return { status: 500, message: "Veri yüklenirken hata oluştu: " + err.message };
     } finally {
-        await mongoose.connection.close();
+        if (mongoose.connection.readyState === 1) {
+            await mongoose.connection.close();
+        }
     }
 }
 

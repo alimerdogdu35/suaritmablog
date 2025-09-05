@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "api/index.js",
   "scripts": {
-    "dev": "node api/index.js"
+    "dev": "node api/index.js",
+    "start": "node index.js",
+    "import": "node importPosts.js"
   },
   "repository": {
     "type": "git",
