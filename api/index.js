@@ -31,7 +31,8 @@ async function connectToDatabase() {
     if (!MONGODB_URI) throw new Error('MONGODB_URI tanımlı değil');
     cachedDb = await mongoose.connect(MONGODB_URI, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        strictQuery: false
     });
     console.log('✅ Veritabanına bağlandı.');
     return cachedDb;
@@ -196,6 +197,10 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: "Giriş sırasında hata oluştu." });
     }
 });
+app.post('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/');
+});
 
 app.post('/admin/products', verifyJWT, isAdmin, async (req, res) => {
     try {
@@ -206,7 +211,8 @@ app.post('/admin/products', verifyJWT, isAdmin, async (req, res) => {
             title,
             description,
             price,
-            features: features.split(',').map(f => f.trim()) // Virgülle ayrılan özellikleri diziye çevir
+            features: features.split(',').map(f => f.trim())
+          
         });
         await newProduct.save();
         res.redirect('/admin');
