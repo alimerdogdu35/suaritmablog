@@ -154,6 +154,50 @@ app.get('/admin', verifyJWT, isAdmin, async (req, res) => {
     }
 });
 
+app.get('/api/search', async (req, res) => {
+    try {
+        await connectToDatabase();
+        const query = req.query.q;
+        if (!query) {
+            return res.json([]);
+        }
+
+        const regex = new RegExp(query, 'i');
+
+        const productResults = await Product.find({
+            $or: [
+                { title: { $regex: regex } },
+                { description: { $regex: regex } }
+            ]
+        }).limit(5);
+
+        const postResults = await Post.find({
+            $or: [
+                { title: { $regex: regex } },
+                { content: { $regex: regex } }
+            ]
+        }).limit(5);
+
+        const combinedResults = [
+            ...productResults.map(p => ({
+                name: p.title,
+                url: `/urunlerimiz/${p._id}`,
+                type: 'Ürün'
+            })),
+            ...postResults.map(p => ({
+                name: p.title,
+                url: `/blog/${p.slug}`,
+                type: 'Blog'
+            }))
+        ];
+
+        res.json(combinedResults);
+    } catch (error) {
+        console.error('Arama önerisi hatası:', error);
+        res.status(500).json({ message: "Arama sırasında bir hata oluştu." });
+    }
+});
+
 // ---------------- AUTH ----------------
 app.post('/register', async (req, res) => {
     try {
