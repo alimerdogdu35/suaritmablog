@@ -181,7 +181,7 @@ app.get('/api/search', async (req, res) => {
         const combinedResults = [
             ...productResults.map(p => ({
                 name: p.title,
-                url: `/urunlerimiz/${p._id}`,
+                url: `/urunlerimiz`,
                 type: 'Ürün'
             })),
             ...postResults.map(p => ({
