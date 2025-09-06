@@ -32,7 +32,6 @@ async function connectToDatabase() {
     cachedDb = await mongoose.connect(MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        strictQuery: false
     });
     console.log('✅ Veritabanına bağlandı.');
     return cachedDb;
