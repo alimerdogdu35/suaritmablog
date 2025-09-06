@@ -1,4 +1,3 @@
-
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -92,6 +91,8 @@ app.get("/iletisim", (req, res) => res.render("contact"));
 app.get("/sss", (req, res) => res.render("sss"));
 app.get("/urunlerimiz", async (req, res) => {
   try {
+    // Veritabanı bağlantısını sağla
+    await connectToDatabase();
     const products = await Product.find({});
     res.render("products", { products });
   } catch (error) {
@@ -102,6 +103,8 @@ app.get("/urunlerimiz", async (req, res) => {
 
 app.get("/blog", async (req, res) => {
   try {
+    // Veritabanı bağlantısını sağla
+    await connectToDatabase();
     const posts = await Post.find({});
     res.render("blog", { posts });
   } catch (error) {
