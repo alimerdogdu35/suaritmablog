@@ -26,6 +26,7 @@ app.set("view engine", "twig");
 app.set("views", path.join(process.cwd(), "api", "views"));
 
 // ---------------- DATABASE ----------------
+mongoose.set("strictQuery", false);
 async function connectToDatabase() {
     if (cachedDb) return cachedDb;
     if (!MONGODB_URI) throw new Error('MONGODB_URI tanımlı değil');
