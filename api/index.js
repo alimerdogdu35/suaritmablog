@@ -244,7 +244,7 @@ app.post('/api/add-blog-post', verifyJWT, isAdmin, async (req, res) => {
             excerpt,
             content,
             date: new Date(),
-            id: await Post.countDocuments() + 1 // ID'yi korumaya devam edebilirsin
+            id: await Post.countDocuments() + 5 // ID'yi korumaya devam edebilirsin
         });
         await newPost.save();
         res.status(201).json({ message: "Yazı başarıyla eklendi", post: newPost });
