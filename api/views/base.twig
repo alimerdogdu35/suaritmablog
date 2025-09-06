@@ -102,8 +102,8 @@
         <img src="/images/logo1-main.png" alt="MaviRo Logo" class="h-10 w-auto mr-2"/>
       </a>
 
-      <!-- Orta: Nav Linkler -->
-      <div class="hidden md:flex flex-1 justify-center space-x-10">
+      <!-- Orta: Nav Linkler (biraz sağa kaydırılmış) -->
+      <div class="hidden md:flex flex-1 justify-center space-x-10 ml-8">
         <a href="/" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Ana Sayfa</a>
         <a href="/hakkimizda" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Hakkımızda</a>
         <a href="/urunlerimiz" class="nav-link text-blue-900 font-semibold hover:text-blue-600 transition-colors duration-300">Ürünlerimiz</a>
@@ -147,6 +147,14 @@
 
   <!-- Mobil Menü -->
   <div id="mobile-menu" class="hidden md:hidden bg-white/90 backdrop-blur-md border-t border-blue-200">
+    <!-- Ortada logo -->
+    <div class="flex justify-center py-4 border-b border-blue-200">
+      <a href="/" class="flex items-center">
+        <img src="/images/logo1-main.png" alt="MaviRo Logo" class="h-10 w-auto"/>
+      </a>
+    </div>
+
+    <!-- Linkler -->
     <div class="px-4 py-2 space-y-2">
       <a href="/" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">Ana Sayfa</a>
       <a href="/hakkimizda" class="block py-2 text-blue-900 font-semibold hover:bg-blue-50 rounded transition">Hakkımızda</a>
@@ -161,6 +169,7 @@
     </div>
   </div>
 </nav>
+
 
 <!-- Main Content -->
 <main class="mt-[120px]">{% block content %}{% endblock %}</main>
