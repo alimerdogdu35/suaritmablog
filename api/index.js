@@ -90,8 +90,25 @@ app.get("/login", (req, res) => res.render("login"));
 app.get("/hakkimizda", (req, res) => res.render("about"));
 app.get("/iletisim", (req, res) => res.render("contact"));
 app.get("/sss", (req, res) => res.render("sss"));
-app.get("/urunlerimiz", async (req, res) => res.render("products", { products: await Product.find({}) }));
-app.get("/blog", async (req, res) => res.render("blog", { posts: await Post.find({}) }));
+app.get("/urunlerimiz", async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.render("products", { products });
+  } catch (error) {
+    console.error('Ürünleri veritabanından çekerken bir hata oluştu:', error);
+    res.status(500).send('Ürünler yüklenirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin.');
+  }
+});
+
+app.get("/blog", async (req, res) => {
+  try {
+    const posts = await Post.find({});
+    res.render("blog", { posts });
+  } catch (error) {
+    console.error('Blog yazılarını veritabanından çekerken bir hata oluştu:', error);
+    res.status(500).send('Blog sayfası yüklenirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin.');
+  }
+});
 app.get("/blog/:slug", async (req, res) => {
     try {
         await connectToDatabase();
