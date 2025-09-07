@@ -230,7 +230,9 @@
     </main>
 
     <script>
-    const cleanHtml = myString.replace(/\\n/g, "");
-document.getElementById("content").innerHTML = cleanHtml;
+ const el = document.getElementById("content");
+  if (el) {
+    el.innerHTML = el.innerHTML.replace(/\\n/g, "");
+  }
     </script>
 {% endblock %}
