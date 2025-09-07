@@ -286,9 +286,11 @@ app.post('/login', async (req, res) => {
         if (!email || !password) return res.status(400).json({ message: "Tüm alanlar gerekli." });
 
         const user = await User.findOne({ email });
+        console.log("Bulunan kullanıcı:", user); // Kullanıcı bulunup bulunmadığını kontrol edin
         if (!user) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
 
         const isMatch = await bcrypt.compare(password, user.password);
+        console.log("Şifre eşleşmesi:", isMatch); // true mu false mu döndüğünü kontrol edin
         if (!isMatch) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
 
         const token = jwt.sign({ id: user._id, type: user.type }, JWT_SECRET, { expiresIn: '1d' });
