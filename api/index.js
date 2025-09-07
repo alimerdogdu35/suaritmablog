@@ -287,14 +287,14 @@ app.post('/login', async (req, res) => {
            
          console.log("Formdan Gelen Email:", email);
         console.log("Formdan Gelen Şifre:", password);
-        
+
         const user = await User.findOne({ email });
         console.log("Bulunan kullanıcı:", user); // Kullanıcı bulunup bulunmadığını kontrol edin
-        if (!user) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
+        if (!user) return res.status(401).json({ message: "E-posta  yanlış." });
         console.log("Veritabanından Gelen Şifre:", user.password);
         const isMatch = await bcrypt.compare(password, user.password);
         console.log("Şifre eşleşmesi:", isMatch); // true mu false mu döndüğünü kontrol edin
-        if (!isMatch) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
+        if (!isMatch) return res.status(401).json({ message: " şifre yanlış." });
          console.log("Şifre Eşleşme Sonucu (isMatch):", isMatch);
 
         const token = jwt.sign({ id: user._id, type: user.type }, JWT_SECRET, { expiresIn: '1d' });
