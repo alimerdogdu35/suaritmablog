@@ -113,6 +113,6 @@
 
 .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; };
 .fade-in.visible { opacity: 1; transform: translateY(0); };
-
+.read-more { align-self:flex-start; text-decoration:none; color:var(--secondary-blue); font-weight:700; margin-top:auto; }
 
  
