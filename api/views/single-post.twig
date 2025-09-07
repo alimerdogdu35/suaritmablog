@@ -218,7 +218,7 @@
             <ul>
                 {% for otherPost in otherPosts %}
                     <li>
-                        <a href="/blog/{{ otherPost.id }}">
+                        <a href="/blog/{{ otherPost.slug }}">
                             {{ otherPost.title }}
                             <span class="link-category">({{ otherPost.category }})</span>
                         </a>
