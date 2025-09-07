@@ -66,6 +66,46 @@ app.get("/", async (req, res) => {
         res.status(500).send('Ana sayfa yüklenirken hata oluştu.');
     }
 });
+app.post('/send', async (req, res) => {
+    try {
+        const { name, email, phone, comments } = req.body;
+
+        // Gerekli alanların kontrolü
+        if (!name || !email || !comments) {
+            return res.status(400).json({ success: false, message: 'Ad, E-posta ve Mesaj alanları boş bırakılamaz.' });
+        }
+
+        // E-posta içeriğini oluşturma
+        const mailContent = `
+            Ad Soyad: ${name}
+            E-posta: ${email}
+            Telefon: ${phone || 'Bilgi girilmedi'}
+
+            Mesaj:
+            ${comments}
+        `;
+
+        const mailOptions = {
+            from: 'alimcan145@gmail.com', // Kendi e-posta adresiniz
+            to: 'mavirowater@gmail.com',  // Form mesajlarının gönderileceği adres
+            subject: `İletişim Formu Mesajı: ${name}`, // E-posta konusu
+            text: mailContent, // Oluşturulan e-posta metni
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log('E-posta başarıyla gönderildi.');
+
+        // Başarılı yanıt (SweetAlert için)
+        res.status(200).json({ success: true, message: 'Mesajınız başarıyla gönderildi!' });
+
+    } catch (error) {
+        console.error('E-posta gönderme hatası:', error);
+
+        // Hata yanıtı (SweetAlert için)
+        res.status(500).json({ success: false, message: 'Mesaj gönderilirken bir hata oluştu.' });
+    }
+});
+
 
 function slugify(text) {
     return text
