@@ -208,8 +208,8 @@
                 <span>Tarih: {{ post.date }}</span>
             </div>
             <h1>{{ post.title }}</h1>
-            <div class="post-content">
-                {{ post.content | raw }}
+            <div class="post-content" id="content">
+                {{ post.content|replace({'\\n': ''})|raw }}
             </div>
         </div>
         
@@ -229,10 +229,4 @@
     </div>
     </main>
 
-    <script>
- const el = document.getElementById("content");
-  if (el) {
-    el.innerHTML = el.innerHTML.replace(/\\n/g, "");
-  }
-    </script>
 {% endblock %}
