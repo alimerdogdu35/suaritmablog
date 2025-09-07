@@ -199,7 +199,7 @@
             }
         }
     </style>
-
+  <main>
     <div class="blog-wrapper">
         <div class="blog-main-content">
             <img src="/{{ post.image }}" alt="{{ post.title }}" class="post-image">
@@ -227,4 +227,10 @@
             </ul>
         </aside>
     </div>
+    </main>
+
+    <script>
+    const cleanHtml = myString.replace(/\\n/g, "");
+document.getElementById("content").innerHTML = cleanHtml;
+    </script>
 {% endblock %}
