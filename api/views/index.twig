@@ -122,6 +122,9 @@
 }
 </script>
 {% endblock %}
+<style>
+.read-more { align-self:flex-start; text-decoration:none; color:var(--secondary-blue); font-weight:700; margin-top:auto; }
+</style>
 {% block content %}
    <main>
 <!-- Hero Slider -->
@@ -387,6 +390,8 @@
                     <h3 class="text-xl font-bold text-blue-800 mt-2 mb-3">{{ post.title }}</h3>
                     <p class="text-gray-600 mb-4">{{ post.excerpt }}</p>
                      <a href="/blog/{{ post.slug }}" class="read-more">Devamını Oku →</a>
+
+                     
                 </div>
             </article>
             {% endfor %}
