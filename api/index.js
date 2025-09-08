@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
-const multer = require('multer');
+
 const jwt = require('jsonwebtoken');
 const Product = require("./models/productModel");
 const User = require("./models/userModel");
@@ -21,29 +21,10 @@ const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkey';
 
 app.use(cookieParser());
 app.use(express.static(path.join(process.cwd(), "public")));
-
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.json());
 app.set("view engine", "twig");
 app.set("views", path.join(process.cwd(), "api", "views"));
-
-
-//upload
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadPath = path.join(__dirname, 'public', 'images');
-        fs.mkdirSync(uploadPath, { recursive: true });
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        const fileExtension = path.extname(file.originalname);
-        cb(null, file.fieldname + '-' + uniqueSuffix + fileExtension);
-    }
-});
-
-const upload = multer({ storage: storage });
 
 // ---------------- DATABASE ----------------
 mongoose.set("strictQuery", false);
@@ -306,19 +287,17 @@ app.post('/logout', (req, res) => {
     res.redirect('/');
 });
 
-// Yeni ürün ekleme
-app.post('/admin/products', verifyJWT, isAdmin, upload.single('image'), async (req, res) => {
+app.post('/admin/products', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
-        const { title, description, price, features } = req.body;
-        const imagePath = `/images/${req.file.filename}`; // Yüklenen dosyanın yolu
-        
+        const { image, title, description, price, features } = req.body;
         const newProduct = new Product({
-            image: imagePath,
+            image,
             title,
             description,
             price,
             features: features.split(',').map(f => f.trim())
+          
         });
         await newProduct.save();
         res.redirect('/admin');
@@ -328,49 +307,11 @@ app.post('/admin/products', verifyJWT, isAdmin, upload.single('image'), async (r
     }
 });
 
-// Ürün güncelleme
-app.post('/admin/products/update/:id', verifyJWT, isAdmin, upload.single('image'), async (req, res) => {
-    try {
-        await connectToDatabase();
-        const { id } = req.params;
-        const { title, description, price, features } = req.body;
-        
-        const updateData = {
-            title,
-            description,
-            price,
-            features: features.split(',').map(f => f.trim())
-        };
-
-        if (req.file) { // Yeni bir resim yüklendi mi kontrolü
-            updateData.image = `/images/${req.file.filename}`;
-        } else { // Yeni resim yoksa eski resim URL'ini koru
-            updateData.image = req.body.image; // Frontend'den gelen URL
-        }
-
-        await Product.findByIdAndUpdate(id, updateData, { new: true });
-        res.redirect('/admin');
-    } catch (error) {
-        console.error('Ürün güncelleme hatası:', error);
-        res.status(500).send('Ürün güncellenirken bir hata oluştu.');
-    }
-});
-
 // Ürün silme
 app.post('/admin/products/delete/:id', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
         const { id } = req.params;
-        
-        // Ürünün resim yolunu al ve dosyayı sil
-        const product = await Product.findById(id);
-        if (product && product.image) {
-            const imagePath = path.join(__dirname, 'public', product.image);
-            if (fs.existsSync(imagePath)) {
-                fs.unlinkSync(imagePath);
-            }
-        }
-        
         await Product.findByIdAndDelete(id);
         res.redirect('/admin');
     } catch (error) {
@@ -378,25 +319,43 @@ app.post('/admin/products/delete/:id', verifyJWT, isAdmin, async (req, res) => {
         res.status(500).send('Ürün silinirken bir hata oluştu.');
     }
 });
-// Yeni blog yazısı ekleme
-app.post('/api/add-blog-post', verifyJWT, isAdmin, upload.single('image'), async (req, res) => {
+
+// Ürün güncelleme
+app.post('/admin/products/update/:id', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
-        const { title, category, excerpt, content } = req.body;
-        const imagePath = `/images/${req.file.filename}`; // Yüklenen dosyanın yolu
+        const { id } = req.params;
+        const { image, title, description, price, features } = req.body;
+        await Product.findByIdAndUpdate(id, {
+            image,
+            title,
+            description,
+            price,
+            features: features.split(',').map(f => f.trim())
+        }, { new: true });
+        res.redirect('/admin');
+    } catch (error) {
+        console.error('Ürün güncelleme hatası:', error);
+        res.status(500).send('Ürün güncellenirken bir hata oluştu.');
+    }
+});
+app.post('/api/add-blog-post', verifyJWT, isAdmin, async (req, res) => {
+    try {
+        await connectToDatabase();
+        const { title, category, image, excerpt, content } = req.body;
 
         // Slug oluştur
         const slug = slugify(title);
 
         const newPost = new Post({
             title,
-            slug,
+            slug, // Slug'ı modele ekle
             category,
-            image: imagePath,
+            image,
             excerpt,
             content,
             date: new Date(),
-            id: await Post.countDocuments() + 5
+            id: await Post.countDocuments() + 5 // ID'yi korumaya devam edebilirsin
         });
         await newPost.save();
         res.status(201).json({ message: "Yazı başarıyla eklendi", post: newPost });
@@ -405,27 +364,12 @@ app.post('/api/add-blog-post', verifyJWT, isAdmin, upload.single('image'), async
         res.status(500).json({ message: "Yazı eklenirken bir hata oluştu." });
     }
 });
-
 // Blog yazısını güncelleme
-app.put('/api/posts/:id', verifyJWT, isAdmin, upload.single('image'), async (req, res) => {
+app.put('/api/posts/:id', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
         const { id } = req.params;
-        const updateData = req.body;
-
-        if (req.file) { // Yeni bir resim yüklendi mi kontrolü
-            // Eski resmi silme
-            const oldPost = await Post.findOne({ id: id });
-            if (oldPost && oldPost.image) {
-                const oldImagePath = path.join(__dirname, 'public', oldPost.image);
-                if (fs.existsSync(oldImagePath)) {
-                    fs.unlinkSync(oldImagePath);
-                }
-            }
-            updateData.image = `/images/${req.file.filename}`;
-        }
-
-        const updatedPost = await Post.findOneAndUpdate({ id: id }, updateData, { new: true });
+        const updatedPost = await Post.findOneAndUpdate({ id: id }, req.body, { new: true });
         if (!updatedPost) return res.status(404).json({ message: "Blog yazısı bulunamadı." });
         res.status(200).json({ message: "Yazı başarıyla güncellendi", post: updatedPost });
     } catch (error) {
@@ -439,31 +383,15 @@ app.delete('/api/posts/:id', verifyJWT, isAdmin, async (req, res) => {
     try {
         await connectToDatabase();
         const { id } = req.params;
-        
-        // Resmi silmeden önce yazıyı bul
-        const post = await Post.findOne({ id: id });
-        
-        if (!post) {
-            return res.status(404).json({ message: "Blog yazısı bulunamadı." });
-        }
-        
-        // Resmi sil
-        if (post.image) {
-            const imagePath = path.join(__dirname, 'public', post.image);
-            if (fs.existsSync(imagePath)) {
-                fs.unlinkSync(imagePath);
-            }
-        }
-        
-        // deletedPost değişkenine atama yapmaya gerek kalmadan silme işlemini gerçekleştirin
-        await Post.findOneAndDelete({ id: id });
-        
+        const deletedPost = await Post.findOneAndDelete({ id: id });
+        if (!deletedPost) return res.status(404).json({ message: "Blog yazısı bulunamadı." });
         res.status(200).json({ message: "Yazı başarıyla silindi." });
     } catch (error) {
         console.error('Blog yazısı silme hatası:', error);
         res.status(500).json({ message: "Yazı silinirken bir hata oluştu." });
     }
 });
+
 // ---------------- IMPORT POSTS (MANUEL) ----------------
 
 
