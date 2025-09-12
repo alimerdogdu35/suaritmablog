@@ -271,15 +271,17 @@ app.post('/register', async (req, res) => {
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(409).json({ message: "E-posta kullanılıyor." });
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ name, email, password: hashedPassword, type: 'user' });
+      
+        const newUser = new User({ name, email, password, type: 'user' });
         await newUser.save();
+
         res.redirect("/login");
     } catch (error) {
         console.error("Kayıt hatası:", error);
         res.status(500).json({ message: "Kayıt sırasında hata oluştu." });
     }
 });
+
 
 app.post('/login', async (req, res) => {
     try {
