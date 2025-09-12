@@ -290,8 +290,8 @@ app.post('/login', async (req, res) => {
         const user = await User.findOne({ email });
         if (!user) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
 
-      // const isMatch = await bcrypt.compare(password, user.password);
-      // if (!isMatch) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) return res.status(401).json({ message: "E-posta veya şifre yanlış." });
 
         const token = jwt.sign({ id: user._id, type: user.type }, JWT_SECRET, { expiresIn: '1d' });
         res.cookie('token', token, { httpOnly: true });
