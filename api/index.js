@@ -14,7 +14,7 @@ const cookieParser = require('cookie-parser');
 
 
 const app = express();
-let cachedDb = null;
+// let cachedDb = null;
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkey';
@@ -48,14 +48,25 @@ const upload = multer({ storage: storage });
 // ---------------- DATABASE ----------------
 mongoose.set("strictQuery", false);
 async function connectToDatabase() {
-    if (cachedDb) return cachedDb;
-    if (!MONGODB_URI) throw new Error('MONGODB_URI tanımlı değil');
-    cachedDb = await mongoose.connect(MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
-    console.log('✅ Veritabanına bağlandı.');
-    return cachedDb;
+    if (isConnected) {
+        return;
+    }
+
+    if (!process.env.MONGODB_URI) {
+        throw new Error("MONGODB_URI tanımlı değil");
+    }
+
+    try {
+        const db = await mongoose.connect(process.env.MONGODB_URI, {
+            dbName: "mavirowater", // 🔥 BURASI KRİTİK
+        });
+
+        isConnected = db.connections[0].readyState === 1;
+        console.log("✅ MongoDB bağlandı");
+    } catch (error) {
+        console.error("❌ MongoDB bağlantı hatası:", error);
+        throw error;
+    }
 }
 
 // ---------------- JWT & ADMIN MIDDLEWARE ----------------
