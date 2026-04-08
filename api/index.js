@@ -15,7 +15,7 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 let cachedDb = null;
-let isConnected = false;
+
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkey';
@@ -47,27 +47,31 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // ---------------- DATABASE ----------------
-mongoose.set("strictQuery", false);
+let cached = global.mongoose; // serverless uyumlu cache
+if (!cached) cached = global.mongoose = { conn: null, promise: null };
+
 async function connectToDatabase() {
-    if (isConnected) {
-        return;
-    }
+  if (cached.conn) return cached.conn;
 
-    if (!process.env.MONGODB_URI) {
-        throw new Error("MONGODB_URI tanımlı değil");
-    }
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI tanımlı değil");
+  }
 
-    try {
-        const db = await mongoose.connect(process.env.MONGODB_URI, {
-            dbName: "mavirowater", // 🔥 BURASI KRİTİK
-        });
+  if (!cached.promise) {
+    const opts = {
+      dbName: "mavirowater",
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 30000, // 30 saniye
+    };
 
-        isConnected = db.connections[0].readyState === 1;
-        console.log("✅ MongoDB bağlandı");
-    } catch (error) {
-        console.error("❌ MongoDB bağlantı hatası:", error);
-        throw error;
-    }
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
 
 // ---------------- JWT & ADMIN MIDDLEWARE ----------------
