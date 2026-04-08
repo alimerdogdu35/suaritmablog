@@ -14,7 +14,8 @@ const cookieParser = require('cookie-parser');
 
 
 const app = express();
-// let cachedDb = null;
+let cachedDb = null;
+let isConnected = false;
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkey';
