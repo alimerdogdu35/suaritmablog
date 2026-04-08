@@ -14,7 +14,7 @@ const cookieParser = require('cookie-parser');
 
 
 const app = express();
-let cachedDb = null;
+
 
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -46,7 +46,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
 // ---------------- DATABASE ----------------
+mongoose.set('strictQuery', false);
 let cached = global.mongoose; // serverless uyumlu cache
 if (!cached) cached = global.mongoose = { conn: null, promise: null };
 
