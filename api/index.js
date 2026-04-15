@@ -10,6 +10,7 @@ const Post = require("./models/postModel");
 const transporter = require('./services/mailServices');
 const serverless = require("serverless-http");
 const cookieParser = require('cookie-parser');
+const fs = require("fs");
 
 
 
@@ -48,11 +49,15 @@ const upload = multer({ storage: storage });
 
 
 // ---------------- DATABASE ----------------
-mongoose.set('strictQuery', false);
-let cached = global.mongoose; // serverless uyumlu cache
-if (!cached) cached = global.mongoose = { conn: null, promise: null };
+mongoose.set("strictQuery", false);
+
+if (!global.mongooseCache) {
+  global.mongooseCache = { conn: null, promise: null };
+}
 
 async function connectToDatabase() {
+  const cached = global.mongooseCache;
+
   if (cached.conn) return cached.conn;
 
   if (!process.env.MONGODB_URI) {
@@ -60,22 +65,21 @@ async function connectToDatabase() {
   }
 
   if (!cached.promise) {
-    const opts = {
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, {
       dbName: "mavirowater",
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 30000, // 30 saniye
-    };
-
-    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
+      serverSelectionTimeoutMS: 10000,
+      bufferCommands: false,
+    })
+    .then((m) => m)
+    .catch((err) => {
+      cached.promise = null;
+      throw err;
     });
   }
 
   cached.conn = await cached.promise;
   return cached.conn;
 }
-
 // ---------------- JWT & ADMIN MIDDLEWARE ----------------
 const verifyJWT = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1] || req.cookies?.token;
@@ -94,15 +98,19 @@ const isAdmin = (req, res, next) => {
 
 // ---------------- ROUTES ----------------
 app.get("/", async (req, res) => {
-    try {
-        await connectToDatabase();
-        const products = await Product.find({});
-        const posts = await Post.find({});
-        res.render("index", { products, posts });
-    } catch (error) {
-        console.error('Ana sayfa hatası:', error);
-        res.status(500).send('Ana sayfa yüklenirken hata oluştu.');
-    }
+  try {
+    await connectToDatabase();
+
+    const [products, posts] = await Promise.all([
+      Product.find({}).lean(),
+      Post.find({}).lean()
+    ]);
+
+    res.render("index", { products, posts });
+  } catch (error) {
+    console.error("Ana sayfa hatası:", error);
+    res.status(500).send("Ana sayfa yüklenirken hata oluştu.");
+  }
 });
 app.post('/send', async (req, res) => {
     try {
